@@ -4,11 +4,18 @@ App.ApplicationAdapter = DS.FixtureAdapter.extend();
 
 App.Router.map(function() {
   this.resource('index', { path: '/' });
-  this.resource('addgame', {path: '/addgame'});
+  this.resource('game', {path: '/game'});
 });
 
 App.IndexRoute = Ember.Route.extend({
   model: function() {
     return this.store.find('player');
   }
+});
+
+App.GameRoute = Ember.Route.extend({
+	model: function ()
+	{
+		return null;
+	}
 });
