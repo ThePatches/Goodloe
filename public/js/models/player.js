@@ -1,7 +1,7 @@
 App.Player = DS.Model.extend({
 	name: DS.attr('string'),
 	active: DS.attr('boolean'),
-	games: DS.attr('integer'),
+	games: DS.attr('integer')
 });
 
 App.Player.FIXTURES = [

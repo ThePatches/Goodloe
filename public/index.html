@@ -23,10 +23,33 @@
 		</section>
 	</script>
 	
-	<script type="text/x-handlebars" data-template-name="game">
-			<h2>Record a Game</h2>
-			{{#link-to 'index'}}Return to Index{{/link-to}}
+	<script type="text/x-handlebars" data-template-name="gamelist">
+        <h2>Record a Game</h2>
+        {{ input type="text" placeholder="Who won the game?" value=newWinner action="createGame" }}
+
+        <ul id="game-list">
+                {{#each}}
+                <li>
+                    <label>Winner: {{winner}}</label>
+                </li>
+                {{/each}}
+         </ul>
+
+
+        {{#link-to 'index'}}Return to Index{{/link-to}}
 	</script>
+
+    <script type="text/x-handlebars" data-template-name="game">
+        <h2>View a Game</h2>
+        <div>
+            Winner: {{ winner }}
+        </div>
+
+        <div>
+            <span>Players</span><br />
+            {{ players }}
+        </div>
+    </script>
   
 	<script src="js/libs/jquery-1.10.2.js"></script>
 	<script src="js/libs/handlebars-1.1.2.js"></script>
@@ -35,5 +58,6 @@
 	<script src="js/app.js"></script>
 	<script src="js/models/player.js"></script>
 	<script src="js/models/game.js"></script>
+    <script src="js/controllers/game_controller.js"></script>
   </body>
 </html>

@@ -1,7 +1,7 @@
 App.Game = DS.Model.extend({
 	//players: DS.hasMany('Player_Deck'),
-	players: DS.attr('string'),
-	winner: DS.attr('string')
+    winner: DS.attr('string'),
+    players: DS.attr('string')
 });
 
 App.Player_Deck = DS.Model.extend({
@@ -10,3 +10,16 @@ App.Player_Deck = DS.Model.extend({
 	Game: DS.belongsTo('Game')
 });
 
+App.Game.FIXTURES =
+    [
+        {
+            id: 1,
+            winner: "Patrick",
+            players: "Chris, Tyler, Patrick"
+        },
+        {
+            id: 2,
+            winner: "Chris",
+            players: "Patrick, Chris, Tyler"
+        }
+    ];
