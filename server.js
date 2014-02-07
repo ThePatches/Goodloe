@@ -23,9 +23,11 @@ var PlayerSchema = new Schema({
 		games: Number,
 		active: Boolean
 	});
-	
-var testSchema = new Schema({
-	x: Number
+
+var DeckSchema = new Schema({
+    name: String,
+    color: String,
+    builder: String
 });
 
 app.get('/query', function(req, res)
@@ -50,6 +52,28 @@ app.get('/query', function(req, res)
 	res.send("Done getting stuff from mongo.");
 	//res.send(Objs);
 	//res.send({name: "Patrick", count: 15});
+});
+
+app.get('/add', function(req, res)
+{
+    // ?coll=deck&Name=Horrors&Color=BUG&Builder=Chris%2BM
+    var spaceUrl = req.url.replace(/\s/g,"%2B");
+    var queryData = url.parse(spaceUrl, true).query;
+
+    if (queryData["coll"] == "Deck")
+    {
+        var Deck = connection.model('DeckModel', DeckSchema, 'Deck');
+        var ndeck = new Deck({name: queryData["Name"], color: queryData["Color"], builder: queryData["Builder"]});
+
+        ndeck.save(function (err)
+        {
+           if (err) console.log("Error!");
+        });
+        res.send("Deck collection updated");
+    }
+    else {
+        res.send(queryData);
+    }
 });
 
 app.listen('1337');
