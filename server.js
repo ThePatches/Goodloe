@@ -32,24 +32,41 @@ var DeckSchema = new Schema({
 
 app.get('/query', function(req, res)
 {
-	
-	PlayerModel = connection.model('PlayerModel', PlayerSchema, 'Players');
-	//PlayerModel.findOne({active: true}, function (err, player)
-	//testModel = connection.model('testModel', testSchema, 'testData');
-	PlayerModel.find({}, function(err, player)
-	{
-		if (err)
-		{
-			console.log("Error " + err);
-		}
-		console.log(player);
-	});
-	
-	//console.log(Objs);
-	
-	//mongoose.connection.close();
-	
-	res.send("Done getting stuff from mongo.");
+    var spaceUrl = req.url.replace(/\s/g,"%2B");
+    var queryData = url.parse(spaceUrl, true).query;
+
+    if (queryData["coll"] == "player")
+    {
+
+        PlayerModel = connection.model('PlayerModel', PlayerSchema, 'Players');
+        //PlayerModel.findOne({active: true}, function (err, player)
+        //testModel = connection.model('testModel', testSchema, 'testData');
+        PlayerModel.find({}, function(err, player)
+        {
+            if (err)
+            {
+                console.log("Error " + err);
+            }
+            console.log(player);
+        });
+
+        //console.log(Objs);
+
+        //mongoose.connection.close();
+
+        res.send("Done getting stuff from mongo.");
+    }
+    else if (queryData["coll"] == "deck")
+    {
+        DeckModel = connection.model("DeckModel", DeckSchema, "Deck");
+        DeckModel.find({}, function(err, deck){
+           if (err)
+           {
+               console.log("Error" + err);
+           }
+           res.send(deck);
+        });
+    }
 	//res.send(Objs);
 	//res.send({name: "Patrick", count: 15});
 });
