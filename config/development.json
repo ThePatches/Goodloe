@@ -1,0 +1,8 @@
+{
+    "connString": "mongodb://localhost/goodloedb",
+    "server": "localhost",
+    "db": "goodloedb",
+    "type": "dev",
+    "user": "none",
+    "password": "none"
+}

@@ -7,6 +7,9 @@ This project is a test project I'm using to teach myself [Node][1], [EmberJS][2]
 
 The purpose of this application is to track the evolution of our MTG:Commander metagame. It has a public URL, but that's more for our expedience (can be used outside of my house). I will post more on how the database works and what information we track once the project is up and running (and into its database development portion).
 
+### Configuration
+The database configuration files are in the 'config' directory. You can template your configuration files on the structure provided in _development.json_, but for local installations, feel free to use the provided file.
+
 ######Note
 The Node app requires express (get it through npm) and will eventually require mongoose (those pieces have been turned off for the time being).
 

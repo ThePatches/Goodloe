@@ -1,23 +1,23 @@
 var http = require('http');
 var express = require('express');
 var url = require('url');
+var CONFIG = require('./config/development.json'); // You must change this to match the actual name of your configuration file.
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var app = express();
-//var db = mongoose.connect('mongodb://localhost/goodloedb');
-//var db = mongoose.connect('mongodb://localhost/mydb');
 app.use(express.static(__dirname + '/public'));
 app.use(express.bodyParser());
 app.use(app.router);
 
-var connection = mongoose.createConnection('mongodb://localhost/goodloedb');
+var connection = mongoose.createConnection(CONFIG.connString);
 connection.once('open', function ()
 {
 	console.log('opened database');
 });
 
+// Schemas I should probably put these in their own folder at some point...
 var PlayerSchema = new Schema({
 		name: String,
 		games: Number,
@@ -39,15 +39,13 @@ app.get('/query', function(req, res)
     {
 
         PlayerModel = connection.model('PlayerModel', PlayerSchema, 'Players');
-        //PlayerModel.findOne({active: true}, function (err, player)
-        //testModel = connection.model('testModel', testSchema, 'testData');
         PlayerModel.find({}, function(err, player)
         {
             if (err)
             {
                 console.log("Error " + err);
             }
-            console.log(player);
+            res.send(player);
         });
 
         //console.log(Objs);
@@ -67,8 +65,6 @@ app.get('/query', function(req, res)
            res.send(deck);
         });
     }
-	//res.send(Objs);
-	//res.send({name: "Patrick", count: 15});
 });
 
 app.get('/add', function(req, res)
