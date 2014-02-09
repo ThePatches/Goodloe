@@ -4,12 +4,12 @@ App.Game = DS.Model.extend({
     players: DS.attr('string')
 });
 
-App.Player_Deck = DS.Model.extend({
+/*App.Player_Deck = DS.Model.extend({
 	player: DS.attr('string'),
 	deck: DS.attr('string'),
 	Game: DS.belongsTo('Game'),
     color: DS.attr('string')
-});
+});*/
 
 App.Game.FIXTURES =
     [

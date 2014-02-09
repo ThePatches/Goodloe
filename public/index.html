@@ -50,6 +50,31 @@
             {{ players }}
         </div>
     </script>
+
+    <script type="text/x-handlebars" data-template-name="decks">
+        <h2>Decks</h2>
+
+        <ul id="deck-list">
+        {{#each}}
+            <li>
+                <div>
+                    <span>Deck Name:&nbsp;</span><span>{{ name }}</span>
+                </div>
+                <div>
+                    <span>Colors:&nbsp;</span><span>{{ color }}</span>
+                </div>
+            </li>
+        {{/each}}
+        </ul>
+        <div>
+            <h3>Add a New Deck</h3>
+            {{ input type="text" placeholder="Deck Name" value=newName }}<br />
+            {{ input type="text" placeholder="Colors" value=newColor }}<br />
+            {{ input type="text" placeholder="Builder" value=newBuilder }}<br /><br />
+
+            <button {{ action 'createDeck' }} >Add Deck</button>
+        </div>
+    </script>
   
 	<script src="js/libs/jquery-1.10.2.js"></script>
 	<script src="js/libs/handlebars-1.1.2.js"></script>
@@ -59,5 +84,7 @@
 	<script src="js/models/player.js"></script>
 	<script src="js/models/game.js"></script>
     <script src="js/controllers/game_controller.js"></script>
+    <script src="js/models/deck.js"></script>
+    <script src="js/controllers/deck_controller.js"></script>
   </body>
 </html>
