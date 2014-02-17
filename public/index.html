@@ -1,90 +1,23 @@
-<html>
+<html data-ng-app="goodloeApp">
 <head>
 	<title>Welcome to the Goodloe League</title>
+    <script src="js/libs/jquery-1.10.2.js"></script>
+    <script src="js/libs/angular.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controllers/deckcontroller.js"></script>
+
 </head>
   <body>
-	
-	<script type="text/x-handlebars" data-template-name="index">
-		<h2>Welcome to the Goodloe League</h2>
-		<section id="myApp">
-			<section id="main">
-			  <ul id="player-list">
-				{{#each}}
-				<li>
-				<label>{{name}}</label>
-				</li>
-				{{/each}}
-			  </ul>
-			</section>
 
-			<footer id="info">
-			  {{#link-to 'gamelist' }}Add A Game{{/link-to}}
-			</footer>
-		</section>
-	</script>
-	
-	<script type="text/x-handlebars" data-template-name="gamelist">
-        <h2>Record a Game</h2>
-        {{ input type="text" placeholder="Who won the game?" value=newWinner action="createGame" }}
+    <h2>Welcome to the Goodloe League</h2>
 
-        <ul id="game-list">
-                {{#each}}
-                <li>
-                    <label>Winner: {{winner}}</label>
-                </li>
-                {{/each}}
-         </ul>
+    <p>
+        This is a site dedicated to the cont
+    </p>
 
+    <div data-ng-controller="DeckController">
+        <span>{{ Deck.name }}</span>
+    </div>
 
-        {{#link-to 'index'}}Return to Index{{/link-to}}
-	</script>
-
-    <script type="text/x-handlebars" data-template-name="game">
-        <h2>View a Game</h2>
-        <div>
-            Winner: {{ winner }}
-        </div>
-
-        <div>
-            <span>Players</span><br />
-            {{ players }}
-        </div>
-    </script>
-
-    <script type="text/x-handlebars" data-template-name="decks">
-        <h2>Decks</h2>
-
-        <ul id="deck-list">
-        {{#each}}
-            <li>
-                <div>
-                    <span>Deck Name:&nbsp;</span><span>{{ name }}</span>
-                </div>
-                <div>
-                    <span>Colors:&nbsp;</span><span>{{ color }}</span>
-                </div>
-            </li>
-        {{/each}}
-        </ul>
-        <div>
-            <h3>Add a New Deck</h3>
-            {{ input type="text" placeholder="Deck Name" value=newName }}<br />
-            {{ input type="text" placeholder="Colors" value=newColor }}<br />
-            {{ input type="text" placeholder="Builder" value=newBuilder }}<br /><br />
-
-            <button {{ action 'createDeck' }} >Add Deck</button>
-        </div>
-    </script>
-  
-	<script src="js/libs/jquery-1.10.2.js"></script>
-	<script src="js/libs/handlebars-1.1.2.js"></script>
-	<script src="js/libs/ember-1.3.1.js"></script>
-	<script src="js/libs/ember-data.js"></script>
-	<script src="js/app.js"></script>
-	<script src="js/models/player.js"></script>
-	<script src="js/models/game.js"></script>
-    <script src="js/controllers/game_controller.js"></script>
-    <script src="js/models/deck.js"></script>
-    <script src="js/controllers/deck_controller.js"></script>
   </body>
 </html>
