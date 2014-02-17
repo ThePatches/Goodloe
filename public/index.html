@@ -1,10 +1,12 @@
-<html data-ng-app="goodloeApp">
+<!doctype html>
+<html lang="en"  data-ng-app="goodloeApp">
 <head>
 	<title>Welcome to the Goodloe League</title>
     <script src="js/libs/jquery-1.10.2.js"></script>
     <script src="js/libs/angular.min.js"></script>
-    <script src="js/app.js"></script>
+    <script src="js/libs/angular-route.min.js"></script>
     <script src="js/controllers/deckcontroller.js"></script>
+    <script src="js/app.js"></script>
 
 </head>
   <body>
@@ -12,12 +14,10 @@
     <h2>Welcome to the Goodloe League</h2>
 
     <p>
-        This is a site dedicated to the cont
+        This is a site dedicated to tracking the progression of the commander meta at Goodloe Road.
     </p>
 
-    <div data-ng-controller="DeckController">
-        <span>{{ Deck.name }}</span>
-    </div>
+    <div data-ng-view></div>
 
   </body>
 </html>

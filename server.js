@@ -7,9 +7,10 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var app = express();
+
+//app.use(app.router);
 app.use(express.static(__dirname + '/public'));
 app.use(express.bodyParser());
-app.use(app.router);
 
 var connection = mongoose.createConnection(CONFIG.connString);
 connection.once('open', function ()
@@ -48,8 +49,6 @@ app.get('/query', function(req, res)
             res.send(player);
         });
 
-        //console.log(Objs);
-
         //mongoose.connection.close();
 
         res.send("Done getting stuff from mongo.");
@@ -69,7 +68,6 @@ app.get('/query', function(req, res)
 
 app.get('/add', function(req, res)
 {
-    // ?coll=deck&Name=Horrors&Color=BUG&Builder=Chris%2BM
     var spaceUrl = req.url.replace(/\s/g,"%2B");
     var queryData = url.parse(spaceUrl, true).query;
 
@@ -87,6 +85,11 @@ app.get('/add', function(req, res)
     else {
         res.send(queryData);
     }
+});
+
+app.get('*', function(req, res)
+{
+    res.sendfile('./public/index.html');
 });
 
 app.listen('1337');
