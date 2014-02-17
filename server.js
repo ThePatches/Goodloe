@@ -39,7 +39,7 @@ app.get('/query', function(req, res)
     if (queryData["coll"] == "player")
     {
 
-        PlayerModel = connection.model('PlayerModel', PlayerSchema, 'Players');
+        var PlayerModel = connection.model('PlayerModel', PlayerSchema, 'Players');
         PlayerModel.find({}, function(err, player)
         {
             if (err)
@@ -49,13 +49,10 @@ app.get('/query', function(req, res)
             res.send(player);
         });
 
-        //mongoose.connection.close();
-
-        res.send("Done getting stuff from mongo.");
     }
     else if (queryData["coll"] == "deck")
     {
-        DeckModel = connection.model("DeckModel", DeckSchema, "Deck");
+        var DeckModel = connection.model("DeckModel", DeckSchema, "Deck");
         DeckModel.find({}, function(err, deck){
            if (err)
            {

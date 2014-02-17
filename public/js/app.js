@@ -3,13 +3,17 @@ var goodloeApp = angular.module('goodloeApp', ['ngRoute', 'deckControllers', "de
 goodloeApp.config(['$routeProvider',
     function($routeProvider)
     {
-        $routeProvider.when('/deck', {
+        $routeProvider.when('/deck/:deckId', {
            templateUrl: "views/deck.html",
            controller: "DeckController"
         })
             .when('/', {
                 templateUrl: "views/default.html",
                 controller: "DefaultController"
+            })
+            .when('/decks', {
+                templateUrl: "views/decklist.html",
+                controller: "DeckListController"
             })
         .otherwise({
                 redirectTo: '/'
