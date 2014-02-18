@@ -12,7 +12,9 @@ var app = express();
 app.use(express.static(__dirname + '/public'));
 app.use(express.bodyParser());
 
-var connection = mongoose.createConnection(CONFIG.connString);
+//var connection = mongoose.createConnection(CONFIG.connString);
+var connection = mongoose.createConnection("mongodb://" + CONFIG.user + ":" + CONFIG.password + "@" + CONFIG.server + "/" + CONFIG.db);
+console.log("mongodb://" + CONFIG.user + ":" + CONFIG.password + "@" + CONFIG.server + "/" + CONFIG.db);
 connection.once('open', function ()
 {
 	console.log('opened database');
@@ -53,13 +55,26 @@ app.get('/query', function(req, res)
     else if (queryData["coll"] == "deck")
     {
         var DeckModel = connection.model("DeckModel", DeckSchema, "Deck");
-        DeckModel.find({}, function(err, deck){
+        var findObject = {};
+
+        if (queryData["id"])
+        {
+            console.log(queryData["id"]);
+            findObject._id = queryData["id"];
+            //findObject = {_id: "52f450eb4c76094c1f623a26"};
+        }
+
+        DeckModel.find(findObject, function(err, deck){
            if (err)
            {
                console.log("Error" + err);
            }
            res.send(deck);
         });
+    }
+    else
+    {
+        res.send("Invalid query type!");
     }
 });
 

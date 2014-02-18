@@ -1,6 +1,16 @@
 <div>
-     This is some view information.
-<div data-ng-model="Deck">
-    <span>{{ name }}</span>
-</div>
+
+    <div data-ng-show="deckId != new">
+        <span>Deck Name:&nbsp;</span>{{ Deck.name }}<br />
+        <span>Color:&nbsp;</span>{{ Deck.color }}<br />
+        <span>Builder:&nbsp;</span>
+    </div>
+
+    <!-- This portion is only visible if you're trying to make a new deck -->
+    <div data-ng-show="deckId == 'new'">
+        <h3>Add a New Deck to the Meta</h3>
+        Deck Name : <input type="text" data-ng-model="Deck.name" /><br />
+        Colors: <input type="text" data-ng-model="Deck.color"><br />
+        Builder: <input type="text" data-ng-model="Deck.builder">
+    </div>
 </div>

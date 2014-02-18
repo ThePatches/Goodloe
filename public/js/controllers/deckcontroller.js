@@ -15,11 +15,21 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams', function
     };
 }]);
 
-deckControllers.controller('DeckListController', ['$scope', '$http',
-    function($scope, $http) {
+deckControllers.controller('DeckListController', ['$scope', '$http', '$location',
+    function($scope, $http, $location) {
 
         $http.get('http://localhost:1337/query?coll=deck').success(function (data) // Need to get this to work parameterized
         {
             $scope.Decks = data;
         });
+
+        $scope.fixName = function (inName)
+        {
+            return inName.replace(/\+/g, " ");
+        };
+
+        $scope.loadDeck = function(inID)
+        {
+            $location.path("/deck/" + inID);
+        };
 }]);
