@@ -16,7 +16,7 @@ goodloeApp.config(['$routeProvider',
                 controller: "DeckListController"
             })
         .otherwise({
-                redirectTo: '/'
+                templateUrl: "views/404View.html"
             });
     }
 ]);

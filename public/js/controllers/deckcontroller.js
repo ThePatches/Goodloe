@@ -4,15 +4,26 @@
 
 var deckControllers = angular.module('deckControllers', []);
 
-deckControllers.controller('DeckController', ['$scope', '$routeParams', function ($scope, $routeParams)
+deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', function ($scope, $routeParams, $http)
 {
     $scope.deckId = $routeParams.deckId;
 
-    $scope.Deck = {
-        name: "Rosheen",
-        color: "RG",
-        builder: "Chris M"
+    $scope.fixName = function (inName)
+    {
+        return inName.replace(/\+/g, " ");
     };
+
+   if ($scope.deckId != 'new')
+    {
+        $http.get('http://localhost:1337/query?coll=deck&id=' + $scope.deckId).success(function (data) {
+            if (data != "no deck returned")
+            {
+                $scope.Deck = data[0];
+                //$scope.$apply();
+            }
+        });
+
+    }
 }]);
 
 deckControllers.controller('DeckListController', ['$scope', '$http', '$location',
