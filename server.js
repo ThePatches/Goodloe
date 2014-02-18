@@ -59,7 +59,6 @@ app.get('/query', function(req, res)
 
         if (queryData["id"])
         {
-            console.log(queryData["id"]);
             findObject._id = queryData["id"];
             //findObject = {_id: "52f450eb4c76094c1f623a26"};
         }
@@ -88,11 +87,13 @@ app.get('/add', function(req, res)
         var Deck = connection.model('DeckModel', DeckSchema, 'Deck');
         var ndeck = new Deck({name: queryData["Name"], color: queryData["Color"], builder: queryData["Builder"]});
 
-        ndeck.save(function (err)
+        ndeck.save(function (err, product, numberAffected)
         {
            if (err) console.log("Error!");
+           else if (numberAffected > 0)
+                res.send(product);
         });
-        res.send("Deck collection updated");
+        //res.send("Deck collection updated");
     }
     else {
         res.send(queryData);

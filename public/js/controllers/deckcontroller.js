@@ -7,10 +7,32 @@ var deckControllers = angular.module('deckControllers', []);
 deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', function ($scope, $routeParams, $http)
 {
     $scope.deckId = $routeParams.deckId;
+    $scope.doEdit = false;
 
     $scope.fixName = function (inName)
     {
         return inName.replace(/\+/g, " ");
+    };
+
+    $scope.buildParams = function()
+    {
+        return "?coll=Deck&Name=" + encodeURIComponent($scope.Deck.name) + "&Color=" + encodeURIComponent($scope.Deck.color) + "&Builder=" + encodeURIComponent($scope.Deck.builder);
+    };
+
+    $scope.addDeck = function()
+    {
+        var tUrl = 'http://localhost:1337/';
+        tUrl += $scope.deckId != 'new' ? "update" : "add";
+
+        tUrl += $scope.buildParams();
+
+        // http call goes here.
+        //alert(tUrl);
+
+        $http.get(tUrl).success(function (data)
+        {
+            $scope.Deck = data;
+        });
     };
 
    if ($scope.deckId != 'new')
@@ -19,10 +41,13 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
             if (data != "no deck returned")
             {
                 $scope.Deck = data[0];
-                //$scope.$apply();
             }
         });
 
+    }
+    else
+    {
+        $scope.Deck = {name : "", builder: "", color: ""};
     }
 }]);
 

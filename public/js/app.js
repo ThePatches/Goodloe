@@ -16,7 +16,8 @@ goodloeApp.config(['$routeProvider',
                 controller: "DeckListController"
             })
         .otherwise({
-                templateUrl: "views/404View.html"
+                templateUrl: "views/404View.html",
+                controller: defaultController
             });
     }
 ]);
