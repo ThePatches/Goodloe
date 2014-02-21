@@ -1,4 +1,4 @@
-var goodloeApp = angular.module('goodloeApp', ['ngRoute', 'deckControllers', "defaultController"]);
+var goodloeApp = angular.module('goodloeApp', ['ngRoute', 'deckControllers', "defaultController", "ngCookies"]);
 
 goodloeApp.config(['$routeProvider',
     function($routeProvider)
@@ -15,6 +15,11 @@ goodloeApp.config(['$routeProvider',
                 templateUrl: "views/decklist.html",
                 controller: "DeckListController"
             })
+            .when('/login',
+            {
+                templateUrl: "views/login.html",
+                controller: "LoginController"
+            })
         .otherwise({
                 templateUrl: "views/404View.html",
                 controller: defaultController
@@ -29,3 +34,28 @@ defaultController.controller('DefaultController', function($scope)
     var aDate = new Date(jQuery.now());
     $scope.Date =  aDate.toUTCString();
 });
+
+defaultController.controller("LoginController", ['$scope', '$http', '$cookies', function($scope, $http, $cookies)
+{
+    $scope.userName = null;
+    $scope.password = null;
+    $scope.SomeStuff = $cookies.gookie;
+
+    $scope.DoLogin = function()
+    {
+        $http.post("/login", {username: $scope.userName, password: $scope.password})
+            .success(function(user)
+            {
+                if (user)
+                {
+                    $scope.SomeStuff = $cookies.gookie;
+                }
+            });
+    };
+
+    $scope.DoLogOut = function ()
+    {
+        $http.post("/logout");
+        $scope.SomeStuff = "None";
+    };
+}]);

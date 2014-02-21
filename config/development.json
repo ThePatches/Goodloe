@@ -4,5 +4,6 @@
     "db": "goodloedb",
     "type": "dev",
     "user": "",
-    "password": ""
+    "password": "",
+    "cookieName": "gookie"
 }
