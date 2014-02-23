@@ -1,4 +1,4 @@
-var goodloeApp = angular.module('goodloeApp', ['ngRoute', 'deckControllers', "defaultController", "ngCookies"]);
+var goodloeApp = angular.module('goodloeApp', ['ngRoute', 'deckControllers', "defaultController", "ngCookies", "gameControllers"]);
 
 goodloeApp.config(['$routeProvider',
     function($routeProvider)
@@ -20,6 +20,11 @@ goodloeApp.config(['$routeProvider',
                 templateUrl: "views/login.html",
                 controller: "LoginController"
             })
+            .when('/game',
+            {
+                templateUrl: "views/game.html",
+                controller: "GameController"
+            })
         .otherwise({
                 templateUrl: "views/404View.html",
                 controller: defaultController
@@ -39,7 +44,8 @@ defaultController.controller("LoginController", ['$scope', '$http', '$cookies', 
 {
     $scope.userName = null;
     $scope.password = null;
-    $scope.SomeStuff = $cookies.gookie;
+    $scope.SomeStuff = $cookies.gookie ? JSON.parse($cookies.gookie.substring(2)) : "None";
+   // $scope.Other = $cookieStore.get('gookie');
 
     $scope.DoLogin = function()
     {
@@ -48,8 +54,18 @@ defaultController.controller("LoginController", ['$scope', '$http', '$cookies', 
             {
                 if (user)
                 {
-                    $scope.SomeStuff = $cookies.gookie;
+                    $scope.SomeStuff = user.username;
+
+                    $scope.userName = "";
+                    $scope.password = "";
                 }
+                else
+                {
+                    $scope.SomeStuff = "failed login!";
+                }
+            }).fail(function ()
+            {
+                $scope.SomeStuff = "failed login!";
             });
     };
 

@@ -2,3 +2,5 @@
 node_modules/*
 production.json
 passwords
+*.pem
+*.ppk

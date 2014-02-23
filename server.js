@@ -11,7 +11,7 @@ var Schema = mongoose.Schema;
 
 var app = express();
 
-//app.use(app.router);
+console.log(process.env.PORT);
 app.configure(function (){
     app.use(express.static(__dirname + '/public'));
     app.use(express.bodyParser());
@@ -19,6 +19,7 @@ app.configure(function (){
     app.use(express.session({ secret: 'SECRET' }));
     app.use(passport.initialize());
     app.use(passport.session());
+    app.set('port', process.env.PORT || 1337);
 });
 
 //var connection = mongoose.createConnection(CONFIG.connString);
@@ -59,7 +60,10 @@ passport.use(new LocalStrategy(function(username, password, done)
             return done(null, false, {message: "Incorrect user name"});
         }
 
-        if (password == user.hash) // maybe needs to be more involved (convert the password into the challenge
+        //var hash = bcrypt.hashSync(password);
+        var isTrue = bcrypt.compareSync(password, user.hash);
+        console.log(isTrue);
+        if (isTrue) // maybe needs to be more involved (convert the password into the challenge
         {
             return done(null, user);
         }
@@ -79,6 +83,15 @@ passport.deserializeUser(function(id, done)
         done(null,user);
     });
 });
+
+var auth = function(req, res, next)
+{
+    if (!req.isAuthenticated())
+        res.send(401);
+    else
+        next();
+
+}; //- See more at: https://vickev.com/#!/article/authentication-in-single-page-applications-node-js-passportjs-angularjs
 
 app.get('/query', function(req, res)
 {
@@ -140,26 +153,20 @@ app.get('/add', function(req, res)
            else if (numberAffected > 0)
                 res.send(product);
         });
-        //res.send("Deck collection updated");
     }
     else {
         res.send(queryData);
     }
 });
 
-app.get('/encrypt', function(req, res)
+app.get('/encrypt', auth, function(req, res)
 {
     var queryData = req.url;
     queryData = url.parse(queryData, true).query;
 
     var hash = bcrypt.hashSync(queryData["pass"]);
 
-    var val1 = bcrypt.compareSync("Patrick", hash); // true
-    var val2 = bcrypt.compareSync("veggies", hash); // false
-
-    console.log("val1: " + val1 + ", val2: " + val2);
-    var outMessage = val1 == true ? "True" : "False";
-    res.send(outMessage);
+    res.send(hash);
 
     //res.send("Something not quite right?");
 
@@ -168,7 +175,7 @@ app.get('/encrypt', function(req, res)
 app.post('/login', passport.authenticate('local'), function(req, res)
 {
     var retUser = req.user;
-    res.cookie(CONFIG.cookieName, {id: retUser._id, username: retUser.username});
+    res.cookie(CONFIG.cookieName, JSON.stringify({id: retUser._id, username: retUser.username }));
     res.send(retUser);
 });
 
@@ -185,5 +192,5 @@ app.get('*', function(req, res)
     res.sendfile('./public/index.html');
 });
 
-app.listen('1337');
-console.log('Listening on port 1337');
+app.listen(app.get('port'));
+console.log("Listening on port: " + app.get('port'));

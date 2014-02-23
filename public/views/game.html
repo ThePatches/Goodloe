@@ -1,0 +1,8 @@
+<div>
+    <div ng-show="newGame">
+        <h2>Add New Game</h2>
+        <select id="DeckList" data-ng-model="selDeck">
+            <option data-ng-repeat="deck in Decks"  value="{{deck.value}}">{{ deck.name }}</option>
+        </select>
+    </div>
+</div>
