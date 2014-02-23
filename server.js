@@ -145,7 +145,8 @@ app.get('/add', function(req, res)
     if (queryData["coll"] == "Deck")
     {
         var Deck = connection.model('DeckModel', DeckSchema, 'Deck');
-        var ndeck = new Deck({name: queryData["Name"], color: queryData["Color"], builder: queryData["Builder"]});
+        var theItem = JSON.parse(queryData["item"]);
+        var ndeck = new Deck(theItem);
 
         ndeck.save(function (err, product, numberAffected)
         {
@@ -153,6 +154,35 @@ app.get('/add', function(req, res)
            else if (numberAffected > 0)
                 res.send(product);
         });
+    }
+    else {
+        res.send(queryData);
+    }
+});
+
+app.get('/update', function(req, res)
+{
+    var spaceUrl = req.url.replace(/\s/g,"%2B");
+    var queryData = url.parse(spaceUrl, true).query;
+
+    if (queryData["coll"] == "Deck")
+    {
+        var Deck = connection.model('DeckModel', DeckSchema, 'Deck');
+        var theItem = JSON.parse(queryData["item"]);
+        console.log(theItem.name);
+
+       Deck.findOne({_id: theItem._id}, function(err, doc)
+       {
+           if (err) res.send(err);
+
+           console.log(doc);
+           doc.name = theItem.name;
+           doc.builder = theItem.builder;
+           doc.color = theItem.color;
+           doc.save();
+       });
+
+       res.send(doc);
     }
     else {
         res.send(queryData);

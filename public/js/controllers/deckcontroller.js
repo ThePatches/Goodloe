@@ -16,7 +16,14 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
 
     $scope.buildParams = function()
     {
-        return "?coll=Deck&Name=" + encodeURIComponent($scope.Deck.name) + "&Color=" + encodeURIComponent($scope.Deck.color) + "&Builder=" + encodeURIComponent($scope.Deck.builder);
+        //return "?coll=Deck&Name=" + encodeURIComponent($scope.Deck.name) + "&Color=" + encodeURIComponent($scope.Deck.color) + "&Builder=" + encodeURIComponent($scope.Deck.builder);
+        var theJSON = {name: encodeURIComponent($scope.Deck.name), color: encodeURIComponent($scope.Deck.color), builder: encodeURIComponent($scope.Deck.builder)};
+        if ($scope.deckId != 'new')
+        {
+            theJSON._id = $scope.deckId;
+        }
+
+        return "?coll=Deck&item=" + JSON.stringify(theJSON);
     };
 
     $scope.addDeck = function()
