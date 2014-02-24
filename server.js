@@ -120,7 +120,6 @@ app.get('/query', function(req, res)
         if (queryData["id"])
         {
             findObject._id = queryData["id"];
-            //findObject = {_id: "52f450eb4c76094c1f623a26"};
         }
 
         DeckModel.find(findObject, function(err, deck){
