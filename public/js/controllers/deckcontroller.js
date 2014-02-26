@@ -11,7 +11,10 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
 
     $scope.fixName = function (inName)
     {
-        return inName.replace(/\+/g, " ");
+        if (inName)
+            return inName.replace(/\+/g, " ");
+        else
+            return "";
     };
 
     $scope.buildParams = function()
@@ -42,7 +45,21 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
         });
     };
 
-   if ($scope.deckId != 'new')
+    $scope.parseList = function(inText)
+    {
+        var masterList = [];
+        var i;
+        var tempList = inText.split("\n");
+        var itemArray = null;
+
+        for (i = 0; i < inText.length; i++)
+        {
+            itemArray = tempList[i].split("x").trim();
+            masterList.append({card: itemArray[0], count: parseInt(itemArray[1])});
+        }
+    };
+
+    if ($scope.deckId != 'new')
     {
         $http.get(CONFIG.server + ":" + CONFIG.port + '/query?coll=deck&id=' + $scope.deckId).success(function (data) {
             if (data != "no deck returned")
