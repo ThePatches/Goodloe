@@ -44,7 +44,7 @@ defaultController.controller("LoginController", ['$scope', '$http', '$cookies', 
 {
     $scope.userName = null;
     $scope.password = null;
-    $scope.SomeStuff = $cookies.gookie ? JSON.parse($cookies.gookie.substring(2)) : "None";
+    $scope.SomeStuff = $cookies.gookie ? JSON.parse($cookies.gookie).username : "None";
    // $scope.Other = $cookieStore.get('gookie');
 
     $scope.DoLogin = function()
@@ -63,7 +63,7 @@ defaultController.controller("LoginController", ['$scope', '$http', '$cookies', 
                 {
                     $scope.SomeStuff = "failed login!";
                 }
-            }).fail(function ()
+            }).error(function ()
             {
                 $scope.SomeStuff = "failed login!";
             });

@@ -4,7 +4,7 @@
 
 var deckControllers = angular.module('deckControllers', []);
 
-deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', function ($scope, $routeParams, $http)
+deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', '$cookies', function ($scope, $routeParams, $http, $cookies)
 {
     $scope.deckId = $routeParams.deckId;
     $scope.doEdit = false;
@@ -19,7 +19,6 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
 
     $scope.buildParams = function()
     {
-        //return "?coll=Deck&Name=" + encodeURIComponent($scope.Deck.name) + "&Color=" + encodeURIComponent($scope.Deck.color) + "&Builder=" + encodeURIComponent($scope.Deck.builder);
         var theJSON = {name: encodeURIComponent($scope.Deck.name), color: encodeURIComponent($scope.Deck.color), builder: encodeURIComponent($scope.Deck.builder)};
         if ($scope.deckId != 'new')
         {
@@ -29,15 +28,22 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
         return "?coll=Deck&item=" + JSON.stringify(theJSON);
     };
 
+    $scope.CheckCookie = function()
+    {
+        var theCookie = $cookies.gookie ? JSON.parse($cookies.gookie) : "None";
+
+        if (theCookie == "None")
+            return false;
+
+        return !(theCookie.username && theCookie.username != "");
+    };
+
     $scope.addDeck = function()
     {
         var tUrl = CONFIG.server + ":" + CONFIG.port;
         tUrl += $scope.deckId != 'new' ? "/update" : "/add";
 
         tUrl += $scope.buildParams();
-
-        // http call goes here.
-        //alert(tUrl);
 
         $http.get(tUrl).success(function (data)
         {

@@ -136,7 +136,7 @@ app.get('/query', function(req, res)
     }
 });
 
-app.get('/add', function(req, res)
+app.get('/add', auth, function(req, res)
 {
     var spaceUrl = req.url.replace(/\s/g,"%2B");
     var queryData = url.parse(spaceUrl, true).query;
@@ -159,7 +159,7 @@ app.get('/add', function(req, res)
     }
 });
 
-app.get('/update', function(req, res)
+app.get('/update', auth, function(req, res)
 {
     var spaceUrl = req.url.replace(/\s/g,"%2B");
     var queryData = url.parse(spaceUrl, true).query;
