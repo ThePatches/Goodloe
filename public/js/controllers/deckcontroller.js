@@ -35,7 +35,7 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
         if (theCookie == "None")
             return false;
 
-        return !(theCookie.username && theCookie.username != "");
+        return (theCookie.username && theCookie.username != "");
     };
 
     $scope.addDeck = function()

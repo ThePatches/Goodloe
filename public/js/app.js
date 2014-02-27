@@ -1,4 +1,4 @@
-var goodloeApp = angular.module('goodloeApp', ['ngRoute', 'deckControllers', "defaultController", "ngCookies", "gameControllers"]);
+var goodloeApp = angular.module('goodloeApp', ['ngRoute', 'deckControllers', "defaultController", "ngCookies", "gameControllers", "GameDirectives"]);
 
 goodloeApp.config(['$routeProvider',
     function($routeProvider)
@@ -40,7 +40,7 @@ defaultController.controller('DefaultController', function($scope)
     $scope.Date =  aDate.toUTCString();
 });
 
-defaultController.controller("LoginController", ['$scope', '$http', '$cookies', function($scope, $http, $cookies)
+defaultController.controller("LoginController", ['$scope', '$http', '$cookies', '$location', function($scope, $http, $cookies, $location)
 {
     $scope.userName = null;
     $scope.password = null;
@@ -58,6 +58,7 @@ defaultController.controller("LoginController", ['$scope', '$http', '$cookies', 
 
                     $scope.userName = "";
                     $scope.password = "";
+                    $location.path('/');
                 }
                 else
                 {
