@@ -34,7 +34,8 @@ connection.once('open', function ()
 var PlayerSchema = new Schema({
 		name: String,
 		games: Number,
-		active: Boolean
+		active: Boolean,
+        wins: Number
 	});
 
 var DeckSchema = new Schema({
@@ -43,10 +44,18 @@ var DeckSchema = new Schema({
     builder: String
 });
 
+var GameSchema = new Schema({
+    players: [{playerName: String, deckName: String, winner: Boolean}], // Should probably use ids? I can't decide how I want this to work
+    playedOn: Date,
+    winType: String,
+    gameType: String
+});
+
 var UserSchema = new Schema({
    username: String,
    hash: String,
-   active: Boolean
+   active: Boolean,
+   adminRights: Number
 });
 
 var Users = connection.model("Users", UserSchema, "GoodUsers");
@@ -97,25 +106,31 @@ app.get('/query', function(req, res)
 {
     var spaceUrl = req.url.replace(/\s/g,"%2B");
     var queryData = url.parse(spaceUrl, true).query;
+    var findObject = {};
 
     if (queryData["coll"] == "player")
     {
-
         var PlayerModel = connection.model('PlayerModel', PlayerSchema, 'Players');
-        PlayerModel.find({}, function(err, player)
+
+        if (queryData["id"])
+        {
+            findObject._id = queryData["id"];
+        }
+
+        PlayerModel.find(findObject, function(err, players)
         {
             if (err)
             {
                 console.log("Error " + err);
             }
-            res.send(player);
+            res.send(players);
         });
 
     }
     else if (queryData["coll"] == "deck")
     {
         var DeckModel = connection.model("DeckModel", DeckSchema, "Deck");
-        var findObject = {};
+        //var findObject = {};
 
         if (queryData["id"])
         {

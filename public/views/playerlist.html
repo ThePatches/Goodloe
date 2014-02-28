@@ -1,0 +1,12 @@
+<h2>Players List at Goodloe</h2>
+
+<div data-ng-model="Players">
+    <ul>
+        <li data-ng-repeat="player in Players">
+            <a href data-ng-click="loadPlayer(player._id)">{{ fixName(player.name)}}</a>
+        </li>
+    </ul>
+
+    <a href="#/player/new">Add a player to the meta</a><br />
+    <a href="/">Return to the Main Page</a>
+</div>

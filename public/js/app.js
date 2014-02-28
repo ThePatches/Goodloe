@@ -1,4 +1,4 @@
-var goodloeApp = angular.module('goodloeApp', ['ngRoute', 'deckControllers', "defaultController", "ngCookies", "gameControllers", "GameDirectives"]);
+var goodloeApp = angular.module('goodloeApp', ['ngRoute', 'deckControllers', "defaultController", "ngCookies", "gameControllers", "playerControllers", "GameDirectives"]);
 
 goodloeApp.config(['$routeProvider',
     function($routeProvider)
@@ -25,6 +25,16 @@ goodloeApp.config(['$routeProvider',
                 templateUrl: "views/game.html",
                 controller: "GameController"
             })
+            .when('/players',
+            {
+                templateUrl: "views/playerlist.html",
+                controller: "PlayerListController"
+            })
+            .when('/player/:playerId',
+                {
+                    templateUrl: "views/player.html",
+                    controller: "PlayerController"
+                })
         .otherwise({
                 templateUrl: "views/404View.html",
                 controller: defaultController
