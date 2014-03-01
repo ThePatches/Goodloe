@@ -4,3 +4,6 @@ production.json
 passwords
 *.pem
 *.ppk
+*.pfx
+*.key
+*.crt

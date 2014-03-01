@@ -1,5 +1,5 @@
 var http = require('http');
-//var https = require('https');
+var https = require('https');
 var express = require('express');
 var url = require('url');
 var CONFIG = require('./config/development.json'); // You must change this to match the actual name of your configuration file.
@@ -12,10 +12,10 @@ var mongoose = require('mongoose');
 
 var app = express();
 
-/*var privateKey  = fs.readFileSync('sslcert/server.key', 'utf8');
-var certificate = fs.readFileSync('sslcert/server.crt', 'utf8');
+/*var privateKey  = fs.readFileSync('sslcert/ssl.key', 'utf8');
+var certificate = fs.readFileSync('sslcert/ssl.crt', 'utf8');
 
-var credentials = {key: privateKey, cert: certificate};*/
+var credentials = {key: privateKey, cert: certificate, passphrase: CONFIG.sslpass};*/
 var httpServer = http.createServer(app);
 //var httpsServer = https.createServer(credentials, app);
 
@@ -89,42 +89,6 @@ app.get('/query', function(req, res)
     var queryData = url.parse(spaceUrl, true).query;
     var findObject = {};
 
-    /*if (queryData["coll"] == "player")
-    {
-
-        var PlayerModel = connection.model('PlayerModel', SCHEMAS.PlayerSchema, 'Players');
-        PlayerModel.find({}, function(err, player)
-        {
-            if (err)
-            {
-                console.log("Error " + err);
-            }
-            res.send(player);
-        });
-
-    }
-    else if (queryData["coll"] == "deck")
-    {
-        var DeckModel = connection.model("DeckModel", SCHEMAS.DeckSchema, "Deck");
-        var findObject = {};
-
-        if (queryData["id"])
-        {
-            findObject._id = queryData["id"];
-        }
-
-        DeckModel.find(findObject, function(err, deck){
-           if (err)
-           {
-               console.log("Error" + err);
-           }
-           res.send(deck);
-        });
-    }
-    else
-    {
-        res.send("Invalid query type!");
-    }*/
 
     switch (queryData["coll"])
     {
@@ -270,5 +234,5 @@ app.get('*', function(req, res)
 });
 
 httpServer.listen(app.get('port'));
-//httpsServer.listen(app.get('port'));
+//httpsServer.listen('1337');
 console.log("Listening on port: " + app.get('port'));
