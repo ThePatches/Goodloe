@@ -35,12 +35,20 @@ var PlayerSchema = new Schema({
 		name: String,
 		games: Number,
 		active: Boolean,
+        wins: Number
 	});
 
 var DeckSchema = new Schema({
     name: String,
     color: String,
     builder: String
+});
+
+var GameSchema = new Schema({
+    players: [{playerName: String, deckName: String, winner: Boolean}], // Should probably use ids? I can't decide how I want this to work
+    playedOn: Date,
+    winType: String,
+    gameType: String
 });
 
 var UserSchema = new Schema({
