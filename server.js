@@ -2,6 +2,7 @@ var http = require('http');
 var express = require('express');
 var url = require('url');
 var CONFIG = require('./config/development.json'); // You must change this to match the actual name of your configuration file.
+var SCHEMAS = require('./myNodePackages/schemas.js');
 var bcrypt = require('bcrypt-nodejs');
 passport = require("passport");
 LocalStrategy = require('passport-local').Strategy;
@@ -30,35 +31,8 @@ connection.once('open', function ()
 	console.log('opened database');
 });
 
-// Schemas I should probably put these in their own folder at some point...
-var PlayerSchema = new Schema({
-		name: String,
-		games: Number,
-		active: Boolean,
-        wins: Number
-	});
 
-var DeckSchema = new Schema({
-    name: String,
-    color: String,
-    builder: String
-});
-
-var GameSchema = new Schema({
-    players: [{playerName: String, deckName: String, winner: Boolean}], // Should probably use ids? I can't decide how I want this to work
-    playedOn: Date,
-    winType: String,
-    gameType: String
-});
-
-var UserSchema = new Schema({
-   username: String,
-   hash: String,
-   active: Boolean,
-   isAdmin: Boolean
-});
-
-var Users = connection.model("Users", UserSchema, "GoodUsers");
+var Users = connection.model("Users", SCHEMAS.UserSchema, "GoodUsers");
 
 passport.use(new LocalStrategy(function(username, password, done)
 {
@@ -110,7 +84,7 @@ app.get('/query', function(req, res)
     if (queryData["coll"] == "player")
     {
 
-        var PlayerModel = connection.model('PlayerModel', PlayerSchema, 'Players');
+        var PlayerModel = connection.model('PlayerModel', SCHEMAS.PlayerSchema, 'Players');
         PlayerModel.find({}, function(err, player)
         {
             if (err)
@@ -123,7 +97,7 @@ app.get('/query', function(req, res)
     }
     else if (queryData["coll"] == "deck")
     {
-        var DeckModel = connection.model("DeckModel", DeckSchema, "Deck");
+        var DeckModel = connection.model("DeckModel", SCHEMAS.DeckSchema, "Deck");
         var findObject = {};
 
         if (queryData["id"])
@@ -152,7 +126,7 @@ app.get('/add', auth, function(req, res)
 
     if (queryData["coll"] == "Deck")
     {
-        var Deck = connection.model('DeckModel', DeckSchema, 'Deck');
+        var Deck = connection.model('DeckModel', SCHEMAS.DeckSchema, 'Deck');
         var theItem = JSON.parse(queryData["item"]);
         var ndeck = new Deck(theItem);
 
@@ -175,7 +149,7 @@ app.get('/update', auth, function(req, res)
 
     if (queryData["coll"] == "Deck")
     {
-        var Deck = connection.model('DeckModel', DeckSchema, 'Deck');
+        var Deck = connection.model('DeckModel', SCHEMAS.DeckSchema, 'Deck');
         var theItem = JSON.parse(queryData["item"]);
         console.log(theItem.name);
 
