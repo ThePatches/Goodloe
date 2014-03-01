@@ -3,12 +3,12 @@
  */
 
 angular.module('GameDirectives', [])
-    .directive('addDeckToGame', function (){
+    .directive('addDeckToGame', function () {
         return {
             restrict: 'A',
             controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs)
             {
-                $element.click(function(evt)
+                $element.click(function()
                 {
                     var deckCrtl = $("#" + $attrs.deckCrtl);
                     var playerCrtl = $("#" + $attrs.playerCrtl);
@@ -18,12 +18,38 @@ angular.module('GameDirectives', [])
 
                     $scope.$apply(function ()
                     {
-                        $scope.inDecks.push($scope.selDeck);
+                        if ($scope.inDecks[0].player == "none")
+                            $scope.inDecks = [];
+
+                        $scope.inDecks.push({deck: $scope.selDeck, player: $scope.selPlayer, winner: false});
                         deckCrtl.children('option:selected').remove();
                         playerCrtl.children('option:selected').remove();
                         $scope.selDeck = null;
+                        $scope.selPlayer = null;
                     });
                 });
             }]
         }
-    });
+    })
+
+    .directive('addGame', function () {
+        return {
+            restrict: 'A',
+            controller: ['$scope', '$element', function($scope, $element)
+            {
+                $element.click(function (){
+                    var addedGame = {};
+
+                    addedGame.winType = $scope.winType;
+                    addedGame.gameType = $scope.gameType;
+                    addedGame.playedOn = Date.now();
+                    addedGame.players = $scope.inDecks;
+
+                    $scope.OutGame = addedGame;
+                    $scope.$apply();
+                });
+
+            }]
+        }
+    })
+;

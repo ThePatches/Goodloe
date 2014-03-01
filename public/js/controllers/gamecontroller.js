@@ -9,7 +9,8 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
     $scope.Players = null;
     $scope.newGame = true;
     $scope.selDeck = null;
-    $scope.inDecks = [];
+    $scope.inDecks = [{player: "none", deck: "none", winner: false}];
+    $scope.OutGame = null;
 
     $http.get(CONFIG.server + ":" + CONFIG.port + '/query?coll=deck').success(function (data) // Need to get this to work parameterized
     {
@@ -32,6 +33,40 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
     $scope.getDeckName = function(inDeck)
     {
         return $scope.fixName(inDeck.name) + " by " + $scope.fixName(inDeck.builder);
+    };
+
+    $scope.getDescription = function(inObject)
+    {
+        // We can do this better if we're better with our objects...
+
+        //return inObject.player + " playing" + inObject.deck
+        var theDeck = null, thePlayer = null, i = 0;
+
+        if (inObject.player != "none")
+        {
+            for (i = 0; i < $scope.Players.length; i++)
+                if (inObject.player == $scope.Players[i]._id)
+                    thePlayer = $scope.Players[i].name;
+
+            for (i = 0; i < $scope.Decks.length; i++)
+                if (inObject.deck == $scope.Decks[i]._id)
+                    theDeck = $scope.fixName($scope.Decks[i].name);
+
+            return thePlayer + " playing " + theDeck;
+        }
+        else
+        {
+            return "No Decks Selected"
+        }
+
+    };
+
+    $scope.setWinner = function(index)
+    {
+        for (var i = 0; i < $scope.inDecks.length; i++)
+        {
+            $scope.inDecks[i].winner = i == index;
+        }
     };
 
 }]);

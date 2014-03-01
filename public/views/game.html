@@ -1,23 +1,47 @@
 <div>
     <div data-ng-show="newGame">
         <h2>Add New Game</h2>
-        Add Deck:
-        <select id="DeckList" data-ng-model="selDeck">
-            <option value=""></option>
-            <option data-ng-repeat="deck in Decks">{{ getDeckName(deck) }}</option>
-        </select><br />
-        Add Player:
-        <select id="PlayerList" data-ng-model="selPlayer">
-            <option data-ng-repeat="player in Players">{{ fixName(player.name) }}</option>
-        </select>
+        <div>
+            <h3>Add Players and Decks</h3>
+            Add Deck:
+            <select id="DeckList" data-ng-model="selDeck">
+                <option data-ng-repeat="deck in Decks" value="{{ deck._id }}">{{ getDeckName(deck) }}</option>
+            </select><br />
+            Add Player:
+            <select id="PlayerList" data-ng-model="selPlayer">
+                <option data-ng-repeat="player in Players" value="{{ player._id }}">{{ fixName(player.name) }}</option>
+            </select>
 
-        <button data-add-deck-to-game data-deck-crtl="DeckList" data-player-crtl="PlayerList">Add Deck</button>
-    </div>
+            <button data-add-deck-to-game data-deck-crtl="DeckList" data-player-crtl="PlayerList">Add Deck</button>
 
-    <div>
-        <h3>Chosen Decks</h3>
-        <ol>
-            <li data-ng-repeat="deck in inDecks">{{ deck }}</li>
-        </ol>
+            <div>
+                <h3>Chosen Decks and Players</h3>
+                <ol>
+                    <li data-ng-repeat="deck in inDecks">
+                        {{ getDescription(deck) }} <a data-ng-click="setWinner($index)" href="" data-ng-show="deck.winner == false">winner</a> <!-- replace this with a directive -->
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <div>
+            <h3>Game Status</h3>
+            Choose Game Type:
+            <select data-ng-model="gameType">
+                <option>1v1</option>
+                <option>2hg</option>
+                <option>Multi</option>
+            </select><br />
+
+            Choose Win Type:
+            <select data-ng-model="winType">
+                <option>Concession</option>
+                <option>Mill</option>
+                <option>DD</option>
+                <option>Combat</option>
+            </select><br /><br />
+
+            <button data-add-game>Add Game</button><br />
+            {{ OutGame }}
+        </div>
     </div>
 </div>
