@@ -6,7 +6,7 @@ var gameControllers = angular.module('gameControllers', []);
 gameControllers.controller("GameController", ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http)
 {
     $scope.Decks = null; //[{name: "Patrick", value: "p"}, {name: "John", value: "j"}, {name: "Chris", value: "c"}];
-    $scope.Players = [4, 5, 6, 7];
+    $scope.Players = null;
     $scope.newGame = true;
     $scope.selDeck = null;
     $scope.inDecks = [];
@@ -14,6 +14,11 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
     $http.get(CONFIG.server + ":" + CONFIG.port + '/query?coll=deck').success(function (data) // Need to get this to work parameterized
     {
         $scope.Decks = data;
+    });
+
+    $http.get(CONFIG.server + ":" + CONFIG.port + '/query?coll=player').success(function (data) // Need to get this to work parameterized
+    {
+        $scope.Players = data;
     });
 
     $scope.fixName = function (inName)

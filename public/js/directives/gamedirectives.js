@@ -10,10 +10,18 @@ angular.module('GameDirectives', [])
             {
                 $element.click(function(evt)
                 {
+                    var deckCrtl = $("#" + $attrs.deckCrtl);
+                    var playerCrtl = $("#" + $attrs.playerCrtl);
+
+                    if ($scope.selDeck == null || playerCrtl.val() == "")
+                        return;
+
                     $scope.$apply(function ()
                     {
                         $scope.inDecks.push($scope.selDeck);
-                        $("#" + $attrs.deckCrtl).children('option:selected').remove();
+                        deckCrtl.children('option:selected').remove();
+                        playerCrtl.children('option:selected').remove();
+                        $scope.selDeck = null;
                     });
                 });
             }]

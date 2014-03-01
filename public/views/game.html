@@ -1,10 +1,17 @@
 <div>
     <div data-ng-show="newGame">
         <h2>Add New Game</h2>
-        Add Deck: <select id="DeckList" data-ng-model="selDeck">
-            <option data-ng-repeat="deck in Decks" value="{{ deck._id }}">{{ getDeckName(deck) }}</option>
+        Add Deck:
+        <select id="DeckList" data-ng-model="selDeck">
+            <option value=""></option>
+            <option data-ng-repeat="deck in Decks">{{ getDeckName(deck) }}</option>
+        </select><br />
+        Add Player:
+        <select id="PlayerList" data-ng-model="selPlayer">
+            <option data-ng-repeat="player in Players">{{ fixName(player.name) }}</option>
         </select>
-        <button data-add-deck-to-game data-deck-crtl="DeckList">Add Deck</button>
+
+        <button data-add-deck-to-game data-deck-crtl="DeckList" data-player-crtl="PlayerList">Add Deck</button>
     </div>
 
     <div>

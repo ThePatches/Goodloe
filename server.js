@@ -24,7 +24,7 @@ app.configure(function (){
 
 //var connection = mongoose.createConnection(CONFIG.connString);
 var connection = mongoose.createConnection("mongodb://" + CONFIG.user + ":" + CONFIG.password + "@" + CONFIG.server + "/" + CONFIG.db);
-console.log("mongodb://" + CONFIG.user + ":" + CONFIG.password + "@" + CONFIG.server + "/" + CONFIG.db);
+//console.log("mongodb://" + CONFIG.user + ":" + CONFIG.password + "@" + CONFIG.server + "/" + CONFIG.db);
 connection.once('open', function ()
 {
 	console.log('opened database');
@@ -34,7 +34,7 @@ connection.once('open', function ()
 var PlayerSchema = new Schema({
 		name: String,
 		games: Number,
-		active: Boolean
+		active: Boolean,
 	});
 
 var DeckSchema = new Schema({
@@ -46,7 +46,8 @@ var DeckSchema = new Schema({
 var UserSchema = new Schema({
    username: String,
    hash: String,
-   active: Boolean
+   active: Boolean,
+   isAdmin: Boolean
 });
 
 var Users = connection.model("Users", UserSchema, "GoodUsers");
@@ -56,13 +57,13 @@ passport.use(new LocalStrategy(function(username, password, done)
     Users.findOne({username: username}, function(err, user)
     {
         if (err) {return done(err);}
-        if (!user){
+        if (!user || user.active == false){
             return done(null, false, {message: "Incorrect user name"});
         }
 
-        //var hash = bcrypt.hashSync(password);
         var isTrue = bcrypt.compareSync(password, user.hash);
-        console.log(isTrue);
+        //var isTrue = (password == user.hash);
+
         if (isTrue) // maybe needs to be more involved (convert the password into the challenge
         {
             return done(null, user);
