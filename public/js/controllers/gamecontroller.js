@@ -5,7 +5,7 @@ var gameControllers = angular.module('gameControllers', []);
 
 gameControllers.controller("GameController", ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http)
 {
-    $scope.Decks = null; //[{name: "Patrick", value: "p"}, {name: "John", value: "j"}, {name: "Chris", value: "c"}];
+    $scope.Decks = null;
     $scope.Players = null;
     $scope.newGame = true;
     $scope.selDeck = null;
@@ -21,6 +21,8 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
     {
         $scope.Players = data;
     });
+
+    $scope.newGame = $routeParams.gameId == "new";
 
     $scope.fixName = function (inName)
     {
@@ -39,7 +41,6 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
     {
         // We can do this better if we're better with our objects...
 
-        //return inObject.player + " playing" + inObject.deck
         var theDeck = null, thePlayer = null, i = 0;
 
         if (inObject.player != "none")
@@ -69,4 +70,21 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
         }
     };
 
+}]);
+
+gameControllers.controller("GameListController", ['$scope', '$http', '$location', function($scope, $http, $location){
+    $http.get(CONFIG.server + ":" + CONFIG.port + '/query?coll=game').success(function (data) // Need to get this to work parameterized
+    {
+        $scope.Games = data;
+    });
+
+    $scope.fixName = function (inName)
+    {
+        return inName.replace(/\+/g, " ");
+    };
+
+    $scope.loadGame = function(inID)
+    {
+        $location.path("/game/" + inID);
+    };
 }]);

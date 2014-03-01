@@ -20,7 +20,7 @@ goodloeApp.config(['$routeProvider',
                 templateUrl: "views/login.html",
                 controller: "LoginController"
             })
-            .when('/game',
+            .when('/game/:gameId',
             {
                 templateUrl: "views/game.html",
                 controller: "GameController"

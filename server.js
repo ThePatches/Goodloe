@@ -1,18 +1,25 @@
 var http = require('http');
+//var https = require('https');
 var express = require('express');
 var url = require('url');
 var CONFIG = require('./config/development.json'); // You must change this to match the actual name of your configuration file.
 var SCHEMAS = require('./myNodePackages/schemas.js');
 var bcrypt = require('bcrypt-nodejs');
+var fs = require('fs');
 passport = require("passport");
 LocalStrategy = require('passport-local').Strategy;
-
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
 
 var app = express();
 
-console.log(process.env.PORT);
+/*var privateKey  = fs.readFileSync('sslcert/server.key', 'utf8');
+var certificate = fs.readFileSync('sslcert/server.crt', 'utf8');
+
+var credentials = {key: privateKey, cert: certificate};*/
+var httpServer = http.createServer(app);
+//var httpsServer = https.createServer(credentials, app);
+
+//console.log(process.env.PORT);
 app.configure(function (){
     app.use(express.static(__dirname + '/public'));
     app.use(express.bodyParser());
@@ -80,8 +87,9 @@ app.get('/query', function(req, res)
 {
     var spaceUrl = req.url.replace(/\s/g,"%2B");
     var queryData = url.parse(spaceUrl, true).query;
+    var findObject = {};
 
-    if (queryData["coll"] == "player")
+    /*if (queryData["coll"] == "player")
     {
 
         var PlayerModel = connection.model('PlayerModel', SCHEMAS.PlayerSchema, 'Players');
@@ -116,6 +124,63 @@ app.get('/query', function(req, res)
     else
     {
         res.send("Invalid query type!");
+    }*/
+
+    switch (queryData["coll"])
+    {
+        case "player":
+            var PlayerModel = connection.model('PlayerModel', SCHEMAS.PlayerSchema, 'Players');
+
+            if (queryData["id"])
+            {
+                findObject._id = queryData["id"];
+            }
+            PlayerModel.find(findObject, function(err, player)
+            {
+                if (err)
+                {
+                    console.log("Error " + err);
+                }
+                res.send(player);
+            });
+            break;
+
+        case "deck":
+            var DeckModel = connection.model("DeckModel", SCHEMAS.DeckSchema, "Deck");
+
+            if (queryData["id"])
+            {
+                findObject._id = queryData["id"];
+            }
+
+            DeckModel.find(findObject, function(err, deck){
+                if (err)
+                {
+                    console.log("Error" + err);
+                }
+                res.send(deck);
+            });
+            break;
+
+        case "game":
+            var GameModel = connection.model('GameModel', SCHEMAS.GameSchema, 'Games');
+
+            if (queryData["id"])
+            {
+                findObject._id = queryData["id"];
+            }
+            GameModel.find(findObject, function(err, game)
+            {
+                if (err)
+                {
+                    console.log("Error " + err);
+                }
+                res.send(game);
+            });
+            break;
+
+        default:
+            res.send("Invalid query type!");
     }
 });
 
@@ -204,5 +269,6 @@ app.get('*', function(req, res)
     res.sendfile('./public/index.html');
 });
 
-app.listen(app.get('port'));
+httpServer.listen(app.get('port'));
+//httpsServer.listen(app.get('port'));
 console.log("Listening on port: " + app.get('port'));
