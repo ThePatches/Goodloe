@@ -1,0 +1,26 @@
+/* Written By Patrick Taylor 3/1/2014 */
+
+.Player dl.TableStyle
+{
+    margin:0;
+    padding:0;
+    clear:both;
+    overflow:hidden;
+    width: 25%
+}
+
+.TableStyle dt
+{
+    margin:0;
+    padding:0;
+    float:left;
+    width:28%;
+}
+
+.TableStyle dd
+{
+    margin:0;
+    padding:0;
+    float:right;
+    width:72%;
+}

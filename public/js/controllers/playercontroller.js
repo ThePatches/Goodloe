@@ -4,9 +4,24 @@
 
 var playerControllers = angular.module('playerControllers', []);
 
-playerControllers.controller('PlayerListController', ['$scope', '$http', '$location',
-    function($scope, $http, $location){
-        $http.get(CONFIG.server + ":" + CONFIG.port + '/query?coll=player').success(function (data) // Need to get this to work parameterized
+playerControllers.controller('PlayerListController', ['$scope', '$http', '$location', '$cookies',
+    function($scope, $http, $location, $cookies) {
+
+        $scope.canEdit = false;
+        $scope.doEdit = false;
+        $scope.newPlayer = null;
+
+        $scope.CheckCookie = function()
+        {
+            var theCookie = $cookies.gookie ? JSON.parse($cookies.gookie) : "None";
+
+            if (theCookie == "None")
+                return false;
+
+            return (theCookie.username && theCookie.username != "");
+        };
+
+        $http.get(CONFIG.server + 'query?coll=player').success(function (data) // Need to get this to work parameterized
         {
             $scope.Players = data;
         });
@@ -20,12 +35,28 @@ playerControllers.controller('PlayerListController', ['$scope', '$http', '$locat
         {
             $location.path("/player/" + inID);
         };
+
+        $scope.addPlayer = function ()
+        {
+            var nName = $scope.newPlayer.replace(/\s/g, "+");
+            $http({
+                url: CONFIG.server + "add?coll=player",
+                method: "POST",
+                data: {name: nName, games: 0, wins: 0, active: true},
+                headers: {'Content-type': 'application/json; charset=utf-8'}
+            }).success(function (data)
+                {
+                    $scope.Return = data;
+                });
+        }
     }]);
 
 playerControllers.controller('PlayerController', ['$scope', '$routeParams','$http', '$cookies', function ($scope, $routeParams, $http, $cookies)
 {
     $scope.playerId = $routeParams.playerId;
-    $scope.doEdit = false;
+    //$scope.doEdit = false;
+    //$scope.newPlayer = $scope.playerId == "new";
+
 
     $scope.fixName = function (inName)
     {

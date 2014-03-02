@@ -40,8 +40,8 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
 
     $scope.addDeck = function()
     {
-        var tUrl = CONFIG.server + ":" + CONFIG.port;
-        tUrl += $scope.deckId != 'new' ? "/update" : "/add";
+        var tUrl = CONFIG.server;
+        tUrl += $scope.deckId != 'new' ? "update" : "add";
 
         tUrl += $scope.buildParams();
 
@@ -67,7 +67,7 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
 
     if ($scope.deckId != 'new')
     {
-        $http.get(CONFIG.server + ":" + CONFIG.port + '/query?coll=deck&id=' + $scope.deckId).success(function (data) {
+        $http.get(CONFIG.server + ":" + CONFIG.port + 'query?coll=deck&id=' + $scope.deckId).success(function (data) {
             if (data != "no deck returned")
             {
                 $scope.Deck = data[0];
@@ -84,7 +84,7 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
 deckControllers.controller('DeckListController', ['$scope', '$http', '$location',
     function($scope, $http, $location) {
 
-        $http.get(CONFIG.server + ":" + CONFIG.port + '/query?coll=deck').success(function (data) // Need to get this to work parameterized
+        $http.get(CONFIG.server + 'query?coll=deck').success(function (data) // Need to get this to work parameterized
         {
             $scope.Decks = data;
         });

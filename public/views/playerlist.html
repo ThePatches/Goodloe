@@ -7,6 +7,10 @@
         </li>
     </ul>
 
-    <a href="#/player/new">Add a player to the meta</a><br />
+    <div data-ng-show="doEdit">
+        New Name: <input type="text" data-ng-model="newPlayer" />&nbsp;<button data-ng-click="addPlayer()">Add</button>
+    </div>
+
+    <a href="" data-ng-click="doEdit = true" data-ng-show="CheckCookie()">Add a player to the meta</a><br />
     <a href="/">Return to the Main Page</a>
 </div>

@@ -3,8 +3,8 @@
  */
 var CONFIG =
 {
-    port: '1337',
-    server: 'http://localhost',
+    server: 'http://localhost:1337/',
     queryString: 'query',
-    addString: 'add'
+    addString: 'add',
+    updateString: 'update'
 };

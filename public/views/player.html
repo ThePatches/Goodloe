@@ -1,5 +1,21 @@
-<div>
-    <h2>Viewing a Player's Record</h2>
+<div class="Player">
+    <div data-ng-show="!newPlayer">
+        <h2>Viewing a Player's Record</h2>
 
-    <span>Player Name: {{ Player.name }}</span>
+        <dl class="TableStyle">
+            <dt>Player Name:</dt>
+            <dd>{{ Player.name }}</dd>
+
+            <dt>Wins:</dt>
+            <dd>{{ Player.wins }}</dd>
+
+            <dt>Games Played:</dt>
+            <dd>{{ Player.games }}</dd>
+        </dl>
+    </div>
+
+    <div>
+        <a href="#/players">Return to Player List</a>
+        <a href="/">Return to the Main Page</a>
+    </div>
 </div>

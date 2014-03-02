@@ -99,6 +99,8 @@ app.get('/query', function(req, res)
             {
                 findObject._id = queryData["id"];
             }
+
+            findObject.active = true;
             PlayerModel.find(findObject, function(err, player)
             {
                 if (err)
@@ -122,6 +124,7 @@ app.get('/query', function(req, res)
                 {
                     console.log("Error" + err);
                 }
+                console.log("decks");
                 res.send(deck);
             });
             break;
@@ -148,15 +151,18 @@ app.get('/query', function(req, res)
     }
 });
 
-app.get('/add', auth, function(req, res)
+app.all('/add', auth, function(req, res) // Need to convert these all to post requests
 {
     var spaceUrl = req.url.replace(/\s/g,"%2B");
     var queryData = url.parse(spaceUrl, true).query;
+    var theItem = null;
+
+    console.log(req.body);
 
     if (queryData["coll"] == "Deck")
     {
         var Deck = connection.model('DeckModel', SCHEMAS.DeckSchema, 'Deck');
-        var theItem = JSON.parse(queryData["item"]);
+        theItem = JSON.parse(queryData["item"]);
         var ndeck = new Deck(theItem);
 
         ndeck.save(function (err, product, numberAffected)
@@ -164,6 +170,32 @@ app.get('/add', auth, function(req, res)
            if (err) console.log("Error!");
            else if (numberAffected > 0)
                 res.send(product);
+            else {
+              console.log("Something went wrong!");
+              res.send("Failure!");
+           }
+        });
+    }
+    else if (queryData["coll"] == "player")
+    {
+        var Player = connection.model('PlayerModel', SCHEMAS.PlayerSchema, 'Players');
+        var aName = req.body.name.replace(/\s/g, "%20");
+        console.log(aName);
+        theItem = {name: aName, games: 0, active: true, wins: 0};
+        var nPlayer = new Player(theItem);
+
+        nPlayer.save(function (err, product, numberAffected)
+        {
+            if (err) console.log("Error!");
+            else if (numberAffected > 0)
+            {
+                console.log(product);
+                res.send(product);
+            }
+            else {
+                console.log("Something went wrong!");
+                res.send("Failure!");
+            }
         });
     }
     else {
