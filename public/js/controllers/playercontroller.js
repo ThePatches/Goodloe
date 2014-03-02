@@ -46,7 +46,10 @@ playerControllers.controller('PlayerListController', ['$scope', '$http', '$locat
                 headers: {'Content-type': 'application/json; charset=utf-8'}
             }).success(function (data)
                 {
-                    $scope.Return = data;
+                    $scope.Players.push(data);
+                    $scope.doEdit = false;
+
+
                 });
         }
     }]);
@@ -68,7 +71,7 @@ playerControllers.controller('PlayerController', ['$scope', '$routeParams','$htt
 
     if ($scope.playerId != 'new')
     {
-        $http.get(CONFIG.server + ":" + CONFIG.port + '/query?coll=player&id=' + $scope.playerId).success(function (data)
+        $http.get(CONFIG.server + 'query?coll=player&id=' + $scope.playerId).success(function (data)
         {
             $scope.Player = data[0];
         });
