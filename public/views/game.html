@@ -1,3 +1,22 @@
+<style>
+    #messages
+    {
+        font-family: arial;
+        margin-left: 5px;
+        font-size: 0.9em;
+    }
+
+    #messages.error
+    {
+        color: red;
+    }
+
+    #messages.normal
+    {
+        color: black;
+    }
+</style>
+
 <div>
     <div data-ng-show="newGame">
         <h2>Add New Game</h2>
@@ -26,23 +45,33 @@
         <div>
             <h3>Game Status</h3>
             Choose Game Type:
-            <select data-ng-model="gameType">
+              <select data-ng-model="gameType">
                 <option>1v1</option>
                 <option>2hg</option>
                 <option>Multi</option>
-            </select><br />
+              </select><br />
 
-            Choose Win Type:
-            <select data-ng-model="winType">
+              Choose Win Type:
+              <select data-ng-model="winType">
                 <option>Concession</option>
                 <option>Mill</option>
                 <option>DD</option>
                 <option>Combat</option>
                 <option>Alternate / Combo</option>
-            </select><br /><br />
-
-            <button data-add-game>Add Game</button><br />
+              </select>
+            </div>
+            <br /><br />
+            <div>
+                Description (Keep it under 100 characters): <input type="text" data-ng-model="Description" maxlength="100" style="width: 200px;" /><br />
+                Story:<br />
+                <textarea data-ng-model="Story" cols="40" rows="10"></textarea>
+            </div>
+            <div>
+                <button data-add-game>Add Game</button><br />
+            </div>
+        <div id="messages">
             {{ OutGame }}
+        </div>
         </div>
     </div>
 </div>

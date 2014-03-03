@@ -35,17 +35,49 @@ angular.module('GameDirectives', [])
     .directive('addGame', function () {
         return {
             restrict: 'A',
-            controller: ['$scope', '$element', function($scope, $element)
+            controller: ['$scope', '$element', '$http', function($scope, $element, $http)
             {
                 $element.click(function (){
                     var addedGame = {};
+                    var isWinner = false;
 
-                    addedGame.winType = $scope.winType;
-                    addedGame.gameType = $scope.gameType;
-                    addedGame.playedOn = Date.now();
-                    addedGame.players = $scope.inDecks;
+                    for (var i = 0; i < $scope.inDecks.length; i++)
+                    {
+                        if ($scope.inDecks[i].winner)
+                            isWinner = true;
+                    }
 
-                    $scope.OutGame = addedGame;
+                    if (!isWinner)
+                    {
+                        $("#messages").addClass("error");
+                        $scope.OutGame = "You must pick a winner";
+                    }
+                    else
+                    {
+                        addedGame.winType = $scope.winType;
+                        addedGame.gameType = $scope.gameType;
+                        addedGame.playedOn = Date.now();
+                        addedGame.players = $scope.inDecks;
+                        addedGame.description = $scope.Description;
+                        addedGame.story = $scope.Story;
+
+                        $("#messages").removeClass("error");
+                        $scope.OutGame = addedGame;
+
+                        $http({
+                            url: CONFIG.server + "add?coll=game",
+                            method: "POST",
+                            data: {addedGame: addedGame},
+                            headers: {'Content-type': 'application/json; charset=utf-8'}
+                        }).success(function (data)
+                            {
+                                $scope.OutGame = data;
+                            }).error(function (err)
+                            {
+                                $scope.OutGame = "Something went wrong!";
+                            });
+                    }
+
                     $scope.$apply();
                 });
 

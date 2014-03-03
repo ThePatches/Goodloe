@@ -4,7 +4,7 @@
 
 var deckControllers = angular.module('deckControllers', []);
 
-deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', '$cookies', function ($scope, $routeParams, $http, $cookies)
+deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', '$cookies', '$location', function ($scope, $routeParams, $http, $cookies, $location)
 {
     $scope.deckId = $routeParams.deckId;
     $scope.doEdit = false;
@@ -48,6 +48,10 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
         $http.get(tUrl).success(function (data)
         {
             $scope.Deck = data;
+            if ($scope.deckId == "new")
+            {
+                $location.path("/decks");
+            }
         });
     };
 
@@ -67,7 +71,7 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
 
     if ($scope.deckId != 'new')
     {
-        $http.get(CONFIG.server + ":" + CONFIG.port + 'query?coll=deck&id=' + $scope.deckId).success(function (data) {
+        $http.get(CONFIG.server + 'query?coll=deck&id=' + $scope.deckId).success(function (data) {
             if (data != "no deck returned")
             {
                 $scope.Deck = data[0];

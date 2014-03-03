@@ -1,11 +1,11 @@
 <h2>Game of the Goodloe Meta</h2>
 
 <div data-ng-model="Games">
-    <ul>
+    <ol>
         <li data-ng-repeat="game in Games">
-            <a href data-ng-click="loadGame(game._id)">Played On: {{ convDate(game.playedOn }}</a>
+            <a href data-ng-click="loadGame(game._id)">Played On: {{ convDate(game.playedOn }} - Type: {{ game.gameType }}</a>
         </li>
-    </ul>
+    </ol>
 
     <a href="#/game/new">Enter a new game</a>&nbsp;<a href="/">Return to the Main Page</a>
 </div>

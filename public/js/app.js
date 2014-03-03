@@ -44,11 +44,11 @@ goodloeApp.config(['$routeProvider',
 
 var defaultController = angular.module('defaultController', []);
 
-defaultController.controller('DefaultController', function($scope)
+defaultController.controller('DefaultController', ['$scope', '$http', function($scope, $http)
 {
     var aDate = new Date(jQuery.now());
     $scope.Date =  aDate.toUTCString();
-});
+}]);
 
 defaultController.controller("LoginController", ['$scope', '$http', '$cookies', '$location', function($scope, $http, $cookies, $location)
 {

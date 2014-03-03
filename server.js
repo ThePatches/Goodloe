@@ -77,7 +77,10 @@ passport.deserializeUser(function(id, done)
 var auth = function(req, res, next)
 {
     if (!req.isAuthenticated())
+    {
+        res.clearCookie(CONFIG.cookieName);
         res.send(401);
+    }
     else
         next();
 
@@ -124,7 +127,7 @@ app.get('/query', function(req, res)
                 {
                     console.log("Error" + err);
                 }
-                console.log("decks");
+                //console.log("decks");
                 res.send(deck);
             });
             break;
@@ -198,7 +201,29 @@ app.all('/add', auth, function(req, res) // Need to convert these all to post re
             }
         });
     }
-    else {
+    else if (queryData["coll"] == "game")
+    {
+        var Game = connection.model('GameModel', SCHEMAS.GameSchema, 'Games');
+        theItem = req.body.addedGame;
+        var nGame = new Game(theItem);
+
+        nGame.save(function (err, product, numberAffected)
+        {
+           if (err) console.log("Error!");
+            else if (numberAffected > 0)
+           {
+               console.log(product);
+               res.send(product);
+           }
+           else
+           {
+               console.log("Something went wrong!");
+               res.send("Faulure!");
+           }
+        });
+    }
+    else
+        {
         res.send(queryData);
     }
 });
@@ -230,6 +255,15 @@ app.get('/update', auth, function(req, res)
     else {
         res.send(queryData);
     }
+});
+
+app.post('/posttest', function(req, res)
+{
+    console.log(req.body);
+    var anItem = req.body.someItem;
+
+    console.log(anItem);
+    res.send("Everything went right.")
 });
 
 app.get('/encrypt', auth, function(req, res)

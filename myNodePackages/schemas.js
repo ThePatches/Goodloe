@@ -23,7 +23,9 @@ var GameSchema = new Schema({
     players: [{player: String, deckName: String, winner: Boolean}], // Working on the new stuff
     playedOn: Date,
     winType: String,
-    gameType: String
+    gameType: String,
+    description: String,
+    story: String
 });
 
 var UserSchema = new Schema({

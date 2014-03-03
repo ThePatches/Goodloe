@@ -10,14 +10,16 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
     $scope.newGame = true;
     $scope.selDeck = null;
     $scope.inDecks = [{player: "none", deck: "none", winner: false}];
+    $scope.Description = null;
+    $scope.Story = null;
     $scope.OutGame = null;
 
-    $http.get(CONFIG.server + ":" + CONFIG.port + '/query?coll=deck').success(function (data) // Need to get this to work parameterized
+    $http.get(CONFIG.server + 'query?coll=deck').success(function (data) // Need to get this to work parameterized
     {
         $scope.Decks = data;
     });
 
-    $http.get(CONFIG.server + ":" + CONFIG.port + '/query?coll=player').success(function (data) // Need to get this to work parameterized
+    $http.get(CONFIG.server + 'query?coll=player').success(function (data) // Need to get this to work parameterized
     {
         $scope.Players = data;
     });
