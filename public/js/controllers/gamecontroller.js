@@ -75,7 +75,7 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
 }]);
 
 gameControllers.controller("GameListController", ['$scope', '$http', '$location', function($scope, $http, $location){
-    $http.get(CONFIG.server + ":" + CONFIG.port + '/query?coll=game').success(function (data) // Need to get this to work parameterized
+    $http.get(CONFIG.server + 'query?coll=game').success(function (data)
     {
         $scope.Games = data;
     });
@@ -88,5 +88,12 @@ gameControllers.controller("GameListController", ['$scope', '$http', '$location'
     $scope.loadGame = function(inID)
     {
         $location.path("/game/" + inID);
+    };
+
+    $scope.convDate = function (inDate)
+    {
+        var oDate = Date.parse(inDate);
+        var aDate = new Date(oDate);
+        return aDate.toDateString();
     };
 }]);

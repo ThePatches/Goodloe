@@ -92,6 +92,8 @@ app.get('/query', function(req, res)
     var queryData = url.parse(spaceUrl, true).query;
     var findObject = {};
 
+    console.log(queryData["coll"]);
+
 
     switch (queryData["coll"])
     {
@@ -135,6 +137,8 @@ app.get('/query', function(req, res)
         case "game":
             var GameModel = connection.model('GameModel', SCHEMAS.GameSchema, 'Games');
 
+            console.log("In game portion");
+
             if (queryData["id"])
             {
                 findObject._id = queryData["id"];
@@ -145,6 +149,7 @@ app.get('/query', function(req, res)
                 {
                     console.log("Error " + err);
                 }
+                console.log(game);
                 res.send(game);
             });
             break;
