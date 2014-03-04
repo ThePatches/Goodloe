@@ -21,9 +21,9 @@ var httpServer = http.createServer(app);
 
 //console.log(process.env.PORT);
 app.configure(function (){
+    app.use(express.cookieParser());
     app.use(express.static(__dirname + '/public'));
     app.use(express.bodyParser());
-    app.use(express.cookieParser());
     app.use(express.session({ secret: 'SECRET' }));
     app.use(passport.initialize());
     app.use(passport.session());
@@ -287,7 +287,7 @@ app.get('/encrypt', auth, function(req, res)
 app.post('/login', passport.authenticate('local'), function(req, res)
 {
     var retUser = req.user;
-    res.cookie(CONFIG.cookieName, JSON.stringify({id: retUser._id, username: retUser.username }));
+    res.cookie(CONFIG.cookieName, JSON.stringify({id: retUser._id, username: retUser.username, adminRights: retUser.adminRights }));
     res.send(retUser);
 });
 
@@ -298,6 +298,41 @@ app.post('/logout', function(req, res)
     res.send(200);
 });
 
+app.post('/adduser', auth, function(req, res)
+{
+    var uCookie = JSON.parse(req.cookies[CONFIG.cookieName]);
+    var addUser = req.body.addUser;
+
+    console.log(addUser);
+
+    if (uCookie.adminRights != 3)
+    {
+        console.log("admin rights failed");
+        res.send(401);
+    }
+    else
+    {
+        var nHash = bcrypt.hashSync(addUser.pass);
+        var nUser = new Users({username: addUser.username, hash: nHash, active: true, adminRights: addUser.adminRights});
+
+        nUser.save(function (err, product, numberAffected)
+        {
+            {
+                if (err)
+                {
+                    console.log("Something doesn't work!");
+                    res.send(500);
+                }
+
+                if (numberAffected > 0)
+                {
+                    res.send("User Created");
+                }
+            }
+        });
+    }
+});
+
 
 app.get('*', function(req, res)
 {
@@ -305,5 +340,4 @@ app.get('*', function(req, res)
 });
 
 httpServer.listen(app.get('port'));
-//httpsServer.listen('1337');
 console.log("Listening on port: " + app.get('port'));

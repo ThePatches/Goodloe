@@ -40,6 +40,11 @@ goodloeApp.config(['$routeProvider',
                     templateUrl: "views/player.html",
                     controller: "PlayerController"
                 })
+            .when('/adduser',
+            {
+                templateUrl: "views/adduser.html",
+                controller: "AddUserController"
+            })
         .otherwise({
                 templateUrl: "views/404View.html",
                 controller: defaultController
@@ -90,4 +95,26 @@ defaultController.controller("LoginController", ['$scope', '$http', '$cookies', 
         $http.post("/logout");
         $scope.SomeStuff = "None";
     };
+}]);
+
+defaultController.controller("AddUserController", ['$scope', '$http', '$cookies', '$location', function($scope, $http, $cookies, $location) {
+    $scope.username = null;
+    $scope.password = null;
+    $scope.adminRights = 1;
+
+    $scope.addUser = function()
+    {
+        var addUser = {username: $scope.username, pass: $scope.password, adminRights: $scope.adminRights};
+
+        $http.post(CONFIG.server + "adduser", {addUser: addUser})
+            .success(function (response)
+            {
+                $scope.OutMessage = response;
+            })
+            .error(function(response)
+            {
+                $scope.OutMessage = response;
+            });
+    };
+
 }]);

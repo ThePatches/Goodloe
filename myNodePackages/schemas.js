@@ -32,7 +32,7 @@ var UserSchema = new Schema({
     username: String,
     hash: String,
     active: Boolean,
-    isAdmin: Boolean
+    adminRights: Number
 });
 
 module.exports = {
