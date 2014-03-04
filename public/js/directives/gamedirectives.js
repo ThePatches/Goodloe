@@ -21,7 +21,7 @@ angular.module('GameDirectives', [])
                         if ($scope.inDecks[0].player == "none")
                             $scope.inDecks = [];
 
-                        $scope.inDecks.push({deck: $scope.selDeck, player: $scope.selPlayer, winner: false});
+                        $scope.inDecks.push({deckName: $scope.selDeck, player: $scope.selPlayer, winner: false});
                         deckCrtl.children('option:selected').remove();
                         playerCrtl.children('option:selected').remove();
                         $scope.selDeck = null;
@@ -48,7 +48,7 @@ angular.module('GameDirectives', [])
                     }
 
                     if (!isWinner)
-                    {
+                    {db
                         $("#messages").addClass("error");
                         $scope.OutGame = "You must pick a winner";
                     }

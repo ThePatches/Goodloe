@@ -26,6 +26,14 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
 
     $scope.newGame = $routeParams.gameId == "new";
 
+    if (!$scope.newGame)
+    {
+        $http.get(CONFIG.server + "query?coll=game&id=" + $routeParams.gameId)
+            .success(function (data) {
+                $scope.inGame = data[0];
+            });
+    }
+
     $scope.fixName = function (inName)
     {
         if (inName)
@@ -52,7 +60,7 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
                     thePlayer = $scope.Players[i].name;
 
             for (i = 0; i < $scope.Decks.length; i++)
-                if (inObject.deck == $scope.Decks[i]._id)
+                if (inObject.deckName == $scope.Decks[i]._id)
                     theDeck = $scope.fixName($scope.Decks[i].name);
 
             return thePlayer + " playing " + theDeck;

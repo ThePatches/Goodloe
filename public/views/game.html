@@ -17,7 +17,18 @@
     }
 </style>
 
-<div>
+<div class="Game">
+    <div data-ng-show="!newGame">
+        <b>Description:</b> <span class="description">{{ inGame.description }} </span>
+        <p class="story">Story: <br />{{ inGame.story }}</p>
+
+        <h3>Players and Decks:</h3>
+        <ul>
+            <li data-ng-repeat="aPlayer in inGame.players">Player: {{ aPlayer.player }} driving {{ aPlayer.deckName }} <span data-ng-show="aPlayer.winner">Winner!</span></li>
+        </ul>
+
+    </div>
+
     <div data-ng-show="newGame">
         <h2>Add New Game</h2>
         <div>

@@ -210,6 +210,7 @@ app.all('/add', auth, function(req, res) // Need to convert these all to post re
     {
         var Game = connection.model('GameModel', SCHEMAS.GameSchema, 'Games');
         theItem = req.body.addedGame;
+        console.log("The Item: " + theItem);
         var nGame = new Game(theItem);
 
         nGame.save(function (err, product, numberAffected)
