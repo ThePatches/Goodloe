@@ -24,7 +24,7 @@
 
         <h3>Players and Decks:</h3>
         <ul>
-            <li data-ng-repeat="aPlayer in inGame.players">Player: {{ aPlayer.player }} driving {{ aPlayer.deckName }} <span data-ng-show="aPlayer.winner">Winner!</span></li>
+            <li data-ng-repeat="aPlayer in inGame.players">Player: {{ aPlayer.player.name }} driving {{ getDeckName(aPlayer.deckName) }} <span data-ng-show="aPlayer.winner">Winner!</span></li>
         </ul>
 
     </div>

@@ -48,7 +48,7 @@ angular.module('GameDirectives', [])
                     }
 
                     if (!isWinner)
-                    {db
+                    {
                         $("#messages").addClass("error");
                         $scope.OutGame = "You must pick a winner";
                     }
