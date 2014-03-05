@@ -45,6 +45,7 @@ Currently, there is no startup script for the Mongo database, so you will need t
 You can use this instead of step #2 above, but soon this process will go away once I come up with a better sign up interface. If you are running the app locally, you can skip the steps after 2, because you probably don't need hashing to run a version on your computer. If you plan to make a public-facing version, you will need to continue on to re-enable authentication. Also, you should consider enabling https, if you have a certificate.
 
 1. Comment find the lines below in the `server.js` file:
+        
         var isTrue = bcrypt.compareSync(password, user.hash);
         //var isTrue = (password == user.hash);
     Remove the comment from the second line and comment out the first. This disables  bcrypt hashing for any users you add.
@@ -52,9 +53,9 @@ You can use this instead of step #2 above, but soon this process will go away on
         db.GoodUsers.insert({username: <name>, hash: <plaintext password>, active: 0, isAdmin: true})
     If you intend to continue on to re-enable bcrypt hashing, you should either make this a dummy user or be willing to change the password hash after the next steps.
 3. Run the node app.
-4. Log in (this should be available from the initial page).
-5. Encrypt a new hash by going to `http://[server]/encrypt?pass=<password>`. The retuned value in your browser should be a bcrypted password hash that you can then insert as for a NEW GoodUser using the command above. OR use the mongodb update command to change the password of your existing user to the new hash value.
-6. Comment out `var isTrue = (password == user.hash);` and uncomment `var isTrue = bcrypt.compareSync(password, user.hash);` in the `server.js` file.
++ Log in (this should be available from the initial page).
++ Encrypt a new hash by going to `http://[server]/encrypt?pass=<password>`. The retuned value in your browser should be a bcrypted password hash that you can then insert as for a NEW GoodUser using the command above. OR use the mongodb update command to change the password of your existing user to the new hash value.
++ Comment out `var isTrue = (password == user.hash);` and uncomment `var isTrue = bcrypt.compareSync(password, user.hash);` in the `server.js` file.
 
 User authentication for the application should be enabled, allowing you to start adding players, decks, and games once logged in.
 
