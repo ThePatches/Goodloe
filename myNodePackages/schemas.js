@@ -20,7 +20,12 @@ var DeckSchema = new Schema({
 });
 
 var GameSchema = new Schema({
-    players: [{player: String, deckName: String, winner: Boolean}], // Working on the new stuff
+    //players: [{player: String, deckName: String, winner: Boolean}], // Working on the new stuff
+    players: [{
+        player: {type: ObjectId, ref: 'Players'},
+        deckName: {type: ObjectId, ref: 'Deck'},
+        winner: Boolean }
+    ],
     playedOn: Date,
     winType: String,
     gameType: String,

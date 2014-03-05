@@ -91,6 +91,8 @@ app.get('/query', function(req, res)
     var spaceUrl = req.url.replace(/\s/g,"%2B");
     var queryData = url.parse(spaceUrl, true).query;
     var findObject = {};
+    var DeckModel = null;
+    var PlayerModel = null;
 
     console.log(queryData["coll"]);
 
@@ -98,7 +100,7 @@ app.get('/query', function(req, res)
     switch (queryData["coll"])
     {
         case "player":
-            var PlayerModel = connection.model('PlayerModel', SCHEMAS.PlayerSchema, 'Players');
+            PlayerModel = connection.model('PlayerModel', SCHEMAS.PlayerSchema, 'Players');
 
             if (queryData["id"])
             {
@@ -117,7 +119,7 @@ app.get('/query', function(req, res)
             break;
 
         case "deck":
-            var DeckModel = connection.model("DeckModel", SCHEMAS.DeckSchema, "Deck");
+            DeckModel = connection.model("DeckModel", SCHEMAS.DeckSchema, "Deck");
 
             if (queryData["id"])
             {
@@ -129,13 +131,15 @@ app.get('/query', function(req, res)
                 {
                     console.log("Error" + err);
                 }
-                //console.log("decks");
+
                 res.send(deck);
             });
             break;
 
         case "game":
-            var GameModel = connection.model('GameModel', SCHEMAS.GameSchema, 'Games');
+            var GameModel = connection.model('Games', SCHEMAS.GameSchema, 'Games');
+            DeckModel = connection.model("Deck", SCHEMAS.DeckSchema, 'Deck');
+            PlayerModel = connection.model('Players', SCHEMAS.PlayerSchema, 'Players');
 
             console.log("In game portion");
 
@@ -143,20 +147,57 @@ app.get('/query', function(req, res)
             {
                 findObject._id = queryData["id"];
             }
-            GameModel.find(findObject, function(err, game)
+            /*GameModel.find(findObject, function(err, game)
             {
                 if (err)
                 {
                     console.log("Error " + err);
                 }
-                console.log(game);
+                //console.log(game);
+                var outGames = {};
+                var Playerz = {};
+                for (var i = 0; i < game.length; i++)
+                {
+                    Playerz = {};
+                    for (var j = 0; j < game[i].players.length; j++)
+                    {
+
+                    }
+                }
                 res.send(game);
-            });
+            });*/
+            GameModel.find(findObject).populate('Players', 'name')
+                .populate('players.player').populate('players.deckName')
+                .exec(function (err, games)
+                {
+                    if (err)
+                    {
+                        console.log("Error" + err);
+                    }
+                    res.send(games);
+                });
             break;
 
         default:
             res.send("Invalid query type!");
     }
+});
+
+app.get('/getGame', function(req, res)
+{
+    var GameModel = connection.model('Games', SCHEMAS.GameSchema, 'Games');
+    var DeckModel = connection.model('Deck', SCHEMAS.DeckSchema, 'Deck');
+    var PlayerModel = connection.model('Players', SCHEMAS.PlayerSchema, 'Players');
+
+    var spaceUrl = req.url.replace(/\s/g,"%2B");
+    var queryData = url.parse(spaceUrl, true).query;
+
+    GameModel.find({_id: queryData["id"]})
+        .populate('players.player').populate('players.deckName')
+        .exec(function (err, game)
+        {
+            res.send(game);
+        });
 });
 
 app.all('/add', auth, function(req, res) // Need to convert these all to post requests
@@ -169,7 +210,7 @@ app.all('/add', auth, function(req, res) // Need to convert these all to post re
 
     if (queryData["coll"] == "Deck")
     {
-        var Deck = connection.model('DeckModel', SCHEMAS.DeckSchema, 'Deck');
+        var Deck = connection.model('Deck', SCHEMAS.DeckSchema, 'Deck');
         theItem = JSON.parse(queryData["item"]);
         var ndeck = new Deck(theItem);
 
@@ -186,7 +227,7 @@ app.all('/add', auth, function(req, res) // Need to convert these all to post re
     }
     else if (queryData["coll"] == "player")
     {
-        var Player = connection.model('PlayerModel', SCHEMAS.PlayerSchema, 'Players');
+        var Player = connection.model('Players', SCHEMAS.PlayerSchema, 'Players');
         var aName = req.body.name.replace(/\s/g, "%20");
         console.log(aName);
         theItem = {name: aName, games: 0, active: true, wins: 0};
@@ -208,9 +249,9 @@ app.all('/add', auth, function(req, res) // Need to convert these all to post re
     }
     else if (queryData["coll"] == "game")
     {
-        var Game = connection.model('GameModel', SCHEMAS.GameSchema, 'Games');
+        var Game = connection.model('Games', SCHEMAS.GameSchema, 'Games');
         theItem = req.body.addedGame;
-        console.log("The Item: " + theItem);
+        //console.log("The Item: " + theItem);
         var nGame = new Game(theItem);
 
         nGame.save(function (err, product, numberAffected)
@@ -241,7 +282,7 @@ app.get('/update', auth, function(req, res)
 
     if (queryData["coll"] == "Deck")
     {
-        var Deck = connection.model('DeckModel', SCHEMAS.DeckSchema, 'Deck');
+        var Deck = connection.model('Deck', SCHEMAS.DeckSchema, 'Deck');
         var theItem = JSON.parse(queryData["item"]);
         console.log(theItem.name);
 
