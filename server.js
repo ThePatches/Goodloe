@@ -50,8 +50,8 @@ passport.use(new LocalStrategy(function(username, password, done)
             return done(null, false, {message: "Incorrect user name"});
         }
 
-        var isTrue = bcrypt.compareSync(password, user.hash);
-        //var isTrue = (password == user.hash);
+        //var isTrue = bcrypt.compareSync(password, user.hash);
+        var isTrue = (password == user.hash);
 
         if (isTrue) // maybe needs to be more involved (convert the password into the challenge
         {
@@ -94,7 +94,7 @@ app.get('/query', function(req, res)
     var DeckModel = null;
     var PlayerModel = null;
 
-    console.log(queryData["coll"]);
+    //console.log(queryData["coll"]);
 
 
     switch (queryData["coll"])
@@ -168,8 +168,6 @@ app.get('/query', function(req, res)
 app.get('/getGame', function(req, res)
 {
     var GameModel = connection.model('Games', SCHEMAS.GameSchema, 'Games');
-    var DeckModel = connection.model('Deck', SCHEMAS.DeckSchema, 'Deck');
-    var PlayerModel = connection.model('Players', SCHEMAS.PlayerSchema, 'Players');
 
     var spaceUrl = req.url.replace(/\s/g,"%2B");
     var queryData = url.parse(spaceUrl, true).query;
@@ -188,6 +186,7 @@ app.all('/add', auth, function(req, res) // Need to convert these all to post re
     var queryData = url.parse(spaceUrl, true).query;
     var theItem = null;
     var Player = connection.model('Players', SCHEMAS.PlayerSchema, 'Players');
+    var Deck = connection.model('Deck', SCHEMAS.DeckSchema, 'Deck');
     var Game = connection.model('Games', SCHEMAS.GameSchema, 'Games');
     var i = 0;
 
@@ -195,7 +194,7 @@ app.all('/add', auth, function(req, res) // Need to convert these all to post re
 
     if (queryData["coll"] == "Deck")
     {
-        var Deck = connection.model('Deck', SCHEMAS.DeckSchema, 'Deck');
+        //var Deck = connection.model('Deck', SCHEMAS.DeckSchema, 'Deck');
         theItem = JSON.parse(queryData["item"]);
         var ndeck = new Deck(theItem);
 
@@ -236,20 +235,36 @@ app.all('/add', auth, function(req, res) // Need to convert these all to post re
         var nGame = new Game(theItem)
         var playerList = [];
         var winner = null;
+        //console.log(theItem.players);
 
-        /*for (i = 0; i < theItem.players.length; i++)
+        for (i = 0; i < theItem.players.length; i++)
         {
-            playerList.push(theItem.players[i]._id);
-            if (theItem[i].winner)
-                winner = theItem[i]._id;
-        }*/
+            playerList.push(theItem.players[i].player);
+            if (theItem.players[i].winner)
+                winner = theItem.players[i].player;
+        }
+
+        //console.log("playerList: " + JSON.stringify(playerList));
 
         nGame.save(function (err, product, numberAffected)
         {
            if (err) console.log("Error!");
             else if (numberAffected > 0)
            {
-               res.send(product);
+               Player.update({_id: {$in: playerList}}, {$inc: {games: 1}}, {multi: true}, function(err, numberAffected, docs)
+               {
+                   console.log(docs);
+                   if (err) {
+                       console.log("Error! " + err);
+                       res.send(500);
+                   }
+                   else
+                   {
+                      Player.findOneAndUpdate(winner, {$inc: {wins: 1}})
+                       res.send(product);
+                   }
+               });
+
            }
            else
            {

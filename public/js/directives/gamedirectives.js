@@ -35,7 +35,7 @@ angular.module('GameDirectives', [])
     .directive('addGame', function () {
         return {
             restrict: 'A',
-            controller: ['$scope', '$element', '$http', function($scope, $element, $http)
+            controller: ['$scope', '$element', '$http', '$location', function($scope, $element, $http, $location)
             {
                 $element.click(function (){
                     var addedGame = {};
@@ -71,7 +71,8 @@ angular.module('GameDirectives', [])
                             headers: {'Content-type': 'application/json; charset=utf-8'}
                         }).success(function (data)
                             {
-                                $scope.OutGame = data;
+                                //$scope.OutGame = data;
+                                $location.path('/game/' + data._id);
                             }).error(function (err)
                             {
                                 $scope.OutGame = "Something went wrong!";
