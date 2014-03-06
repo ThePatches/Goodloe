@@ -141,31 +141,13 @@ app.get('/query', function(req, res)
             DeckModel = connection.model("Deck", SCHEMAS.DeckSchema, 'Deck');
             PlayerModel = connection.model('Players', SCHEMAS.PlayerSchema, 'Players');
 
-            console.log("In game portion");
+            //console.log("In game portion");
 
             if (queryData["id"])
             {
                 findObject._id = queryData["id"];
             }
-            /*GameModel.find(findObject, function(err, game)
-            {
-                if (err)
-                {
-                    console.log("Error " + err);
-                }
-                //console.log(game);
-                var outGames = {};
-                var Playerz = {};
-                for (var i = 0; i < game.length; i++)
-                {
-                    Playerz = {};
-                    for (var j = 0; j < game[i].players.length; j++)
-                    {
 
-                    }
-                }
-                res.send(game);
-            });*/
             GameModel.find(findObject).populate('Players', 'name')
                 .populate('players.player').populate('players.deckName')
                 .exec(function (err, games)
@@ -205,6 +187,9 @@ app.all('/add', auth, function(req, res) // Need to convert these all to post re
     var spaceUrl = req.url.replace(/\s/g,"%2B");
     var queryData = url.parse(spaceUrl, true).query;
     var theItem = null;
+    var Player = connection.model('Players', SCHEMAS.PlayerSchema, 'Players');
+    var Game = connection.model('Games', SCHEMAS.GameSchema, 'Games');
+    var i = 0;
 
     console.log(req.body);
 
@@ -227,9 +212,7 @@ app.all('/add', auth, function(req, res) // Need to convert these all to post re
     }
     else if (queryData["coll"] == "player")
     {
-        var Player = connection.model('Players', SCHEMAS.PlayerSchema, 'Players');
         var aName = req.body.name.replace(/\s/g, "%20");
-        console.log(aName);
         theItem = {name: aName, games: 0, active: true, wins: 0};
         var nPlayer = new Player(theItem);
 
@@ -249,17 +232,23 @@ app.all('/add', auth, function(req, res) // Need to convert these all to post re
     }
     else if (queryData["coll"] == "game")
     {
-        var Game = connection.model('Games', SCHEMAS.GameSchema, 'Games');
         theItem = req.body.addedGame;
-        //console.log("The Item: " + theItem);
-        var nGame = new Game(theItem);
+        var nGame = new Game(theItem)
+        var playerList = [];
+        var winner = null;
+
+        /*for (i = 0; i < theItem.players.length; i++)
+        {
+            playerList.push(theItem.players[i]._id);
+            if (theItem[i].winner)
+                winner = theItem[i]._id;
+        }*/
 
         nGame.save(function (err, product, numberAffected)
         {
            if (err) console.log("Error!");
             else if (numberAffected > 0)
            {
-               console.log(product);
                res.send(product);
            }
            else
@@ -304,14 +293,6 @@ app.get('/update', auth, function(req, res)
     }
 });
 
-app.post('/posttest', function(req, res)
-{
-    console.log(req.body);
-    var anItem = req.body.someItem;
-
-    console.log(anItem);
-    res.send("Everything went right.")
-});
 
 app.get('/encrypt', auth, function(req, res)
 {

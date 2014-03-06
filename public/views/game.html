@@ -15,6 +15,13 @@
     {
         color: black;
     }
+
+    li.winner
+    {
+        font-size: 1.1em;
+        color: forestgreen;
+        font-weight: bold;
+    }
 </style>
 
 <div class="Game">
@@ -24,7 +31,7 @@
 
         <h3>Players and Decks:</h3>
         <ul>
-            <li data-ng-repeat="aPlayer in inGame.players">Player: {{ aPlayer.player.name }} driving {{ getDeckName(aPlayer.deckName) }} <span data-ng-show="aPlayer.winner">Winner!</span></li>
+            <li data-ng-repeat="aPlayer in inGame.players" data-ng-class="{winner: aPlayer.winner}"> <span data-ng-show="aPlayer.winner">Winner!&nbsp;</span>{{ aPlayer.player.name }} driving {{ getDeckName(aPlayer.deckName) }}</li>
         </ul>
 
     </div>
