@@ -24,3 +24,16 @@ dl.TableStyle
     float:right;
     width:72%;
 }
+
+ul
+{
+    list-style-type: none;
+}
+
+a.ListItem
+{
+    font-family: Helvetica, sans-serif;
+    text-decoration: none;
+    font-weight: bold;
+    color: #3399FF;
+}

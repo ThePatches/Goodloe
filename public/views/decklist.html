@@ -3,7 +3,7 @@
 <div data-ng-model="Decks">
     <ul>
         <li data-ng-repeat="deck in Decks">
-            <a href data-ng-click="loadDeck(deck._id)">{{ fixName(deck.name)}} by {{ fixName(deck.builder) }}</a>
+            <a href data-ng-click="loadDeck(deck._id)" class="ListItem">{{ fixName(deck.name)}} by {{ fixName(deck.builder) }}</a>
         </li>
     </ul>
 

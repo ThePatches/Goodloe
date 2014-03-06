@@ -3,7 +3,7 @@
 <div data-ng-model="Games">
     <ul>
         <li data-ng-repeat="game in Games">
-            <a href data-ng-click="loadGame(game._id)">Played On: {{ convDate(game.playedOn) }} - Type: {{ game.gameType }} - Description: {{ game.description }}</a>
+            <a href data-ng-click="loadGame(game._id)" class="ListItem">Played On: {{ convDate(game.playedOn) }} - Type: {{ game.gameType }} - Description: {{ game.description }}</a>
         </li>
     </ul>
 
