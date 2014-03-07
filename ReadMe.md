@@ -50,8 +50,8 @@ You can use this instead of step #2 above, but soon this process will go away on
         //var isTrue = (password == user.hash);
     Remove the comment from the second line and comment out the first. This disables  bcrypt hashing for any users you add.
 2. Add a new user using the following mongodb shell command:
-        db.GoodUsers.insert({username: <name>, hash: <plaintext password>, active: 0, isAdmin: true})
-    If you intend to continue on to re-enable bcrypt hashing, you should either make this a dummy user or be willing to change the password hash after the next steps.
+        db.GoodUsers.insert({username: <name>, hash: <plaintext password>, active: 0, adminRights: 3})
+    If you intend to continue on to re-enable bcrypt hashing, you should either make this a dummy user or be willing to change the password hash after the next steps. Side note: `adminRights: 3` allows that user to use the /adduser page to add users to the application, since I prefer not to use a sign-up interface for this particular iteration.
 3. Run the node app.
 + Log in (this should be available from the initial page).
 + Encrypt a new hash by going to `http://[server]/encrypt?pass=<password>`. The retuned value in your browser should be a bcrypted password hash that you can then insert as for a NEW GoodUser using the command above. OR use the mongodb update command to change the password of your existing user to the new hash value.
