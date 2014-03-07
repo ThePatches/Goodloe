@@ -1,5 +1,25 @@
 /* Written By Patrick Taylor 3/1/2014 */
 
+/* Reset browser styles
+------------------------------------------ */
+
+* {
+	margin:0;
+	padding:0;
+}
+
+html {
+	overflow: scroll;
+}
+
+body {
+	background: #f4f4f4; 
+	color: #000; 
+	
+
+/* PATCHES' EXISTING CODE */
+
+
 dl.TableStyle
 {
     margin:0;
