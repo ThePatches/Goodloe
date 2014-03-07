@@ -44,7 +44,7 @@ Currently, there is no startup script for the Mongo database, so you will need t
 
 You can use this instead of step #2 above, but soon this process will go away once I come up with a better sign up interface. If you are running the app locally, you can skip the steps after 2, because you probably don't need hashing to run a version on your computer. If you plan to make a public-facing version, you will need to continue on to re-enable authentication. Also, you should consider enabling https, if you have a certificate.
 
-1. Comment find the lines below in the `server.js` file:
+1.  Find the lines below in the `server.js` file:
         
         var isTrue = bcrypt.compareSync(password, user.hash);
         //var isTrue = (password == user.hash);
