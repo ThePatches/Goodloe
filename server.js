@@ -50,8 +50,7 @@ passport.use(new LocalStrategy(function(username, password, done)
             return done(null, false, {message: "Incorrect user name"});
         }
 
-        var isTrue = bcrypt.compareSync(password, user.hash);
-        //var isTrue = (password == user.hash);
+        var isTrue = CONFIG.useCrypt ? bcrypt.compareSync(password, user.hash) : (password == user.hash);
 
         if (isTrue) // maybe needs to be more involved (convert the password into the challenge
         {

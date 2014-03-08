@@ -1,5 +1,108 @@
 /* Written By Patrick Taylor 3/1/2014 */
 
+/* Reset browser styles
+------------------------------------------ */
+
+* {
+	margin:3px;
+	padding:3px;
+}
+
+html {
+	overflow: scroll;
+}
+
+body {
+	background: #f4f4f4; 
+	color: #000; 
+}
+
+/* PRETTY STUFF
+------------------------------------------ */
+	
+h2 {
+	margin: 0 0 0.25em; 
+	color: #444; 
+	text-align: center;
+	font: bold 2.154em "Dosis",sans-serif;	
+}
+
+.container {
+	width:550px;
+	background-color:#eeeeee;
+	margin-left:auto;
+	margin-right:auto;
+	padding:20px;
+	margin-top:35px;
+	margin-bottom:40px;
+	border:3px solid #888;
+	font-family:Lucida Grande, Tahoma, sans-serif;
+	font-size:12px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	-moz-box-shadow: 0px 4px 15px #666;
+	-webkit-box-shadow: 0px 4px 15px #666;
+	box-shadow: 0px 4px 15px #666;
+}
+
+a {
+	color: #0099ff;
+	-moz-transition: color 0.5s;
+	-webkit-transition: color 0.5s;
+	-o-transition: color 0.5s;
+	transition: color 0.5s; 
+	text-decoration: none;
+}
+
+a:hover {
+	color: #084B8A; 
+	text-decoration: none;
+}
+
+a * {
+	cursor: pointer;
+}
+
+#navigation {
+	padding: 6px;
+	width:100%;
+	text-align:center;
+	
+}
+
+#navigation li {
+	margin:5px;
+	list-style:none;
+	display:inline;
+}
+
+#navigation a {
+	background:#0099FF;
+	padding: 6px;
+	border:1px solid #666;
+	color: #fff;
+	width:100%;
+	text-align:center;
+	-moz-transition: color 0.5s;
+	-webkit-transition: color 0.5s;
+	-o-transition: color 0.5s;
+	transition: color 0.5s; 
+	text-decoration: none;
+	
+}
+
+#navigation a:hover {
+	background:#084B8A;
+	-moz-transition: color 0.5s;
+	-webkit-transition: color 0.5s;
+	-o-transition: color 0.5s;
+	transition: color 0.5s; 
+	text-decoration: none;
+}
+
+/* PATCHES' EXISTING CODE
+------------------------------------------ */
+
 dl.TableStyle
 {
     margin:0;
