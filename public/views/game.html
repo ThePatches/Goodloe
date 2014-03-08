@@ -33,7 +33,7 @@
         <ul>
             <li data-ng-repeat="aPlayer in inGame.players" data-ng-class="{winner: aPlayer.winner}"> <span data-ng-show="aPlayer.winner">Winner!&nbsp;</span>{{ aPlayer.player.name }} driving {{ getDeckName(aPlayer.deckName) }}</li>
         </ul>
-
+        <a href="#/games">Return to Games List</a>
     </div>
 
     <div data-ng-show="newGame">
@@ -87,9 +87,6 @@
             <div>
                 <button data-add-game>Add Game</button><br />
             </div>
-        <div id="messages">
-            {{ OutGame }}
-        </div>
         </div>
     </div>
 </div>
