@@ -63,7 +63,7 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
                 if (inObject.deckName == $scope.Decks[i]._id)
                     theDeck = $scope.fixName($scope.Decks[i].name);
 
-            return thePlayer + " playing " + theDeck;
+            return $scope.fixName(thePlayer) + " playing " + $scope.fixName(theDeck);
         }
         else
         {

@@ -31,7 +31,7 @@
 
         <h3>Players and Decks:</h3>
         <ul>
-            <li data-ng-repeat="aPlayer in inGame.players" data-ng-class="{winner: aPlayer.winner}"> <span data-ng-show="aPlayer.winner">Winner!&nbsp;</span>{{ aPlayer.player.name }} driving {{ getDeckName(aPlayer.deckName) }}</li>
+            <li data-ng-repeat="aPlayer in inGame.players" data-ng-class="{winner: aPlayer.winner}"> <span data-ng-show="aPlayer.winner">Winner!&nbsp;</span>{{ fixName(aPlayer.player.name) }} driving {{ getDeckName(aPlayer.deckName) }}</li>
         </ul>
         <a href="#/games">Return to Games List</a>
     </div>
