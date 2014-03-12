@@ -5,6 +5,11 @@ This project is a test project I'm using to teach myself [Node][1], [EmberJS][2]
 
 Okay, I lied. The application now uses [AngularJS][4], since I didn't like Ember.
 
+#### A Word about Branches
+
+**Dev:** This is a semi-stable branch representing the latest stable development efforts. Will occasionally be a few features ahead of "master".
+**Master:** Basically the deployed version. Previously the active development branch, now it's going to be the "stable" branch that only differs from what is deployed by levels of configuration.
+
 ## Project Purpose
 
 The purpose of this application is to track the evolution of our MTG:Commander metagame. It has a public URL, but that's more for our expedience (can be used outside of my house). I will post more on how the database works and what information we track once the project is up and running (and into its database development portion).
