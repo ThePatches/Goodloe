@@ -9,7 +9,7 @@ var fs = require('fs');
 passport = require("passport");
 LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
-var aws = require('aws-sdk');
+var notify = require("./myNodePackages/notify.js");
 
 
 var app = express();
@@ -163,6 +163,28 @@ app.get('/query', function(req, res)
 
         default:
             res.send("Invalid query type!");
+    }
+});
+
+app.get("/noteTest", function(err, res)
+{
+    var params = {
+        Message: "Here is some text text that's working for you right now. <b>Bold Text</b>",
+        Subject: "You got another message!",
+        TopicArn: CONFIG.snsEmails
+    }
+
+    if (CONFIG.snsUser.accessKeyId == "")
+    {
+        console.log("Failure!");
+        res.send("No access key!");
+    }
+   else {
+       notify.sendEmail(params, function (err, data)
+       {
+           if (err) res.send(err);
+           res.send(data);
+       });
     }
 });
 
