@@ -9,6 +9,8 @@ var fs = require('fs');
 passport = require("passport");
 LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
+var aws = require('aws-sdk');
+
 
 var app = express();
 
