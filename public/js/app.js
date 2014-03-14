@@ -1,7 +1,5 @@
 var goodloeApp = angular.module('goodloeApp', ['ngRoute', 'deckControllers', "defaultController", "ngCookies", "gameControllers", "playerControllers", "GameDirectives"]);
 
-// TODO: Add service factory that generalizes all my $http calls into one object (see Fastcase 7)
-
 goodloeApp.config(['$routeProvider',
     function($routeProvider)
     {

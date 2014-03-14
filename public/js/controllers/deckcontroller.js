@@ -17,17 +17,6 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
             return "";
     };
 
-    /*$scope.buildParams = function()
-    {
-        var theJSON = {name: encodeURIComponent($scope.Deck.name), color: encodeURIComponent($scope.Deck.color), builder: encodeURIComponent($scope.Deck.builder)};
-        if ($scope.deckId != 'new')
-        {
-            theJSON._id = $scope.deckId;
-        }
-
-        return "?coll=Deck&item=" + JSON.stringify(theJSON);
-    };*/
-
     $scope.buildObject = function()
     {
         return {name: $scope.Deck.name.replace(/\s/g, "+"), color: encodeURIComponent($scope.Deck.color), builder: $scope.Deck.builder.replace(/\s/g, "+")};

@@ -21,7 +21,7 @@ playerControllers.controller('PlayerListController', ['$scope', '$http', '$locat
             return (theCookie.username && theCookie.username != "");
         };
 
-        $http.get(CONFIG.server + 'query?coll=player').success(function (data) // Need to get this to work parameterized
+        $http.get(CONFIG.server + 'query?coll=player').success(function (data)
         {
             $scope.Players = data;
         });

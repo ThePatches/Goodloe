@@ -142,7 +142,6 @@ app.get('/query', function(req, res)
             DeckModel = connection.model("Deck", SCHEMAS.DeckSchema, 'Deck');
             PlayerModel = connection.model('Players', SCHEMAS.PlayerSchema, 'Players');
 
-            //console.log("In game portion");
 
             if (queryData["id"])
             {
@@ -257,7 +256,6 @@ app.post('/add', auth, function(req, res) // Need to convert these all to post r
         var nGame = new Game(theItem)
         var playerList = [];
         var winner = null;
-        //console.log(theItem.players);
 
         for (i = 0; i < theItem.players.length; i++)
         {
@@ -265,8 +263,6 @@ app.post('/add', auth, function(req, res) // Need to convert these all to post r
             if (theItem.players[i].winner)
                 winner = theItem.players[i].player;
         }
-
-        //console.log("playerList: " + JSON.stringify(playerList));
 
         nGame.save(function (err, product, numberAffected)
         {
@@ -295,7 +291,7 @@ app.post('/add', auth, function(req, res) // Need to convert these all to post r
            else
            {
                console.log("Something went wrong!");
-               res.send("Faulure!");
+               res.send("Failure!");
            }
         });
     }
@@ -307,7 +303,7 @@ app.post('/add', auth, function(req, res) // Need to convert these all to post r
 
 app.get('/update', auth, function(req, res)
 {
-    var spaceUrl = req.url.replace(/\s/g,"%2B");
+    var spaceUrl = req.url.replace(/\s/g,"%2B"); // TODO: Fix deck updating to work with changes to deck controller
     var queryData = url.parse(spaceUrl, true).query;
 
     if (queryData["coll"] == "Deck")
@@ -343,8 +339,6 @@ app.get('/encrypt', auth, function(req, res)
     var hash = bcrypt.hashSync(queryData["pass"]);
 
     res.send(hash);
-
-    //res.send("Something not quite right?");
 
 });
 
@@ -406,7 +400,6 @@ app.post('/adduser', auth, function(req, res)
         });
     }
 });
-
 
 app.get('*', function(req, res)
 {
