@@ -88,6 +88,8 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
 deckControllers.controller('DeckListController', ['$scope', '$http', '$location',
     function($scope, $http, $location) {
 
+        $scope.groupField = null;
+
         $http.get(CONFIG.server + 'query?coll=deck').success(function (data) // Need to get this to work parameterized
         {
             $scope.Decks = data;
@@ -102,4 +104,6 @@ deckControllers.controller('DeckListController', ['$scope', '$http', '$location'
         {
             $location.path("/deck/" + inID);
         };
+
+        // TODO: Add $scope.$watch(groupField) that organizes the deck list into groups
 }]);
