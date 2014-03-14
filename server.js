@@ -203,7 +203,7 @@ app.get('/getGame', function(req, res)
         });
 });
 
-app.all('/add', auth, function(req, res) // Need to convert these all to post requests
+app.post('/add', auth, function(req, res) // Need to convert these all to post requests
 {
     var spaceUrl = req.url.replace(/\s/g,"%2B");
     var queryData = url.parse(spaceUrl, true).query;
@@ -215,13 +215,12 @@ app.all('/add', auth, function(req, res) // Need to convert these all to post re
 
     console.log(req.body);
 
-    if (queryData["coll"] == "Deck")
+    if (queryData["coll"] == "deck")
     {
-        //var Deck = connection.model('Deck', SCHEMAS.DeckSchema, 'Deck');
-        theItem = JSON.parse(queryData["item"]);
-        var ndeck = new Deck(theItem);
+        theItem = req.body.addedDeck;
+        var nDeck = new Deck(theItem);
 
-        ndeck.save(function (err, product, numberAffected)
+        nDeck.save(function (err, product, numberAffected)
         {
            if (err) console.log("Error!");
            else if (numberAffected > 0)
@@ -366,7 +365,7 @@ app.post('/logout', function(req, res)
 app.get('/maxWins', function(req, res)
 {
     var Player = connection.model('Players', SCHEMAS.PlayerSchema, 'Players');
-    Player.findOne().sort("-wins").exec( function (err, doc)
+    Player.findOne({}).sort("-wins").exec( function (err, doc)
     {
         if (err) console.log("Error! " + err);
         res.send(doc);

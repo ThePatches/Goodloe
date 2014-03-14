@@ -57,9 +57,6 @@ playerControllers.controller('PlayerListController', ['$scope', '$http', '$locat
 playerControllers.controller('PlayerController', ['$scope', '$routeParams','$http', '$cookies', function ($scope, $routeParams, $http, $cookies)
 {
     $scope.playerId = $routeParams.playerId;
-    //$scope.doEdit = false;
-    //$scope.newPlayer = $scope.playerId == "new";
-
 
     $scope.fixName = function (inName)
     {

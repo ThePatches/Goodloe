@@ -17,7 +17,7 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
             return "";
     };
 
-    $scope.buildParams = function()
+    /*$scope.buildParams = function()
     {
         var theJSON = {name: encodeURIComponent($scope.Deck.name), color: encodeURIComponent($scope.Deck.color), builder: encodeURIComponent($scope.Deck.builder)};
         if ($scope.deckId != 'new')
@@ -26,7 +26,12 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
         }
 
         return "?coll=Deck&item=" + JSON.stringify(theJSON);
-    };
+    };*/
+
+    $scope.buildObject = function()
+    {
+        return {name: $scope.Deck.name.replace(/\s/g, "+"), color: encodeURIComponent($scope.Deck.color), builder: $scope.Deck.builder.replace(/\s/g, "+")};
+    }
 
     $scope.CheckCookie = function()
     {
@@ -40,19 +45,34 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
 
     $scope.addDeck = function()
     {
-        var tUrl = CONFIG.server;
+        /*var tUrl = CONFIG.server;
         tUrl += $scope.deckId != 'new' ? "update" : "add";
 
-        tUrl += $scope.buildParams();
+        tUrl += $scope.buildParams();*/
+        var addedDeck = $scope.buildObject();
 
-        $http.get(tUrl).success(function (data)
+        $http({
+            url: CONFIG.server + "add?coll=deck",
+            method: "POST",
+            data: {addedDeck: addedDeck},
+            headers: {'Content-type': 'application/json; charset=utf-8'}
+        }).success(function (data)
+            {
+                //$scope.OutGame = data;
+                $location.path('/deck/' + data._id);
+            }).error(function (err)
+            {
+                $scope.OutGame = "Something went wrong! " + err;
+            });
+
+        /*$http.get(tUrl).success(function (data)
         {
             $scope.Deck = data;
             if ($scope.deckId == "new")
             {
                 $location.path("/decks");
             }
-        });
+        });*/
     };
 
     $scope.parseList = function(inText)
