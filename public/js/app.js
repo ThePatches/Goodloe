@@ -1,4 +1,4 @@
-var goodloeApp = angular.module('goodloeApp', ['ngRoute', 'deckControllers', "defaultController", "ngCookies", "gameControllers", "playerControllers", "GameDirectives"]);
+var goodloeApp = angular.module('goodloeApp', ['ngRoute', 'deckControllers', "defaultController", "ngCookies", "gameControllers", "playerControllers", "GameDirectives", "GlobalDirectives"]);
 
 goodloeApp.config(['$routeProvider',
     function($routeProvider)
@@ -70,7 +70,6 @@ defaultController.controller("LoginController", ['$scope', '$http', '$cookies', 
     $scope.userName = null;
     $scope.password = null;
     $scope.SomeStuff = $cookies.gookie ? JSON.parse($cookies.gookie).username : "None";
-   // $scope.Other = $cookieStore.get('gookie');
 
     $scope.DoLogin = function()
     {
@@ -127,4 +126,52 @@ defaultController.controller("AddUserController", ['$scope', '$http', '$cookies'
 defaultController.controller("LoginRequest", ['$scope', '$http', '$location', function($scope, $http, $location)
 {
     $scope.reqUser = {};
+    $scope.errMsg = "Confirm your password!";
+    $scope.pass1 = "";
+    $scope.pass2 = "";
+    $scope.showErr = false;
+
+    $scope.doSubmit = function() // TODO: Finish validations
+    {
+        if ($scope.pass2.trim() == "")
+        {
+            $scope.showErr = true;
+            return;
+        }
+
+        if ($scope.pass1 != $scope.pass2)
+        {
+            $scope.errMsg = "Your passwords must match.";
+            $scope.showErr = true;
+            return;
+        }
+
+        $scope.showErr = false;
+        alert("Not implemented!");
+    };
+
+    $scope.Cancel = function()
+    {
+        $location.path("/");
+    };
 }]);
+
+angular.module("GlobalDirectives", [])
+    .directive("clearInputs", function()
+    {
+        return {
+            restrict: "A",
+            controller: ['$scope', '$element', '$attrs', function($scope, $element, $attrs)
+            {
+                var clearDivId = $attrs.formDiv;
+                $element.click(function()
+                {
+                    $("#" + clearDivId + "> input").each(function ()
+                    {
+                       $(this).val("");
+                    });
+                    //alert(clearDiv);
+                });
+            }]
+        }
+    });
