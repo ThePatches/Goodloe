@@ -220,28 +220,6 @@ app.post('/requser', function(req, res)
     });
 });
 
-app.get("/noteTest", function(err, res)
-{
-    var params = {
-        Message: "Here is some text text that's working for you right now. <b>Bold Text</b>",
-        Subject: "You got another message!",
-        TopicArn: CONFIG.snsEmails
-    }
-
-    if (CONFIG.snsUser.accessKeyId == "")
-    {
-        console.log("Failure!");
-        res.send("No access key!");
-    }
-   else {
-       notify.sendEmail(params, function (err, data)
-       {
-           if (err) res.send(500, err);
-           res.send(data);
-       });
-    }
-});
-
 app.get('/getGame', function(req, res)
 {
     var GameModel = connection.model('Games', SCHEMAS.GameSchema, 'Games');
