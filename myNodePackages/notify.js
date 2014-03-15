@@ -2,7 +2,7 @@
  * Created by Patrick Taylor on 3/12/14.
  */
 var aws = require('aws-sdk');
-var CONFIG = require("./../config/development.json"); // You must change this
+var CONFIG = require("./../config/production.json"); // You must change this
 
 aws.config.update(CONFIG.snsUser);
 

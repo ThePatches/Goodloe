@@ -198,7 +198,23 @@ app.post('/requser', function(req, res)
         }
         else // now, we send the email to me...
         {
-            res.send("You can request a new user!");
+            var msgContent = "Person: " + inObject.person + "\nUsername: " + inObject.username + "\nPassword: " + inObject.password;
+            var params = {
+                Message: msgContent,
+                Subject: "New User for Goodloe League Requested",
+                TopicArn: CONFIG.snsEmails
+            }
+            if (CONFIG.snsUser.accessKeyId == "")
+            {
+                res.send(500, "No access key!");
+            }
+            else {
+                notify.sendEmail(params, function (err, data)
+                {
+                    if (err) res.send(500, err);
+                    res.send(data);
+                });
+            }
         }
 
     });
@@ -220,7 +236,7 @@ app.get("/noteTest", function(err, res)
    else {
        notify.sendEmail(params, function (err, data)
        {
-           if (err) res.send(err);
+           if (err) res.send(500, err);
            res.send(data);
        });
     }
