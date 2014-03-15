@@ -45,6 +45,11 @@ goodloeApp.config(['$routeProvider',
                 templateUrl: "views/adduser.html",
                 controller: "AddUserController"
             })
+            .when('/loginrequest',
+            {
+                templateUrl: "views/loginrequest.html",
+                controller: "LoginRequest"
+            })
         .otherwise({
                 templateUrl: "views/404View.html",
                 controller: defaultController
@@ -117,4 +122,9 @@ defaultController.controller("AddUserController", ['$scope', '$http', '$cookies'
             });
     };
 
+}]);
+
+defaultController.controller("LoginRequest", ['$scope', '$http', '$location', function($scope, $http, $location)
+{
+    $scope.reqUser = {};
 }]);
