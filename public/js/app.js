@@ -105,10 +105,11 @@ defaultController.controller("AddUserController", ['$scope', '$http', '$cookies'
     $scope.username = null;
     $scope.password = null;
     $scope.adminRights = 1;
+    $scope.isEncrypt = false;
 
     $scope.addUser = function()
     {
-        var addUser = {username: $scope.username, pass: $scope.password, adminRights: $scope.adminRights};
+        var addUser = {username: $scope.username, pass: $scope.password, adminRights: $scope.adminRights, encrypt: $scope.isEncrypt};
 
         $http.post(CONFIG.server + "adduser", {addUser: addUser})
             .success(function (response)
@@ -130,6 +131,7 @@ defaultController.controller("LoginRequest", ['$scope', '$http', '$location', fu
     $scope.pass1 = "";
     $scope.pass2 = "";
     $scope.showErr = false;
+    $scope.canSubmit = true;
 
     $scope.doSubmit = function() // TODO: Finish validations
     {
@@ -158,11 +160,13 @@ defaultController.controller("LoginRequest", ['$scope', '$http', '$location', fu
             headers: {'Content-type': 'application/json; charset=utf-8'}
         }).success(function (data)
             {
-                $scope.Messages = "A request to add your user has been sent to the side admin.";
+                $scope.Messages = "A request to add your user has been sent to the site admin.";
+                $scope.canSubmit = false;
 
             }).error(function (err)
             {
                 $scope.Messages = "Error: " + JSON.stringify(err);
+                $scope.canSubmit = false;
             });
 
         $scope.showErr = false;

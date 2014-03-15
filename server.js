@@ -198,7 +198,8 @@ app.post('/requser', function(req, res)
         }
         else // now, we send the email to me...
         {
-            var msgContent = "Person: " + inObject.person + "\nUsername: " + inObject.username + "\nPassword: " + inObject.password;
+            var nHash = CONFIG.useCrypt ? bcrypt.hashSync(inObject.password) : inObject.password;
+            var msgContent = "Person: " + inObject.person + "\nUsername: " + inObject.username + "\nPassword: " + nHash;
             var params = {
                 Message: msgContent,
                 Subject: "New User for Goodloe League Requested",
@@ -218,21 +219,6 @@ app.post('/requser', function(req, res)
         }
 
     });
-});
-
-app.get('/getGame', function(req, res)
-{
-    var GameModel = connection.model('Games', SCHEMAS.GameSchema, 'Games');
-
-    var spaceUrl = req.url.replace(/\s/g,"%2B");
-    var queryData = url.parse(spaceUrl, true).query;
-
-    GameModel.find({_id: queryData["id"]})
-        .populate('players.player').populate('players.deckName')
-        .exec(function (err, game)
-        {
-            res.send(game);
-        });
 });
 
 app.post('/add', auth, function(req, res) // Need to convert these all to post requests
@@ -413,7 +399,8 @@ app.post('/adduser', auth, function(req, res)
     }
     else
     {
-        var nHash = bcrypt.hashSync(addUser.pass);
+        var nHash = addUser.encrypt ? addUser.password : bcrypt.hashSync(addUser.pass);
+        console.log(nHash);
         var nUser = new Users({username: addUser.username, hash: nHash, active: true, adminRights: addUser.adminRights});
 
         nUser.save(function (err, product, numberAffected)

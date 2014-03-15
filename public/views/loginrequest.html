@@ -1,16 +1,4 @@
 <style>
-    #formDiv label
-    {
-        width: 150px;
-        float: left;
-        clear: left;
-    }
-
-    #formDiv input
-    {
-        float: left;
-    }
-
     #buttonDiv
     {
         padding-top: 10px;
@@ -34,7 +22,7 @@
         <label>Confirm Password:</label><input type="password" data-ng-model="pass2" /><span class="errMsg" data-ng-show="showErr">{{ errMsg }}</span><br />
     </div>
     <div id="buttonDiv">
-        <button data-ng-click="doSubmit()">Submit</button>&nbsp;<button data-clear-inputs data-form-div="formDiv">Clear</button>&nbsp;<button data-ng-click="Cancel()">Cancel</button>
+        <button data-ng-click="doSubmit()" data-ng-disabled="!canSubmit">Submit</button>&nbsp;<button data-clear-inputs data-form-div="formDiv">Clear</button>&nbsp;<button data-ng-click="Cancel()">Cancel</button>
         <br />
         <span>{{ Messages }}</span>
     </div>
