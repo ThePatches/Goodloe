@@ -7,8 +7,8 @@ Okay, I lied. The application now uses [AngularJS][4], since I didn't like Ember
 
 #### A Word about Branches
 
-**Dev:** This is a semi-stable branch representing the latest stable development efforts. Will occasionally be a few features ahead of "master".
-**Master:** Basically the deployed version. Previously the active development branch, now it's going to be the "stable" branch that only differs from what is deployed by levels of configuration.
++ **Dev:** This is a semi-stable branch representing the latest stable development efforts. Will occasionally be a few features ahead of "master".
++ **Master:** Basically the deployed version. Previously the active development branch, now it's going to be the "stable" branch that only differs from what is deployed by levels of configuration.
 
 ## Project Purpose
 
