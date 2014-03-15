@@ -108,6 +108,7 @@ app.get('/query', function(req, res)
                 findObject._id = queryData["id"];
             }
 
+
             findObject.active = true;
             PlayerModel.find(findObject, function(err, player)
             {
@@ -160,9 +161,47 @@ app.get('/query', function(req, res)
                 });
             break;
 
+        case "user": // this isn't really useful...
+
+            findObject.username = queryData["name"];
+            Users.findOne(findObject, function(err, user)
+            {
+                if (err) {
+                    res.send(500, "Error: " + err);
+                }
+                if (!user){
+                    res.send(500, "No user found!");
+                }
+
+                res.send({username: user.username, active: user.active});
+            });
+            break;
+
         default:
             res.send("Invalid query type!");
     }
+});
+
+app.post('/requser', function(req, res)
+{
+    var inObject = req.body;
+    var findObject = {};
+
+    findObject.username = inObject.username;
+    Users.findOne(findObject, function(err, user)
+    {
+        if (err) {
+            res.send(500, "Error: " + err);
+        }
+        if (user){
+            res.send(500, "A user with that name already exists.");
+        }
+        else // now, we send the email to me...
+        {
+            res.send("You can request a new user!");
+        }
+
+    });
 });
 
 app.get("/noteTest", function(err, res)

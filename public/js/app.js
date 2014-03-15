@@ -125,7 +125,7 @@ defaultController.controller("AddUserController", ['$scope', '$http', '$cookies'
 
 defaultController.controller("LoginRequest", ['$scope', '$http', '$location', function($scope, $http, $location)
 {
-    $scope.reqUser = {};
+    $scope.reqUser = {Name: "", uName: ""}; // TODO: Come up with a way to contact the user who wanted a login
     $scope.errMsg = "Confirm your password!";
     $scope.pass1 = "";
     $scope.pass2 = "";
@@ -146,8 +146,26 @@ defaultController.controller("LoginRequest", ['$scope', '$http', '$location', fu
             return;
         }
 
+        var newUser = {};
+        newUser.username = $scope.reqUser.uName;
+        newUser.person = $scope.reqUser.Name;
+        newUser.password = $scope.pass1;
+
+        $http({
+            url: CONFIG.server + "requser",
+            method: "POST",
+            data: newUser,
+            headers: {'Content-type': 'application/json; charset=utf-8'}
+        }).success(function (data)
+            {
+                $scope.Messages = "A request to add your user has been sent to the side admin.";
+
+            }).error(function (err)
+            {
+                $scope.Messages = "Error: " + JSON.stringify(err);
+            });
+
         $scope.showErr = false;
-        alert("Not implemented!");
     };
 
     $scope.Cancel = function()
@@ -170,7 +188,6 @@ angular.module("GlobalDirectives", [])
                     {
                        $(this).val("");
                     });
-                    //alert(clearDiv);
                 });
             }]
         }
