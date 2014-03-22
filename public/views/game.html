@@ -42,10 +42,11 @@
         <ul>
             <li data-ng-repeat="aPlayer in inGame.players" data-ng-class="{winner: aPlayer.winner}"> <span data-ng-show="aPlayer.winner">Winner!&nbsp;</span>{{ fixName(aPlayer.player.name) }} driving {{ getDeckName(aPlayer.deckName) }}</li>
         </ul>
+        <button data-ng-click="toggleEdit()">Edit Game</button><br />
         <a href="#/games">Return to Games List</a>
     </div>
 
-    <div data-ng-show="newGame">
+    <div data-ng-show="newGame || editGame">
         <h2>Add New Game</h2>
         <div>
             <h3>Add Players and Decks</h3>

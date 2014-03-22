@@ -13,6 +13,8 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
     $scope.Description = null;
     $scope.Story = null;
     $scope.OutGame = null;
+    $scope.OldGame = {};
+    $scope.editGame = false;
 
     $http.get(CONFIG.server + 'query?coll=deck').success(function (data) // Need to get this to work parameterized
     {
@@ -40,6 +42,11 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
             return inName.replace(/\+/g, " ");
         else
             return "";
+    };
+
+    $scope.toggleEdit = function ()
+    {
+        $scope.editGame = !$scope.editGame;
     };
 
     $scope.getDeckName = function(inDeck)

@@ -29,7 +29,7 @@ app.configure(function (){
     app.use(express.session({ secret: 'SECRET' }));
     app.use(passport.initialize());
     app.use(passport.session());
-    app.set('port', process.env.PORT || 1337);
+    app.set('port', process.env.PORT || CONFIG.usePort);
 });
 
 //var connection = mongoose.createConnection(CONFIG.connString);
