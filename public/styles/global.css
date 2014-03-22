@@ -112,6 +112,15 @@ a:hover {
 	text-decoration: none;
 }
 
+/* We need a better style for this, I hope Lauren can help... */
+a.navLink
+{
+    font-weight: bold;
+    background-color: lightgray;
+    border: 1px solid;
+    border-color: lightseagreen;
+}
+
 /* FORM STYLE
 ------------------------------------------ */
 

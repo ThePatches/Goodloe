@@ -6,6 +6,7 @@
             <a href data-ng-click="loadGame(game._id)" class="ListItem">Played On: {{ convDate(game.playedOn) }} - Type: {{ game.gameType }} - Description: {{ game.description }}</a>
         </li>
     </ul>
-
-    <a href="#/game/new">Enter a new game</a>&nbsp;<a href="/">Return to the Main Page</a>
+    <div style="padding-top: 15px;">
+        <a class="navLink" href="#/game/new">Enter a new game</a>&nbsp;<a class="navLink" href="/">Return to the Main Page</a>
+    </div>
 </div>
