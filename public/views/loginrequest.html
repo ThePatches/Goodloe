@@ -1,0 +1,29 @@
+<style>
+    #buttonDiv
+    {
+        padding-top: 10px;
+    }
+
+    span.errMsg
+    {
+        color: red;
+        font-style: italic;
+        padding-left: 5px;
+        clear: right;
+    }
+</style>
+
+<div>
+    <h2>Request a Login</h2>
+    <div id="formDiv">
+        <label>Your Name:</label><input type="text" data-ng-model="reqUser.Name" /><br />
+        <label>Desired User Name:</label><input type="text" data-ng-model="reqUser.uName" /><br />
+        <label>Password:</label><input type="password" data-ng-model="pass1" /><br />
+        <label>Confirm Password:</label><input type="password" data-ng-model="pass2" /><span class="errMsg" data-ng-show="showErr">{{ errMsg }}</span><br />
+    </div>
+    <div id="buttonDiv">
+        <button data-ng-click="doSubmit()" data-ng-disabled="!canSubmit">Submit</button>&nbsp;<button data-clear-inputs data-form-div="formDiv">Clear</button>&nbsp;<button data-ng-click="Cancel()">Cancel</button>
+        <br />
+        <span>{{ Messages }}</span>
+    </div>
+</div>

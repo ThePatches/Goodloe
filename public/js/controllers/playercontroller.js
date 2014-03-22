@@ -21,7 +21,7 @@ playerControllers.controller('PlayerListController', ['$scope', '$http', '$locat
             return (theCookie.username && theCookie.username != "");
         };
 
-        $http.get(CONFIG.server + 'query?coll=player').success(function (data) // Need to get this to work parameterized
+        $http.get(CONFIG.server + 'query?coll=player').success(function (data)
         {
             $scope.Players = data;
         });
@@ -57,9 +57,6 @@ playerControllers.controller('PlayerListController', ['$scope', '$http', '$locat
 playerControllers.controller('PlayerController', ['$scope', '$routeParams','$http', '$cookies', function ($scope, $routeParams, $http, $cookies)
 {
     $scope.playerId = $routeParams.playerId;
-    //$scope.doEdit = false;
-    //$scope.newPlayer = $scope.playerId == "new";
-
 
     $scope.fixName = function (inName)
     {

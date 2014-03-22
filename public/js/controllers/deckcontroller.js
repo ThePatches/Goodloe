@@ -8,6 +8,7 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
 {
     $scope.deckId = $routeParams.deckId;
     $scope.doEdit = false;
+    $scope.ButtonText = $scope.deckId == "new" ? "Add Deck" : "Update Deck";
 
     $scope.fixName = function (inName)
     {
@@ -17,16 +18,14 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
             return "";
     };
 
-    $scope.buildParams = function()
+    $scope.buildObject = function()
     {
-        var theJSON = {name: encodeURIComponent($scope.Deck.name), color: encodeURIComponent($scope.Deck.color), builder: encodeURIComponent($scope.Deck.builder)};
-        if ($scope.deckId != 'new')
-        {
-            theJSON._id = $scope.deckId;
-        }
+        var retObject = {name: $scope.Deck.name.replace(/\s/g, "+"), color: encodeURIComponent($scope.Deck.color), builder: $scope.Deck.builder.replace(/\s/g, "+")}
+        if ($scope.deckId != "new")
+            retObject._id = $scope.Deck._id;
 
-        return "?coll=Deck&item=" + JSON.stringify(theJSON);
-    };
+        return retObject;
+    }
 
     $scope.CheckCookie = function()
     {
@@ -40,19 +39,40 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
 
     $scope.addDeck = function()
     {
-        var tUrl = CONFIG.server;
-        tUrl += $scope.deckId != 'new' ? "update" : "add";
+        var addedDeck = $scope.buildObject();
 
-        tUrl += $scope.buildParams();
-
-        $http.get(tUrl).success(function (data)
+        if ($scope.deckId == "new")
         {
-            $scope.Deck = data;
-            if ($scope.deckId == "new")
-            {
-                $location.path("/decks");
-            }
-        });
+            $http({
+                url: CONFIG.server + "add?coll=deck",
+                method: "POST",
+                data: {addedDeck: addedDeck},
+                headers: {'Content-type': 'application/json; charset=utf-8'}
+            }).success(function (data)
+                {
+                    //$scope.OutGame = data;
+                    $location.path('/deck/' + data._id);
+                }).error(function (err)
+                {
+                    $scope.OutGame = "Something went wrong! " + err;
+                });
+        }
+        else
+        {
+            $http({
+                url: CONFIG.server + "update?coll=deck",
+                method: "POST",
+                data: {addedDeck: addedDeck},
+                headers: {'Content-type': 'application/json; charset=utf-8'}
+            }).success(function (data)
+                {
+                    //$scope.OutGame = data;
+                    $location.path('/deck/' + data._id);
+                }).error(function (err)
+                {
+                    $scope.OutGame = "Something went wrong! " + err;
+                });
+        }
     };
 
     $scope.parseList = function(inText)
@@ -88,6 +108,8 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
 deckControllers.controller('DeckListController', ['$scope', '$http', '$location',
     function($scope, $http, $location) {
 
+        $scope.groupField = null;
+
         $http.get(CONFIG.server + 'query?coll=deck').success(function (data) // Need to get this to work parameterized
         {
             $scope.Decks = data;
@@ -102,4 +124,6 @@ deckControllers.controller('DeckListController', ['$scope', '$http', '$location'
         {
             $location.path("/deck/" + inID);
         };
+
+        // TODO: Add $scope.$watch(groupField) that organizes the deck list into groups
 }]);

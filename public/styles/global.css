@@ -129,7 +129,7 @@ a:hover {
 	border-radius: 15px;
 }
 
-#form input[type="text"], input[type="password"]{
+#form input[type="text"], input[type="password"].login {
 	font-family:Helvetica;
 	font-size:12px;
 	background-color:#fff;
@@ -166,40 +166,14 @@ a:hover {
 /* PATCHES' EXISTING STYLE
 ------------------------------------------ */
 
-dl.TableStyle
+#formDiv label
 {
-    margin:0;
-    padding:0;
-    clear:both;
-    overflow:hidden;
-    width: 25%
+    width: 150px;
+    float: left;
+    clear: left;
 }
 
-.TableStyle dt
+#formDiv input
 {
-    margin:0;
-    padding:0;
-    float:left;
-    width:28%;
-}
-
-.TableStyle dd
-{
-    margin:0;
-    padding:0;
-    float:right;
-    width:72%;
-}
-
-ul
-{
-    list-style-type: none;
-}
-
-a.ListItem
-{
-    font-family: Helvetica, sans-serif;
-    text-decoration: none;
-    font-weight: bold;
-    color: #3399FF;
+    float: left;
 }

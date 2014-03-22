@@ -1,15 +1,9 @@
-<div>
-    <dl class="TableStyle">
-        <dt>New User:</dt>
-        <dd><input type="text" data-ng-model="username" /></dd>
+<div id="formDiv">
+    <label>New User:</label><input type="text" data-ng-model="username" /><br />
+    <label>Password:</label><input type="password" data-ng-model="password" />&nbsp;<input type="checkbox" style="margin-left: 10px; margin-top: 3px;" data-ng-model="isEncrypt" /><span>Encrypted?</span><br />
+    <label>Admin Rights: 1</label><br />
 
-        <dt>Password:</dt>
-        <dd><input type="password" data-ng-model="password" /></dd>
-
-        <dt>Admin Rights:</dt>
-        <dd>1</dd>
-    </dl>
-
+    <br />
     <button data-ng-click="addUser()">Add User</button><br />
     {{ OutMessage }}
 </div>

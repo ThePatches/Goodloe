@@ -9,6 +9,8 @@ var fs = require('fs');
 passport = require("passport");
 LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
+var notify = require("./myNodePackages/notify.js");
+
 
 var app = express();
 
@@ -106,6 +108,7 @@ app.get('/query', function(req, res)
                 findObject._id = queryData["id"];
             }
 
+
             findObject.active = true;
             PlayerModel.find(findObject, function(err, player)
             {
@@ -140,7 +143,6 @@ app.get('/query', function(req, res)
             DeckModel = connection.model("Deck", SCHEMAS.DeckSchema, 'Deck');
             PlayerModel = connection.model('Players', SCHEMAS.PlayerSchema, 'Players');
 
-            //console.log("In game portion");
 
             if (queryData["id"])
             {
@@ -159,27 +161,67 @@ app.get('/query', function(req, res)
                 });
             break;
 
+        case "user": // this isn't really useful...
+
+            findObject.username = queryData["name"];
+            Users.findOne(findObject, function(err, user)
+            {
+                if (err) {
+                    res.send(500, "Error: " + err);
+                }
+                if (!user){
+                    res.send(500, "No user found!");
+                }
+
+                res.send({username: user.username, active: user.active});
+            });
+            break;
+
         default:
             res.send("Invalid query type!");
     }
 });
 
-app.get('/getGame', function(req, res)
+app.post('/requser', function(req, res)
 {
-    var GameModel = connection.model('Games', SCHEMAS.GameSchema, 'Games');
+    var inObject = req.body;
+    var findObject = {};
 
-    var spaceUrl = req.url.replace(/\s/g,"%2B");
-    var queryData = url.parse(spaceUrl, true).query;
-
-    GameModel.find({_id: queryData["id"]})
-        .populate('players.player').populate('players.deckName')
-        .exec(function (err, game)
+    findObject.username = inObject.username;
+    Users.findOne(findObject, function(err, user)
+    {
+        if (err) {
+            res.send(500, "Error: " + err);
+        }
+        if (user){
+            res.send(500, "A user with that name already exists.");
+        }
+        else // now, we send the email to me...
         {
-            res.send(game);
-        });
+            var nHash = CONFIG.useCrypt ? bcrypt.hashSync(inObject.password) : inObject.password;
+            var msgContent = "Person: " + inObject.person + "\nUsername: " + inObject.username + "\nPassword: " + nHash;
+            var params = {
+                Message: msgContent,
+                Subject: "New User for Goodloe League Requested",
+                TopicArn: CONFIG.snsEmails
+            }
+            if (CONFIG.snsUser.accessKeyId == "")
+            {
+                res.send(500, "No access key!");
+            }
+            else {
+                notify.sendEmail(params, function (err, data)
+                {
+                    if (err) res.send(500, err);
+                    res.send(data);
+                });
+            }
+        }
+
+    });
 });
 
-app.all('/add', auth, function(req, res) // Need to convert these all to post requests
+app.post('/add', auth, function(req, res) // Need to convert these all to post requests
 {
     var spaceUrl = req.url.replace(/\s/g,"%2B");
     var queryData = url.parse(spaceUrl, true).query;
@@ -191,13 +233,12 @@ app.all('/add', auth, function(req, res) // Need to convert these all to post re
 
     console.log(req.body);
 
-    if (queryData["coll"] == "Deck")
+    if (queryData["coll"] == "deck")
     {
-        //var Deck = connection.model('Deck', SCHEMAS.DeckSchema, 'Deck');
-        theItem = JSON.parse(queryData["item"]);
-        var ndeck = new Deck(theItem);
+        theItem = req.body.addedDeck;
+        var nDeck = new Deck(theItem);
 
-        ndeck.save(function (err, product, numberAffected)
+        nDeck.save(function (err, product, numberAffected)
         {
            if (err) console.log("Error!");
            else if (numberAffected > 0)
@@ -234,7 +275,6 @@ app.all('/add', auth, function(req, res) // Need to convert these all to post re
         var nGame = new Game(theItem)
         var playerList = [];
         var winner = null;
-        //console.log(theItem.players);
 
         for (i = 0; i < theItem.players.length; i++)
         {
@@ -242,8 +282,6 @@ app.all('/add', auth, function(req, res) // Need to convert these all to post re
             if (theItem.players[i].winner)
                 winner = theItem.players[i].player;
         }
-
-        //console.log("playerList: " + JSON.stringify(playerList));
 
         nGame.save(function (err, product, numberAffected)
         {
@@ -272,7 +310,7 @@ app.all('/add', auth, function(req, res) // Need to convert these all to post re
            else
            {
                console.log("Something went wrong!");
-               res.send("Faulure!");
+               res.send("Failure!");
            }
         });
     }
@@ -282,32 +320,53 @@ app.all('/add', auth, function(req, res) // Need to convert these all to post re
     }
 });
 
-app.get('/update', auth, function(req, res)
+app.post('/update', auth, function(req, res)
 {
-    var spaceUrl = req.url.replace(/\s/g,"%2B");
+    var spaceUrl = req.url.replace(/\s/g,"%2B"); // TODO: Fix deck updating to work with changes to deck controller
     var queryData = url.parse(spaceUrl, true).query;
+    var theItem = {};
 
-    if (queryData["coll"] == "Deck")
+    switch (queryData["coll"])
     {
-        var Deck = connection.model('Deck', SCHEMAS.DeckSchema, 'Deck');
-        var theItem = JSON.parse(queryData["item"]);
-        console.log(theItem.name);
+        case "deck":
+            var Deck = connection.model('Deck', SCHEMAS.DeckSchema, 'Deck');
+            theItem = req.body.addedDeck;
 
-       Deck.findOne({_id: theItem._id}, function(err, doc)
-       {
-           if (err) res.send(err);
+            console.log(theItem);
 
-           console.log(doc);
-           doc.name = theItem.name;
-           doc.builder = theItem.builder;
-           doc.color = theItem.color;
-           doc.save();
-       });
+            Deck.findOne({_id: theItem._id}, function(err, doc)
+            {
+                if (err) res.send(err);
 
-       res.send(doc);
-    }
-    else {
-        res.send(queryData);
+                console.log(doc);
+                doc.name = theItem.name;
+                doc.builder = theItem.builder;
+                doc.color = theItem.color;
+                doc.save();
+
+                res.send(doc);
+            });
+
+            break;
+
+        case "game":
+            theItem = req.body.addedGame;
+            var Game = connection.model('Games', SCHEMAS.GameSchema, 'Games');
+            Game.findOne({_id: theItem._id}, function(err, agame)
+            {
+                if (err) res.send(err);
+
+                console.log(agame);
+
+                res.send(agame);
+            });
+
+
+            break;
+
+        default:
+            res.send(queryData);
+            break;
     }
 });
 
@@ -320,8 +379,6 @@ app.get('/encrypt', auth, function(req, res)
     var hash = bcrypt.hashSync(queryData["pass"]);
 
     res.send(hash);
-
-    //res.send("Something not quite right?");
 
 });
 
@@ -342,7 +399,7 @@ app.post('/logout', function(req, res)
 app.get('/maxWins', function(req, res)
 {
     var Player = connection.model('Players', SCHEMAS.PlayerSchema, 'Players');
-    Player.findOne().sort("-wins").exec( function (err, doc)
+    Player.findOne({}).sort("-wins").exec( function (err, doc)
     {
         if (err) console.log("Error! " + err);
         res.send(doc);
@@ -363,7 +420,8 @@ app.post('/adduser', auth, function(req, res)
     }
     else
     {
-        var nHash = bcrypt.hashSync(addUser.pass);
+        var nHash = addUser.encrypt ? addUser.password : bcrypt.hashSync(addUser.pass);
+        console.log(nHash);
         var nUser = new Users({username: addUser.username, hash: nHash, active: true, adminRights: addUser.adminRights});
 
         nUser.save(function (err, product, numberAffected)
@@ -383,7 +441,6 @@ app.post('/adduser', auth, function(req, res)
         });
     }
 });
-
 
 app.get('*', function(req, res)
 {

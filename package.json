@@ -1,5 +1,19 @@
 {
-    "name": "goodloe-league",
-    "version": "1.0.0",
-    "author": "Patrick Taylor"
+    "version": "0.2.1",
+    "author": "Patrick Taylor",
+    "description": "This is an applcation for tracking a local commander meta",
+    "private": true,
+    "scripts": {
+        "start": "node server"
+    },
+    "engines": {
+        "node": ">=0.11"
+    },
+    "dependencies": {
+        "passport": "0.2.x",
+        "passport-local": "0.1.x",
+        "mongoose": "3.8.x",
+        "express": "3.4.x",
+        "bcrypt-nodejs": "0.0.x"
+    }
 }
