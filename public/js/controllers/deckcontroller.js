@@ -8,6 +8,7 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
 {
     $scope.deckId = $routeParams.deckId;
     $scope.doEdit = false;
+    $scope.ButtonText = $scope.deckId == "new" ? "Add Deck" : "Update Deck";
 
     $scope.fixName = function (inName)
     {
@@ -19,7 +20,11 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
 
     $scope.buildObject = function()
     {
-        return {name: $scope.Deck.name.replace(/\s/g, "+"), color: encodeURIComponent($scope.Deck.color), builder: $scope.Deck.builder.replace(/\s/g, "+")};
+        var retObject = {name: $scope.Deck.name.replace(/\s/g, "+"), color: encodeURIComponent($scope.Deck.color), builder: $scope.Deck.builder.replace(/\s/g, "+")}
+        if ($scope.deckId != "new")
+            retObject._id = $scope.Deck._id;
+
+        return retObject;
     }
 
     $scope.CheckCookie = function()
@@ -34,34 +39,40 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
 
     $scope.addDeck = function()
     {
-        /*var tUrl = CONFIG.server;
-        tUrl += $scope.deckId != 'new' ? "update" : "add";
-
-        tUrl += $scope.buildParams();*/
         var addedDeck = $scope.buildObject();
 
-        $http({
-            url: CONFIG.server + "add?coll=deck",
-            method: "POST",
-            data: {addedDeck: addedDeck},
-            headers: {'Content-type': 'application/json; charset=utf-8'}
-        }).success(function (data)
-            {
-                //$scope.OutGame = data;
-                $location.path('/deck/' + data._id);
-            }).error(function (err)
-            {
-                $scope.OutGame = "Something went wrong! " + err;
-            });
-
-        /*$http.get(tUrl).success(function (data)
+        if ($scope.deckId == "new")
         {
-            $scope.Deck = data;
-            if ($scope.deckId == "new")
-            {
-                $location.path("/decks");
-            }
-        });*/
+            $http({
+                url: CONFIG.server + "add?coll=deck",
+                method: "POST",
+                data: {addedDeck: addedDeck},
+                headers: {'Content-type': 'application/json; charset=utf-8'}
+            }).success(function (data)
+                {
+                    //$scope.OutGame = data;
+                    $location.path('/deck/' + data._id);
+                }).error(function (err)
+                {
+                    $scope.OutGame = "Something went wrong! " + err;
+                });
+        }
+        else
+        {
+            $http({
+                url: CONFIG.server + "update?coll=deck",
+                method: "POST",
+                data: {addedDeck: addedDeck},
+                headers: {'Content-type': 'application/json; charset=utf-8'}
+            }).success(function (data)
+                {
+                    //$scope.OutGame = data;
+                    $location.path('/deck/' + data._id);
+                }).error(function (err)
+                {
+                    $scope.OutGame = "Something went wrong! " + err;
+                });
+        }
     };
 
     $scope.parseList = function(inText)

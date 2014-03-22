@@ -22,6 +22,15 @@
         color: forestgreen;
         font-weight: bold;
     }
+
+    span.isWinner
+    {
+        font-size: 1.1em;
+        color: forestgreen;
+        font-weight: bold;
+        font-style: italic;
+        padding-left: 3px;
+    }
 </style>
 
 <div class="Game">
@@ -53,9 +62,10 @@
 
             <div>
                 <h3>Chosen Decks and Players</h3>
-                <ol>
+                <ol style="margin: auto; position: relative; left: 50px;">
                     <li data-ng-repeat="deck in inDecks">
-                        {{ getDescription(deck) }} <a data-ng-click="setWinner($index)" href="" data-ng-show="deck.winner == false">winner</a> <!-- replace this with a directive -->
+                        {{ getDescription(deck) }}<span data-ng-show="deck.winner == true" class="isWinner"><-- Winner!</span>
+                        <a data-ng-click="setWinner($index)" href="" data-ng-show="deck.winner == false">Set Winner</a>
                     </li>
                 </ol>
             </div>

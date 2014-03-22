@@ -320,32 +320,53 @@ app.post('/add', auth, function(req, res) // Need to convert these all to post r
     }
 });
 
-app.get('/update', auth, function(req, res)
+app.post('/update', auth, function(req, res)
 {
     var spaceUrl = req.url.replace(/\s/g,"%2B"); // TODO: Fix deck updating to work with changes to deck controller
     var queryData = url.parse(spaceUrl, true).query;
+    var theItem = {};
 
-    if (queryData["coll"] == "Deck")
+    switch (queryData["coll"])
     {
-        var Deck = connection.model('Deck', SCHEMAS.DeckSchema, 'Deck');
-        var theItem = JSON.parse(queryData["item"]);
-        console.log(theItem.name);
+        case "deck":
+            var Deck = connection.model('Deck', SCHEMAS.DeckSchema, 'Deck');
+            theItem = req.body.addedDeck;
 
-       Deck.findOne({_id: theItem._id}, function(err, doc)
-       {
-           if (err) res.send(err);
+            console.log(theItem);
 
-           console.log(doc);
-           doc.name = theItem.name;
-           doc.builder = theItem.builder;
-           doc.color = theItem.color;
-           doc.save();
-       });
+            Deck.findOne({_id: theItem._id}, function(err, doc)
+            {
+                if (err) res.send(err);
 
-       res.send(doc);
-    }
-    else {
-        res.send(queryData);
+                console.log(doc);
+                doc.name = theItem.name;
+                doc.builder = theItem.builder;
+                doc.color = theItem.color;
+                doc.save();
+
+                res.send(doc);
+            });
+
+            break;
+
+        case "game":
+            theItem = req.body.addedGame;
+            var Game = connection.model('Games', SCHEMAS.GameSchema, 'Games');
+            Game.findOne({_id: theItem._id}, function(err, agame)
+            {
+                if (err) res.send(err);
+
+                console.log(agame);
+
+                res.send(agame);
+            });
+
+
+            break;
+
+        default:
+            res.send(queryData);
+            break;
     }
 });
 
