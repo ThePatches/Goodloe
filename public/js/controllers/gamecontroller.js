@@ -16,25 +16,42 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
     $scope.OldGame = {};
     $scope.editGame = false;
 
+    $scope.newGame = $routeParams.gameId == "new";
+
+    // TODO: Make the resolving of deck names dependent on the loaded deck list.
+    // OR: You can load the whole deck information through foreign keys?
     $http.get(CONFIG.server + 'query?coll=deck').success(function (data) // Need to get this to work parameterized
     {
         $scope.Decks = data;
+        $http.get(CONFIG.server + 'query?coll=player').success(function (data) // Need to get this to work parameterized
+        {
+            $scope.Players = data;
+            if (!$scope.newGame)
+            {
+                $http.get(CONFIG.server + "query?coll=game&id=" + $routeParams.gameId)
+                    .success(function (data) {
+                        $scope.inGame = data[0];
+                        $scope.inDecks = [];
+                        for (var i = 0; i < $scope.inGame.players.length; i++)
+                        {
+                            $scope.inDecks.push($scope.convFromDB($scope.inGame.players[i]));
+                        }
+                        //$scope.inDecks = $scope.convFromDB($scope.inGame.players);
+                        //$scope.$apply();
+                        // [{player: "531295ebcf3c83a01c62ae8e", deckName: "5302eb52f9d36e680739e8d8", winner: false}];
+                    });
+            }
+        });
     });
 
-    $http.get(CONFIG.server + 'query?coll=player').success(function (data) // Need to get this to work parameterized
-    {
-        $scope.Players = data;
-    });
-
-    $scope.newGame = $routeParams.gameId == "new";
-
-    if (!$scope.newGame)
+    /*if (!$scope.newGame)
     {
         $http.get(CONFIG.server + "query?coll=game&id=" + $routeParams.gameId)
             .success(function (data) {
                 $scope.inGame = data[0];
+                $scope.inDecks = $scope.convFromDB($scope.inGame.players);
             });
-    }
+    }*/
 
     $scope.fixName = function (inName)
     {
@@ -77,6 +94,33 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
             return "No Decks Selected"
         }
 
+    };
+
+    /*$scope.convFromDB = function(inData)
+    {
+        var outObject = [];
+        var anObject = {};
+
+        for (var i = 0; i < inData.length; i++)
+        {
+            anObject.deckName = inData[i].deckName._id;
+            anObject.player = inData[i].player._id;
+            anObject.winner = inData[i].winner;
+            outObject.push(anObject);
+        }
+
+        return outObject;
+    };*/
+
+    $scope.convFromDB = function(inObject)
+    {
+        var anObject = {};
+
+        anObject.deckName = inObject.deckName._id;
+        anObject.player = inObject.player._id;
+        anObject.winner = inObject.winner;
+
+        return anObject;
     };
 
     $scope.setWinner = function(index)

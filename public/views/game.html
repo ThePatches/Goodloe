@@ -64,8 +64,8 @@
             <div>
                 <h3>Chosen Decks and Players</h3>
                 <ol style="margin: auto; position: relative; left: 50px;">
-                    <li data-ng-repeat="deck in inDecks">
-                        {{ getDescription(deck) }}<span data-ng-show="deck.winner == true" class="isWinner"><-- Winner!</span>
+                    <li data-ng-repeat="deck in inDecks track by $index">
+                        {{ getDescription(inDecks[$index]) }}<span data-ng-show="deck.winner == true" class="isWinner"><-- Winner!</span>
                         <a data-ng-click="setWinner($index)" href="" data-ng-show="deck.winner == false">Set Winner</a>
                     </li>
                 </ol>
