@@ -36,22 +36,10 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
                         {
                             $scope.inDecks.push($scope.convFromDB($scope.inGame.players[i]));
                         }
-                        //$scope.inDecks = $scope.convFromDB($scope.inGame.players);
-                        //$scope.$apply();
-                        // [{player: "531295ebcf3c83a01c62ae8e", deckName: "5302eb52f9d36e680739e8d8", winner: false}];
                     });
             }
         });
     });
-
-    /*if (!$scope.newGame)
-    {
-        $http.get(CONFIG.server + "query?coll=game&id=" + $routeParams.gameId)
-            .success(function (data) {
-                $scope.inGame = data[0];
-                $scope.inDecks = $scope.convFromDB($scope.inGame.players);
-            });
-    }*/
 
     $scope.fixName = function (inName)
     {
@@ -64,11 +52,17 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
     $scope.toggleEdit = function ()
     {
         $scope.editGame = !$scope.editGame;
+        $scope.oldGame = $scope.inGame;
     };
 
     $scope.getDeckName = function(inDeck)
     {
         return $scope.fixName(inDeck.name) + " by " + $scope.fixName(inDeck.builder);
+    };
+
+    $scope.removeDeck = function (index)
+    {
+        $scope.inDecks.splice(index, 1);
     };
 
     $scope.getDescription = function(inObject)
@@ -95,22 +89,6 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
         }
 
     };
-
-    /*$scope.convFromDB = function(inData)
-    {
-        var outObject = [];
-        var anObject = {};
-
-        for (var i = 0; i < inData.length; i++)
-        {
-            anObject.deckName = inData[i].deckName._id;
-            anObject.player = inData[i].player._id;
-            anObject.winner = inData[i].winner;
-            outObject.push(anObject);
-        }
-
-        return outObject;
-    };*/
 
     $scope.convFromDB = function(inObject)
     {
