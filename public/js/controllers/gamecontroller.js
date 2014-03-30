@@ -15,6 +15,7 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
     $scope.OutGame = null;
     $scope.OldGame = {};
     $scope.editGame = false;
+    $scope.editText = "Add Game";
 
     $scope.newGame = $routeParams.gameId == "new";
 
@@ -52,7 +53,10 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
     $scope.toggleEdit = function ()
     {
         $scope.editGame = !$scope.editGame;
-        $scope.oldGame = $scope.inGame;
+        $scope.editText = "Save";
+
+        if ($scope.editGame == true)
+            $scope.oldGame = $scope.inGame;
     };
 
     $scope.getDeckName = function(inDeck)
