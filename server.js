@@ -409,6 +409,7 @@ app.post('/update', auth, function(req, res)
                                     doc.players = newGame.players;
 
                                     doc.save();
+                                    var nOutGame = doc;
                                     Player.update({_id: {$in: nPList}}, {$inc: {games: 1}}, {multi: true}, function(err, numberAffected, docs)
                                     {
                                         //console.log(docs);
@@ -421,7 +422,10 @@ app.post('/update', auth, function(req, res)
                                             Player.update({_id: nWinner}, {$inc: {wins: 1}}, {multi: false}, function (err, numberAffected, docs)
                                             {
                                                 if (numberAffected == 1)
-                                                    res.send(newGame);
+                                                {
+                                                    //newGame._id
+                                                    res.send(nOutGame); // this is a hack, but it should work.
+                                                }
                                             });
 
                                         }

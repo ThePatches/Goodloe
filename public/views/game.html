@@ -40,7 +40,7 @@
 
         <h3>Players and Decks:</h3>
         <ul style="list-style: none; padding: 10px 5px;">
-            <li data-ng-repeat="aPlayer in inGame.players" data-ng-class="{winner: aPlayer.winner}"> <span data-ng-show="aPlayer.winner">Winner!&nbsp;</span>{{ fixName(aPlayer.player.name) }} driving {{ getDeckName(aPlayer.deckName) }}</li>
+            <li data-ng-repeat="aPlayer in inGame.players" data-ng-class="{winner: aPlayer.winner}"> <span data-ng-show="aPlayer.winner">Winner!&nbsp;</span>{{ getDescription(inDecks[$index]) }}</li>
         </ul>
         <button data-ng-click="toggleEdit()">Edit Game</button><br />
         <a href="#/games">Return to Games List</a>

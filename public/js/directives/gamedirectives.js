@@ -53,7 +53,7 @@ angular.module('GameDirectives', [])
                         $scope.OutGame = "You must pick a winner";
                         return;
                     }
-
+                    $scope.$apply( function (){
                     if (!$scope.editGame)
                     {
                         var addedGame = {};
@@ -115,14 +115,15 @@ angular.module('GameDirectives', [])
                             headers: {'Content-Type': 'application/json; charset=utf-8'}
                         }).success(function (data)
                             {
-                                $location.path('/game/' + data._id);
+                                $scope.inGame = data;
                             }).error(function (err)
                             {
                                 $scope.OutGame = "Something went wrong!";
                             });
                     }
 
-                    $scope.$apply();
+                    $scope.toggleEdit();
+                    });
                 });
 
             }]
