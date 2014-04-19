@@ -34,18 +34,19 @@
 </style>
 
 <div class="Game">
-    <div data-ng-show="!newGame">
+    <div data-ng-show="!newGame && !editGame">
         <b>Description:</b> <span class="description">{{ inGame.description }} </span>
         <p class="story">Story: <br />{{ inGame.story }}</p>
 
         <h3>Players and Decks:</h3>
-        <ul>
-            <li data-ng-repeat="aPlayer in inGame.players" data-ng-class="{winner: aPlayer.winner}"> <span data-ng-show="aPlayer.winner">Winner!&nbsp;</span>{{ fixName(aPlayer.player.name) }} driving {{ getDeckName(aPlayer.deckName) }}</li>
+        <ul style="list-style: none; padding: 10px 5px;">
+            <li data-ng-repeat="aPlayer in inGame.players" data-ng-class="{winner: aPlayer.winner}"> <span data-ng-show="aPlayer.winner">Winner!&nbsp;</span>{{ getDescription(inDecks[$index]) }}</li>
         </ul>
+        <button data-ng-click="toggleEdit()">Edit Game</button><br />
         <a href="#/games">Return to Games List</a>
     </div>
 
-    <div data-ng-show="newGame">
+    <div data-ng-show="newGame || editGame">
         <h2>Add New Game</h2>
         <div>
             <h3>Add Players and Decks</h3>
@@ -63,9 +64,11 @@
             <div>
                 <h3>Chosen Decks and Players</h3>
                 <ol style="margin: auto; position: relative; left: 50px;">
-                    <li data-ng-repeat="deck in inDecks">
-                        {{ getDescription(deck) }}<span data-ng-show="deck.winner == true" class="isWinner"><-- Winner!</span>
-                        <a data-ng-click="setWinner($index)" href="" data-ng-show="deck.winner == false">Set Winner</a>
+                    <li data-ng-repeat="deck in inDecks track by $index">
+                        {{ getDescription(inDecks[$index]) }}<span data-ng-show="deck.winner == true" class="isWinner"><-- Winner!</span>
+
+                        <button data-ng-show="deck.winner == false" data-ng-click="setWinner($index)">Set Winner</button>
+                        <button data-ng-click="removeDeck($index)">Remove</button>
                     </li>
                 </ol>
             </div>
@@ -95,7 +98,7 @@
                 <textarea data-ng-model="Story" cols="40" rows="10"></textarea>
             </div>
             <div>
-                <button data-add-game>Add Game</button><br />
+                <button data-add-game>{{ editText }}</button>&nbsp<button data-ng-click="toggleEdit()">Cancel</button><br />
             </div>
         </div>
     </div>

@@ -6,8 +6,9 @@
     "user": "",
     "password": "",
     "cookieName": "gookie",
-    "useCrypt": true,
+    "useCrypt": false,
     "snsUser": {"accessKeyId": "", "secretAccessKey": "" },
     "snsEmails": "arn:aws:sns:us-west-2:713974299534:Cmdr_Message",
-    "snsTexts": "arn:aws:sns:us-east-1:713974299534:Commander_Text"
+    "snsTexts": "arn:aws:sns:us-east-1:713974299534:Commander_Text",
+    "usePort": 1337
 }

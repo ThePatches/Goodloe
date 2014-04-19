@@ -29,7 +29,7 @@ app.configure(function (){
     app.use(express.session({ secret: 'SECRET' }));
     app.use(passport.initialize());
     app.use(passport.session());
-    app.set('port', process.env.PORT || 1337);
+    app.set('port', process.env.PORT || CONFIG.usePort);
 });
 
 //var connection = mongoose.createConnection(CONFIG.connString);
@@ -94,9 +94,6 @@ app.get('/query', function(req, res)
     var findObject = {};
     var DeckModel = null;
     var PlayerModel = null;
-
-    //console.log(queryData["coll"]);
-
 
     switch (queryData["coll"])
     {
@@ -325,6 +322,8 @@ app.post('/update', auth, function(req, res)
     var spaceUrl = req.url.replace(/\s/g,"%2B"); // TODO: Fix deck updating to work with changes to deck controller
     var queryData = url.parse(spaceUrl, true).query;
     var theItem = {};
+    var Player = connection.model('Player', SCHEMAS.PlayerSchema, 'Players');
+    var i = 0;
 
     switch (queryData["coll"])
     {
@@ -350,17 +349,96 @@ app.post('/update', auth, function(req, res)
             break;
 
         case "game":
-            theItem = req.body.addedGame;
+            theItem = req.body.games;
             var Game = connection.model('Games', SCHEMAS.GameSchema, 'Games');
-            Game.findOne({_id: theItem._id}, function(err, agame)
+
+            // Decrement the players involved in the game
+            var oldGame = theItem.oldGame;
+            var newGame = theItem.newGame;
+            var pList = [];
+            var winner = null;
+            var nPList = [];
+            var nWinner = null;
+
+            for (i = 0; i < oldGame.players.length; i++)
             {
-                if (err) res.send(err);
+                pList.push(oldGame.players[i].player._id);
+                if (oldGame.players[i].winner)
+                    winner = oldGame.players[i].player._id;
+            }
 
-                console.log(agame);
+            for (i = 0; i < newGame.players.length; i++)
+            {
+                nPList.push(newGame.players[i].player);
+                if (newGame.players[i].winner)
+                    nWinner = newGame.players[i].player;
+            }
 
-                res.send(agame);
+            console.log(nWinner);
+
+            // Start by rolling back the old changes to players
+
+            Player.update({_id: {$in: pList}}, {$inc: {games: -1}}, {multi: true}, function(err, numberAffected, docs)
+            {
+                //console.log(docs);
+                if (err) {
+                    console.log("Error! " + err);
+                    res.send(500);
+                }
+                else
+                {
+                    Player.update({_id: winner}, {$inc: {wins: -1}}, {multi: false}, function (err, numberAffected, docs)
+                    {
+                        if (numberAffected == 1) // All changes rolled back, time to change the rest of the game info...
+                        {
+                            /*var nGame = Game(newGame);
+                            nGame._id = oldGame._id;*/
+                            Game.findOne({_id: oldGame._id}, function (err, doc)
+                            {
+                                if (err)
+                                {
+                                    console.log("Error! " + err);
+                                    console.log("Something went wrong!");
+                                    res.send("Failure!");
+                                }
+                                else
+                                {
+                                    doc.winType = newGame.winType;
+                                    doc.story = newGame.story;
+                                    doc.description = newGame.description;
+                                    doc.players = newGame.players;
+
+                                    doc.save();
+                                    var nOutGame = doc;
+                                    Player.update({_id: {$in: nPList}}, {$inc: {games: 1}}, {multi: true}, function(err, numberAffected, docs)
+                                    {
+                                        //console.log(docs);
+                                        if (err) {
+                                            console.log("Error! " + err);
+                                            res.send(500);
+                                        }
+                                        else
+                                        {
+                                            Player.update({_id: nWinner}, {$inc: {wins: 1}}, {multi: false}, function (err, numberAffected, docs)
+                                            {
+                                                if (numberAffected == 1)
+                                                {
+                                                    //newGame._id
+                                                    res.send(nOutGame); // this is a hack, but it should work.
+                                                }
+                                            });
+
+                                        }
+                                    });
+
+                                }
+                            });
+                        }
+                            //res.send(product);
+                    });
+
+                }
             });
-
 
             break;
 
