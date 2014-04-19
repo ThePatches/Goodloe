@@ -71,8 +71,6 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
 
     $scope.getDescription = function(inObject)
     {
-        // We can do this better if we're better with our objects...
-
         var theDeck = null, thePlayer = null, i = 0;
 
         if (inObject.player != "none")
