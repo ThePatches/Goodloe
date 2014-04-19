@@ -62,3 +62,9 @@ userControllers.controller("AddUserController", ['$scope', '$http', '$cookies', 
     };
 
 }]);
+
+userControllers.controller("ProfileController", ['$scope', '$http', '$cookies', '$location', function($scope, $http, $cookies, $location)
+{
+    $scope.isMe = false;
+
+}]);

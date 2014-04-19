@@ -58,6 +58,11 @@ goodloeApp.config(['$routeProvider',
                 templateUrl: "views/loginrequest.html",
                 controller: "LoginRequest"
             })
+            .when('/user',
+                {
+                  templateUrl: "views/userprofile.html",
+                  controller: "ProfileController"
+                })
         .otherwise({
                 templateUrl: "views/404View.html",
                 controller: defaultController
