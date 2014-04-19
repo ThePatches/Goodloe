@@ -32,6 +32,10 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
                 $http.get(CONFIG.server + "query?coll=game&id=" + $routeParams.gameId)
                     .success(function (data) {
                         $scope.inGame = data[0];
+                        $scope.Description = $scope.inGame.description;
+                        $scope.winType = $scope.inGame.winType;
+                        $scope.gameType = $scope.inGame.gameType;
+                        $scope.Story = $scope.inGame.story;
                         $scope.inDecks = [];
                         for (var i = 0; i < $scope.inGame.players.length; i++)
                         {
