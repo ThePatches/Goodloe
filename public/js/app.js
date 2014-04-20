@@ -64,7 +64,7 @@ goodloeApp.config(['$routeProvider',
 
 var defaultController = angular.module('defaultController', []);
 
-defaultController.controller('DefaultController', ['$scope', '$http', function($scope, $http)
+defaultController.controller('DefaultController', ['$scope', function($scope)
 {
     var aDate = new Date(jQuery.now());
     $scope.Date =  aDate.toUTCString();
@@ -106,7 +106,7 @@ defaultController.controller("LoginController", ['$scope', '$http', '$cookies', 
     };
 }]);
 
-defaultController.controller("AddUserController", ['$scope', '$http', '$cookies', '$location', function($scope, $http, $cookies, $location) {
+defaultController.controller("AddUserController", ['$scope', '$http', function($scope, $http) {
     $scope.username = null;
     $scope.password = null;
     $scope.adminRights = 1;
@@ -188,6 +188,34 @@ defaultController.controller("SuggestController", ['$scope', '$http', '$location
     $scope.email = "";
     $scope.title = "";
     $scope.suggestion = "";
+    $scope.Messages = "";
+    $scope.canSubmit = true;
+
+    $scope.doSubmit = function ()
+    {
+        var subObject = {email: $scope.email, title: $scope.title, suggestion: $scope.suggestion};
+
+        $http({
+            url: CONFIG.server + "suggest",
+            method: "POST",
+            data: subObject,
+            headers: {'Content-type': 'application/json; charset=utf-8'}
+        }).success(function (data)
+            {
+                $scope.Messages = "You suggestion has been sent to the site admin.";
+                $scope.canSubmit = false;
+
+            }).error(function (err)
+            {
+                $scope.Messages = "Error: " + JSON.stringify(err);
+                $scope.canSubmit = false;
+            });
+    };
+
+    $scope.Cancel = function()
+    {
+        $location.path("/");
+    };
 }]);
 
 angular.module("GlobalDirectives", [])
@@ -204,6 +232,11 @@ angular.module("GlobalDirectives", [])
                     {
                        $(this).val("");
                     });
+
+                    $("#" + clearDivId + ">textarea").each(function ()
+                    {
+                        $(this).val("");
+                    })
                 });
             }]
         }

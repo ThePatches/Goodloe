@@ -13,8 +13,8 @@
 </style>
 
 <div>
-    <h>Suggest a Feature</h>
-    <div id="formDiv">
+    <h2>Suggest a Feature</h2>
+    <div id="formDiv" style="padding-top: 20px;">
         <label for="email">Email:</label><input id="email" type="text" data-ng-model="email" /><br />
         <label for="title">Title:</label><input id="title" type="text" data-ng-model="title" /><br />
         <label for="suggestion">Description:</label><br />
@@ -23,5 +23,6 @@
     <div id="buttonDiv">
         <button data-ng-click="doSubmit()" data-ng-disabled="!canSubmit">Submit</button>&nbsp;<button data-clear-inputs data-form-div="formDiv">Clear</button>&nbsp;<button data-ng-click="Cancel()">Cancel</button>
         <br />
+        <span>{{ Messages }}</span>
     </div>
 </div>
