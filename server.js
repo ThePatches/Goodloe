@@ -218,6 +218,30 @@ app.post('/requser', function(req, res) // TODO: Set this to work with SES so th
     });
 });
 
+app.post('/suggest', function(req, res)
+{
+    var inObject = req.body;
+
+    var msgContent = "Suggestion: " + inObject.title + "\nDescription: " + inObject.suggestion + "\n\nEmail: " + inObject.email;
+    var params = {
+        Message: msgContent,
+        Subject: "Goodloe League Suggestion Box",
+        TopicArn: CONFIG.snsEmails
+    }
+
+    if (CONFIG.snsUser.accessKeyId == "")
+    {
+        res.send(500, "No access key!");
+    }
+    else {
+        notify.sendEmail(params, function (err, data)
+        {
+            if (err) res.send(500, err);
+            res.send(data);
+        });
+    }
+});
+
 app.post('/add', auth, function(req, res) // Need to convert these all to post requests
 {
     var spaceUrl = req.url.replace(/\s/g,"%2B");
@@ -460,7 +484,6 @@ app.post('/update', auth, function(req, res)
                                 }
                             });
                         }
-                            //res.send(product);
                     });
 
                 }
