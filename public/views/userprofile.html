@@ -1,11 +1,19 @@
 <div>
     <h2>User Profile</h2>
     <div data-ng-show="!isMe">
-        This space shown if you're not logged in as this person.
+        <label>{{ inUser.userName }}</label>
     </div>
 
-    <div data-ng-show="isMe">
-        This space shown if logged in as this person.
+    <div data-ng-show="isMe" id="formDiv">
+        <label>You are logged in as: {{ inUser.userName }}</label><br />
+        <label for="email">Email: </label><input id="email" data-ng-model="inUser.email" /><br />
+        <div style="padding-left: 10px; padding-top: 30px;">
+            <label for="currpass">Current Password: </label><input type="password" id="currpass" data-ng-model="oldPass" /><br />
+            <label for="pass1">New Password: </label><input type="password" id="pass1" data-ng-model="newPass1" />{{ errMsg }}<br />
+            <label for="pass2">Confirm Password: </label><input type="password" id="pass2" data-ng-model="newPass2" />&nbsp;&nbsp;<button data-ng-click="changePass()">Change Password</button><br />
+        </div><br />
     </div>
-    <a href="/" class="navLink">Return to the Main Page</a>
+    <div style="padding-top: 5px;">
+        <a href="/" class="navLink">Return to the Main Page</a>
+    </div>
 </div>

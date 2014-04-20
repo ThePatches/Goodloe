@@ -65,6 +65,7 @@ userControllers.controller("AddUserController", ['$scope', '$http', '$cookies', 
 
 userControllers.controller("ProfileController", ['$scope', '$http', '$cookies', '$location', function($scope, $http, $cookies, $location)
 {
-    $scope.isMe = false;
+    $scope.isMe = true;
+    $scope.inUser = {userName: "Dummy User", email: "someone@place.com"};
 
 }]);
