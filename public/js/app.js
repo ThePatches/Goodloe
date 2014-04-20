@@ -1,4 +1,4 @@
-var goodloeApp = angular.module('goodloeApp', ['ngRoute', 'deckControllers', "defaultController", "ngCookies", "gameControllers", "playerControllers", "GameDirectives", "GlobalDirectives"]);
+var goodloeApp = angular.module('goodloeApp', ['ngRoute', 'deckControllers', "defaultController", "ngCookies", "gameControllers", "userControllers", "playerControllers", "GameDirectives", "GlobalDirectives"]);
 
 goodloeApp.config(['$routeProvider',
     function($routeProvider)
@@ -149,6 +149,7 @@ defaultController.controller("SuggestController", ['$scope', '$http', '$location
     $scope.suggestion = "";
     $scope.Messages = "";
     $scope.canSubmit = true;
+    $scope.hasSubmitted = false;
 
     $scope.doSubmit = function ()
     {
@@ -163,6 +164,7 @@ defaultController.controller("SuggestController", ['$scope', '$http', '$location
             {
                 $scope.Messages = "You suggestion has been sent to the site admin.";
                 $scope.canSubmit = false;
+                $scope.hasSubmitted = true;
 
             }).error(function (err)
             {

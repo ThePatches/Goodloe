@@ -22,7 +22,6 @@
     </div>
     <div id="buttonDiv">
         <button data-ng-click="doSubmit()" data-ng-disabled="!canSubmit">Submit</button>&nbsp;<button data-clear-inputs data-form-div="formDiv">Clear</button>&nbsp;<button data-ng-click="Cancel()">Cancel</button>
-        <br />
-        <span>{{ Messages }}</span>
     </div>
+    <span>{{ Messages }}</span><br /><a href="/" class="navLink" data-ng-show="hasSubmitted" style="padding-top: 2px;">Return to the main page</a>
 </div>
