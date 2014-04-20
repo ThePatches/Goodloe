@@ -63,6 +63,11 @@ goodloeApp.config(['$routeProvider',
                   templateUrl: "views/userprofile.html",
                   controller: "ProfileController"
                 })
+            .when('/suggest',
+            {
+                templateUrl: "views/suggest.html",
+                controller: "SuggestController"
+            })
         .otherwise({
                 templateUrl: "views/404View.html",
                 controller: defaultController
@@ -137,6 +142,43 @@ defaultController.controller("LoginRequest", ['$scope', '$http', '$location', fu
             });
 
         $scope.showErr = false;
+    };
+
+    $scope.Cancel = function()
+    {
+        $location.path("/");
+    };
+}]);
+
+defaultController.controller("SuggestController", ['$scope', '$http', '$location', function($scope, $http, $location)
+{
+    $scope.email = "";
+    $scope.title = "";
+    $scope.suggestion = "";
+    $scope.Messages = "";
+    $scope.canSubmit = true;
+    $scope.hasSubmitted = false;
+
+    $scope.doSubmit = function ()
+    {
+        var subObject = {email: $scope.email, title: $scope.title, suggestion: $scope.suggestion};
+
+        $http({
+            url: CONFIG.server + "suggest",
+            method: "POST",
+            data: subObject,
+            headers: {'Content-type': 'application/json; charset=utf-8'}
+        }).success(function (data)
+            {
+                $scope.Messages = "You suggestion has been sent to the site admin.";
+                $scope.canSubmit = false;
+                $scope.hasSubmitted = true;
+
+            }).error(function (err)
+            {
+                $scope.Messages = "Error: " + JSON.stringify(err);
+                $scope.canSubmit = false;
+            });
     };
 
     $scope.Cancel = function()
