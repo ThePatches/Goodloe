@@ -63,9 +63,21 @@ userControllers.controller("AddUserController", ['$scope', '$http', '$cookies', 
 
 }]);
 
-userControllers.controller("ProfileController", ['$scope', '$http', '$cookies', '$location', function($scope, $http, $cookies, $location)
+//userControllers.controller("ProfileController", ['$scope', '$http', '$cookies', '$location', function($scope, $http, $cookies, $location)
+userControllers.controller("ProfileController", ['$scope', function($scope)
 {
     $scope.isMe = true;
     $scope.inUser = {userName: "Dummy User", email: "someone@place.com"};
+    $scope.newPass1 = null;
+    $scope.newPass2 = null;
+
+    $scope.changePass = function()
+    {
+        if ($scope.newPass1 != $scope.newPass2)
+        {
+            $scope.errMsg = "Your passwords must match!";
+            $scope.$apply();
+        }
+    };
 
 }]);
