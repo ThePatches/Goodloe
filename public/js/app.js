@@ -50,6 +50,11 @@ goodloeApp.config(['$routeProvider',
                 templateUrl: "views/loginrequest.html",
                 controller: "LoginRequest"
             })
+            .when('/suggest',
+            {
+                templateUrl: "views/suggest.html",
+                controller: "SuggestController"
+            })
         .otherwise({
                 templateUrl: "views/404View.html",
                 controller: defaultController
@@ -176,6 +181,13 @@ defaultController.controller("LoginRequest", ['$scope', '$http', '$location', fu
     {
         $location.path("/");
     };
+}]);
+
+defaultController.controller("SuggestController", ['$scope', '$http', '$location', function($scope, $http, $location)
+{
+    $scope.email = "";
+    $scope.title = "";
+    $scope.suggestion = "";
 }]);
 
 angular.module("GlobalDirectives", [])
