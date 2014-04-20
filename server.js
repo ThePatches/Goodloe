@@ -457,6 +457,7 @@ app.post('/update', auth, function(req, res)
                                     doc.story = newGame.story;
                                     doc.description = newGame.description;
                                     doc.players = newGame.players;
+                                    doc.timePlayed = newGame.timePlayed;
 
                                     doc.save();
                                     var nOutGame = doc;
