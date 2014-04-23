@@ -1,0 +1,27 @@
+<style>
+    #buttonDiv
+    {
+        padding-top: 10px;
+        clear: left;
+    }
+
+    textarea
+    {
+        float: left;
+        clear: both;
+    }
+</style>
+
+<div>
+    <h2>Suggest a Feature</h2>
+    <div id="formDiv" style="padding-top: 20px;">
+        <label for="email">Email:</label><input id="email" type="text" data-ng-model="email" /><br />
+        <label for="title">Title:</label><input id="title" type="text" data-ng-model="title" /><br />
+        <label for="suggestion">Description:</label><br />
+        <textarea id="suggestion" data-ng-model="suggestion" cols="50" rows="10"></textarea><br />
+    </div>
+    <div id="buttonDiv">
+        <button data-ng-click="doSubmit()" data-ng-disabled="!canSubmit">Submit</button>&nbsp;<button data-clear-inputs data-form-div="formDiv">Clear</button>&nbsp;<button data-ng-click="Cancel()">Cancel</button>
+    </div>
+    <span>{{ Messages }}</span><br /><a href="/" class="navLink" data-ng-show="hasSubmitted" style="padding-top: 2px;">Return to the main page</a>
+</div>
