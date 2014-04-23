@@ -64,12 +64,14 @@ userControllers.controller("AddUserController", ['$scope', '$http', '$cookies', 
 }]);
 
 //userControllers.controller("ProfileController", ['$scope', '$http', '$cookies', '$location', function($scope, $http, $cookies, $location)
-userControllers.controller("ProfileController", ['$scope', function($scope)
+userControllers.controller("ProfileController", ['$scope', '$cookies', function($scope, $cookies)
 {
     $scope.isMe = true;
-    $scope.inUser = {userName: "Dummy User", email: "someone@place.com"};
+    //$scope.inUser = {userName: "Dummy User", email: "someone@place.com"};
     $scope.newPass1 = null;
     $scope.newPass2 = null;
+
+    $scope.inUser = JSON.parse($cookies.gookie);
 
     $scope.changePass = function()
     {
@@ -78,6 +80,11 @@ userControllers.controller("ProfileController", ['$scope', function($scope)
             $scope.errMsg = "Your passwords must match!";
             $scope.$apply();
         }
+    };
+
+    $scope.saveMe = function ()
+    {
+        alert("Not implemented!");
     };
 
 }]);

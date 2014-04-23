@@ -462,8 +462,9 @@ app.get('/encrypt', auth, function(req, res)
 
 app.post('/login', passport.authenticate('local'), function(req, res)
 {
+    //console.log(req.user);
     var retUser = req.user;
-    res.cookie(CONFIG.cookieName, JSON.stringify({id: retUser._id, username: retUser.username, adminRights: retUser.adminRights }));
+    res.cookie(CONFIG.cookieName, JSON.stringify({id: retUser._id, username: retUser.username, adminRights: retUser.adminRights, email: retUser.email }));
     res.send(retUser);
 });
 

@@ -38,7 +38,8 @@ var UserSchema = new Schema({
     hash: String,
     active: Boolean,
     adminRights: Number,
-    email: String
+    email: String,
+    wantemail: Boolean
 });
 
 module.exports = {
