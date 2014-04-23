@@ -1,12 +1,39 @@
+<style type="text/css">
+    label.userName
+    {
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+
+    button.saveButton
+    {
+        float: left;
+        clear: both;
+    }
+
+    span.devNote
+    {
+        font-style: italic;
+        float: left;
+        padding: 1px 1px 1px 1px;
+    }
+
+    div.passWord
+    {
+        padding-left: 10px;
+        padding-top: 20px;
+    }
+</style>
+
 <div>
     <h2>User Profile</h2>
     <div data-ng-show="isMe" id="formDiv">
-        <label style="font-size: 1.2em; font-weight: bold;">{{ inUser.username }}</label><br />
+        <label class="userName">{{ inUser.username }}</label><br />
         <label for="email">Email: </label><input id="email" data-ng-model="inUser.email" /><br />
         <label for="wantemail">Email updates?</label><input id="wantemail" type="checkbox" data-ng-model="inUser.wantemail" style="margin-top: 3px;">
-        <span style="font-style: italic; float: left; padding: 1px 1px 1px 1px;">(no emails yet, but you will get some if you're interested)</span> <br/>
-        <button style="float: left; clear: both;">Save Settings</button><br />
-        <div style="padding-left: 10px; padding-top: 20px;">
+        <span class="devNote">(no emails yet, but you will get some if you're interested)</span> <br/>
+        <button class="saveButton" data-ng-click="saveMe()">Save Settings</button><br />
+        <div class="passWord">
             <label for="currpass">Current Password: </label><input type="password" id="currpass" data-ng-model="oldPass" /><br />
             <label for="pass1">New Password: </label><input type="password" id="pass1" data-ng-model="newPass1" /><span>{{ errMsg }}</span><br />
             <label for="pass2">Confirm Password: </label><input type="password" id="pass2" data-ng-model="newPass2" />

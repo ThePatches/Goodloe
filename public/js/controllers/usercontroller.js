@@ -64,7 +64,7 @@ userControllers.controller("AddUserController", ['$scope', '$http', '$cookies', 
 }]);
 
 //userControllers.controller("ProfileController", ['$scope', '$http', '$cookies', '$location', function($scope, $http, $cookies, $location)
-userControllers.controller("ProfileController", ['$scope', '$cookies', function($scope, $cookies)
+userControllers.controller("ProfileController", ['$scope', '$cookies', '$http', function($scope, $cookies, $http)
 {
     $scope.isMe = true;
     //$scope.inUser = {userName: "Dummy User", email: "someone@place.com"};
@@ -84,7 +84,16 @@ userControllers.controller("ProfileController", ['$scope', '$cookies', function(
 
     $scope.saveMe = function ()
     {
-        alert("Not implemented!");
+        //alert("Not implemented!");
+            $http.post('/update?coll=user', {inUser: $scope.inUser})
+                .success(function (response)
+                {
+                    $scope.inUser = response;
+                })
+                .error(function (response)
+                {
+                   $scope.errMsg = response;
+                });
     };
 
 }]);

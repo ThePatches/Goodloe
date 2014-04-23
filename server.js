@@ -64,7 +64,7 @@ passport.use(new LocalStrategy(function(username, password, done)
 }));
 
 passport.serializeUser(function(user, done){
-    done(null, user.id);
+    done(null, user._id);
 });
 
 passport.deserializeUser(function(id, done)
@@ -179,7 +179,7 @@ app.get('/query', function(req, res)
     }
 });
 
-app.post('/requser', function(req, res)
+app.post('/requser', function(req, res) // TODO: Set this to work with SES so that you can use SNS for major notifications.
 {
     var inObject = req.body;
     var findObject = {};
@@ -319,7 +319,7 @@ app.post('/add', auth, function(req, res) // Need to convert these all to post r
 
 app.post('/update', auth, function(req, res)
 {
-    var spaceUrl = req.url.replace(/\s/g,"%2B"); // TODO: Fix deck updating to work with changes to deck controller
+    var spaceUrl = req.url.replace(/\s/g,"%2B");
     var queryData = url.parse(spaceUrl, true).query;
     var theItem = {};
     var Player = connection.model('Player', SCHEMAS.PlayerSchema, 'Players');
@@ -345,6 +345,32 @@ app.post('/update', auth, function(req, res)
 
                 res.send(doc);
             });
+
+            break;
+
+        case "user":
+            theItem = req.body.inUser;
+            var currUser = JSON.parse(req.cookies[CONFIG.cookieName]);
+            if (currUser.adminRights != 3 || currUser._id != theItem._id)
+            {
+                res.send(401, "You cannot make a change to this user!");
+            }
+            else
+            {
+                Users.findOne({_id: theItem.id}, function (err, doc)
+                {
+                    if (err) res.send(err);
+
+                    //console.log(doc);
+                    doc.email = theItem.email;
+                    doc.wantemail = theItem.wantemail;
+
+                    // More options can appear here
+
+                    doc.save();
+                    res.send(doc);
+                });
+            }
 
             break;
 
@@ -464,7 +490,7 @@ app.post('/login', passport.authenticate('local'), function(req, res)
 {
     //console.log(req.user);
     var retUser = req.user;
-    res.cookie(CONFIG.cookieName, JSON.stringify({id: retUser._id, username: retUser.username, adminRights: retUser.adminRights, email: retUser.email }));
+    res.cookie(CONFIG.cookieName, JSON.stringify({id: retUser._id, username: retUser.username, adminRights: retUser.adminRights, email: retUser.email, wantemail: retUser.wantemail }));
     res.send(retUser);
 });
 
