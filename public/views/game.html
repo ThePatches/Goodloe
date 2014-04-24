@@ -92,14 +92,14 @@
                 <option>Alternate / Combo</option>
               </select><br /><br />
             Time played:<br />
-            <input id="hours" type="text" size="2" data-ng-model="Hours" />&nbsp;<label for="hours">hours</label><br />
-            <input id="minutes" type="text" size="2" data-ng-model="Minutes" />&nbsp;<label for="minutes">minutes</label>
+            <input id="hours" type="text" size="2" maxlength="2" data-ng-model="Hours" />&nbsp;<label for="hours">hours</label><br />
+            <input id="minutes" type="text" size="2" maxlength="2" data-ng-model="Minutes" />&nbsp;<label for="minutes">minutes</label>
             </div>
             <br /><br />
             <div>
                 Description (Keep it under 100 characters): <input type="text" data-ng-model="Description" maxlength="100" style="width: 200px;" /><br />
-                Story:<br />
-                <textarea data-ng-model="Story" cols="40" rows="10"></textarea>
+                <label for="Story">Story:</label><br />
+                <textarea id="Story" data-ng-model="Story" cols="40" rows="10"></textarea>
             </div>
             <div>
                 <button data-add-game>{{ editText }}</button>&nbsp<button data-ng-click="toggleEdit()">Cancel</button><br />

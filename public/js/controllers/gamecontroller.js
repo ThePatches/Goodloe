@@ -49,7 +49,7 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
     });
 
     /** @return string */
-    $scope.HumanTime = function(totalMinutes)
+    $scope.HumanTime = function(totalMinutes) // This function is probably redundant
     {
         var retString;
 

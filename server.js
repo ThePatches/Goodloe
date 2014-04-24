@@ -453,6 +453,7 @@ app.post('/update', auth, function(req, res)
                                 }
                                 else
                                 {
+                                    console.log(newGame.timePlayed);
                                     doc.winType = newGame.winType;
                                     doc.story = newGame.story;
                                     doc.description = newGame.description;
