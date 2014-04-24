@@ -36,8 +36,9 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
                         $scope.winType = $scope.inGame.winType;
                         $scope.gameType = $scope.inGame.gameType;
                         $scope.Story = $scope.inGame.story;
+                        $scope.Hours = ~~($scope.inGame.timePlayed / 60);
+                        $scope.Minutes = $scope.inGame.timePlayed % 60;
                         $scope.inDecks = [];
-                        $scope.inGame.timePlayed = 351;
                         for (var i = 0; i < $scope.inGame.players.length; i++)
                         {
                             $scope.inDecks.push($scope.convFromDB($scope.inGame.players[i]));

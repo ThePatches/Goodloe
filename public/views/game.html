@@ -76,21 +76,24 @@
         </div>
         <div>
             <h3>Game Status</h3>
-            Choose Game Type:
-              <select data-ng-model="gameType">
+            <label for="gameType">Choose Game Type:</label>
+              <select id="gameType" data-ng-model="gameType">
                 <option>1v1</option>
                 <option>2hg</option>
                 <option>Multi</option>
               </select><br />
 
-              Choose Win Type:
-              <select data-ng-model="winType">
+              <label for="winType">Choose Win Type:</label>
+              <select id="winType" data-ng-model="winType">
                 <option>Concession</option>
                 <option>Mill</option>
                 <option>DD</option>
                 <option>Combat</option>
                 <option>Alternate / Combo</option>
-              </select>
+              </select><br /><br />
+            Time played:<br />
+            <input id="hours" type="text" size="2" data-ng-model="Hours" />&nbsp;<label for="hours">hours</label><br />
+            <input id="minutes" type="text" size="2" data-ng-model="Minutes" />&nbsp;<label for="minutes">minutes</label>
             </div>
             <br /><br />
             <div>
