@@ -40,7 +40,7 @@ userControllers.controller("LoginController", ['$scope', '$http', '$cookies', '$
     };
 }]);
 
-userControllers.controller("AddUserController", ['$scope', '$http', '$cookies', '$location', function($scope, $http, $cookies, $location) {
+userControllers.controller("AddUserController", ['$scope', '$http', function($scope, $http) {
     $scope.username = null;
     $scope.password = null;
     $scope.adminRights = 1;
@@ -50,7 +50,7 @@ userControllers.controller("AddUserController", ['$scope', '$http', '$cookies', 
     {
         var addUser = {username: $scope.username, pass: $scope.password, adminRights: $scope.adminRights, encrypt: $scope.isEncrypt};
 
-        $http.post(CONFIG.server + "adduser", {addUser: addUser})
+        $http.post("/adduser", {addUser: addUser})
             .success(function (response)
             {
                 $scope.OutMessage = response;
@@ -84,7 +84,6 @@ userControllers.controller("ProfileController", ['$scope', '$cookies', '$http', 
 
     $scope.saveMe = function ()
     {
-        //alert("Not implemented!");
             $http.post('/update?coll=user', {inUser: $scope.inUser})
                 .success(function (response)
                 {
