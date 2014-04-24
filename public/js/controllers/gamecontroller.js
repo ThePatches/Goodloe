@@ -37,6 +37,7 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
                         $scope.gameType = $scope.inGame.gameType;
                         $scope.Story = $scope.inGame.story;
                         $scope.inDecks = [];
+                        $scope.inGame.timePlayed = 351;
                         for (var i = 0; i < $scope.inGame.players.length; i++)
                         {
                             $scope.inDecks.push($scope.convFromDB($scope.inGame.players[i]));
@@ -45,6 +46,22 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
             }
         });
     });
+
+    /** @return string */
+    $scope.HumanTime = function(totalMinutes)
+    {
+        var retString;
+
+        if (!totalMinutes)
+            return "";
+
+        var hours = ~~(totalMinutes / 60); // Oh, Javascript. You crazy.
+        var minutes = totalMinutes % 60;
+
+        retString = hours.toString() + " hours " + minutes.toString() + " minutes";
+
+        return retString;
+    };
 
     $scope.fixName = function (inName)
     {
