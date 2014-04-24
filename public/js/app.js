@@ -1,4 +1,4 @@
-var goodloeApp = angular.module('goodloeApp', ['ngRoute', 'deckControllers', "defaultController", "ngCookies", "gameControllers", "playerControllers", "GameDirectives", "GlobalDirectives"]);
+var goodloeApp = angular.module('goodloeApp', ['ngRoute', 'deckControllers', "defaultController", "ngCookies", "gameControllers", "userControllers", "playerControllers", "GameDirectives", "GlobalDirectives"]);
 
 goodloeApp.config(['$routeProvider',
     function($routeProvider)
@@ -50,6 +50,11 @@ goodloeApp.config(['$routeProvider',
                 templateUrl: "views/loginrequest.html",
                 controller: "LoginRequest"
             })
+            .when('/user/me',
+                {
+                  templateUrl: "views/userprofile.html",
+                  controller: "ProfileController"
+                })
             .when('/suggest',
             {
                 templateUrl: "views/suggest.html",
@@ -64,69 +69,23 @@ goodloeApp.config(['$routeProvider',
 
 var defaultController = angular.module('defaultController', []);
 
-defaultController.controller('DefaultController', ['$scope', function($scope)
+defaultController.controller('DefaultController', ['$scope', '$cookies', function($scope, $cookies)
 {
     var aDate = new Date(jQuery.now());
     $scope.Date =  aDate.toUTCString();
-}]);
-
-defaultController.controller("LoginController", ['$scope', '$http', '$cookies', '$location', function($scope, $http, $cookies, $location)
-{
     $scope.userName = null;
-    $scope.password = null;
-    $scope.SomeStuff = $cookies.gookie ? JSON.parse($cookies.gookie).username : "None";
 
-    $scope.DoLogin = function()
+    $scope.isLoggedIn = function()
     {
-        $http.post("/login", {username: $scope.userName, password: $scope.password})
-            .success(function(user)
-            {
-                if (user)
-                {
-                    $scope.SomeStuff = user.username;
-
-                    $scope.userName = "";
-                    $scope.password = "";
-                    $location.path('/');
-                }
-                else
-                {
-                    $scope.SomeStuff = "failed login!";
-                }
-            }).error(function ()
-            {
-                $scope.SomeStuff = "failed login!";
-            });
+        //$scope.SomeStuff = $cookies.gookie ? JSON.parse($cookies.gookie).username : "None";
+        if ($cookies.gookie)
+        {
+            $scope.userName = JSON.parse($cookies.gookie).username;
+            return true;
+        }
+        else
+            return false;
     };
-
-    $scope.DoLogOut = function ()
-    {
-        $http.post("/logout");
-        $scope.SomeStuff = "None";
-    };
-}]);
-
-defaultController.controller("AddUserController", ['$scope', '$http', function($scope, $http) {
-    $scope.username = null;
-    $scope.password = null;
-    $scope.adminRights = 1;
-    $scope.isEncrypt = false;
-
-    $scope.addUser = function()
-    {
-        var addUser = {username: $scope.username, pass: $scope.password, adminRights: $scope.adminRights, encrypt: $scope.isEncrypt};
-
-        $http.post(CONFIG.server + "adduser", {addUser: addUser})
-            .success(function (response)
-            {
-                $scope.OutMessage = response;
-            })
-            .error(function(response)
-            {
-                $scope.OutMessage = response;
-            });
-    };
-
 }]);
 
 defaultController.controller("LoginRequest", ['$scope', '$http', '$location', function($scope, $http, $location)
@@ -159,7 +118,7 @@ defaultController.controller("LoginRequest", ['$scope', '$http', '$location', fu
         newUser.password = $scope.pass1;
 
         $http({
-            url: CONFIG.server + "requser",
+            url: "/requser",
             method: "POST",
             data: newUser,
             headers: {'Content-type': 'application/json; charset=utf-8'}
@@ -197,7 +156,7 @@ defaultController.controller("SuggestController", ['$scope', '$http', '$location
         var subObject = {email: $scope.email, title: $scope.title, suggestion: $scope.suggestion};
 
         $http({
-            url: CONFIG.server + "suggest",
+            url: "/suggest",
             method: "POST",
             data: subObject,
             headers: {'Content-type': 'application/json; charset=utf-8'}

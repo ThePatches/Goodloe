@@ -1,8 +1,11 @@
 <div id="form">
-    User Name: <input type="text" data-ng-model="userName" /><br />
-    Password: <input type="password" data-ng-model="password" class="login" /><br />
-    <button data-ng-click="DoLogin()">Login</button>&nbsp;<button data-ng-click="DoLogOut()">Log Out</button>
-    <div>
-        Current User: {{ SomeStuff }}
+    <div data-ng-show="SomeStuff == 'None'">
+        <label for="userName">User Name:</label><input id="userName" type="text" data-ng-model="userName" /><br />
+        <label for="password">Password:</label><input id="password" type="password" data-ng-model="password" class="login" /><br />
+        <button data-ng-click="DoLogin()">Login</button>&nbsp;
+    </div>
+    <div data-ng-show="SomeStuff != 'None'">
+        Current User: {{ SomeStuff }}<br />
+        <button data-ng-click="DoLogOut()">Log Out</button>
     </div>
 </div>
