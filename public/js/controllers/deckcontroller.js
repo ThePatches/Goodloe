@@ -44,7 +44,7 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
         if ($scope.deckId == "new")
         {
             $http({
-                url: CONFIG.server + "add?coll=deck",
+                url: "/add?coll=deck",
                 method: "POST",
                 data: {addedDeck: addedDeck},
                 headers: {'Content-type': 'application/json; charset=utf-8'}
@@ -60,7 +60,7 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
         else
         {
             $http({
-                url: CONFIG.server + "update?coll=deck",
+                url: "/update?coll=deck",
                 method: "POST",
                 data: {addedDeck: addedDeck},
                 headers: {'Content-type': 'application/json; charset=utf-8'}
@@ -91,7 +91,7 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
 
     if ($scope.deckId != 'new')
     {
-        $http.get(CONFIG.server + 'query?coll=deck&id=' + $scope.deckId).success(function (data) {
+        $http.get('/query?coll=deck&id=' + $scope.deckId).success(function (data) {
             if (data != "no deck returned")
             {
                 $scope.Deck = data[0];
@@ -110,7 +110,7 @@ deckControllers.controller('DeckListController', ['$scope', '$http', '$location'
 
         $scope.groupField = null;
 
-        $http.get(CONFIG.server + 'query?coll=deck').success(function (data) // Need to get this to work parameterized
+        $http.get('/query?coll=deck').success(function (data) // Need to get this to work parameterized
         {
             $scope.Decks = data;
         });

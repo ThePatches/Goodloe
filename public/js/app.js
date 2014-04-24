@@ -118,7 +118,7 @@ defaultController.controller("LoginRequest", ['$scope', '$http', '$location', fu
         newUser.password = $scope.pass1;
 
         $http({
-            url: CONFIG.server + "requser",
+            url: "/requser",
             method: "POST",
             data: newUser,
             headers: {'Content-type': 'application/json; charset=utf-8'}
@@ -156,7 +156,7 @@ defaultController.controller("SuggestController", ['$scope', '$http', '$location
         var subObject = {email: $scope.email, title: $scope.title, suggestion: $scope.suggestion};
 
         $http({
-            url: CONFIG.server + "suggest",
+            url: "/suggest",
             method: "POST",
             data: subObject,
             headers: {'Content-type': 'application/json; charset=utf-8'}

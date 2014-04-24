@@ -76,7 +76,7 @@ angular.module('GameDirectives', [])
                        $scope.OutGame = addedGame;
 
                         $http({
-                                url: CONFIG.server + "add?coll=game",
+                                url: "/add?coll=game",
                                 method: "POST",
                                 data: {addedGame: addedGame},
                                 headers: {'Content-type': 'application/json; charset=utf-8'}
@@ -109,7 +109,7 @@ angular.module('GameDirectives', [])
                         $scope.OutGame = newGame;
 
                         $http({
-                            url: CONFIG.server + "update?coll=game",
+                            url: "/update?coll=game",
                             method: "POST",
                             data: {games: reqBody},
                             headers: {'Content-Type': 'application/json; charset=utf-8'}

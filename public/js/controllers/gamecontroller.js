@@ -24,12 +24,12 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
     $http.get(CONFIG.server + 'query?coll=deck').success(function (data) // Need to get this to work parameterized
     {
         $scope.Decks = data;
-        $http.get(CONFIG.server + 'query?coll=player').success(function (data) // Need to get this to work parameterized
+        $http.get('/query?coll=player').success(function (data) // Need to get this to work parameterized
         {
             $scope.Players = data;
             if (!$scope.newGame)
             {
-                $http.get(CONFIG.server + "query?coll=game&id=" + $routeParams.gameId)
+                $http.get("/query?coll=game&id=" + $routeParams.gameId)
                     .success(function (data) {
                         $scope.inGame = data[0];
                         $scope.Description = $scope.inGame.description;
@@ -118,7 +118,7 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
 }]);
 
 gameControllers.controller("GameListController", ['$scope', '$http', '$location', function($scope, $http, $location){
-    $http.get(CONFIG.server + 'query?coll=game').success(function (data)
+    $http.get('/query?coll=game').success(function (data)
     {
         $scope.Games = data;
     });
