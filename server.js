@@ -453,10 +453,12 @@ app.post('/update', auth, function(req, res)
                                 }
                                 else
                                 {
+                                    console.log(newGame.timePlayed);
                                     doc.winType = newGame.winType;
                                     doc.story = newGame.story;
                                     doc.description = newGame.description;
                                     doc.players = newGame.players;
+                                    doc.timePlayed = newGame.timePlayed;
 
                                     doc.save();
                                     var nOutGame = doc;

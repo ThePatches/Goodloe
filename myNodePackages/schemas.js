@@ -30,7 +30,8 @@ var GameSchema = new Schema({
     winType: String,
     gameType: String,
     description: String,
-    story: String
+    story: String,
+    timePlayed: Number
 });
 
 var UserSchema = new Schema({

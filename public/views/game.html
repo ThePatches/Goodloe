@@ -35,7 +35,8 @@
 
 <div class="Game">
     <div data-ng-show="!newGame && !editGame">
-        <b>Description:</b> <span class="description">{{ inGame.description }} </span>
+        <b>Description:</b><span class="description">{{ inGame.description }}</span><br />
+        <b>Time Played:</b>&nbsp;<span> {{ HumanTime(inGame.timePlayed) }}</span>
         <p class="story">Story: <br />{{ inGame.story }}</p>
 
         <h3>Players and Decks:</h3>
@@ -75,27 +76,30 @@
         </div>
         <div>
             <h3>Game Status</h3>
-            Choose Game Type:
-              <select data-ng-model="gameType">
+            <label for="gameType">Choose Game Type:</label>
+              <select id="gameType" data-ng-model="gameType">
                 <option>1v1</option>
                 <option>2hg</option>
                 <option>Multi</option>
               </select><br />
 
-              Choose Win Type:
-              <select data-ng-model="winType">
+              <label for="winType">Choose Win Type:</label>
+              <select id="winType" data-ng-model="winType">
                 <option>Concession</option>
                 <option>Mill</option>
                 <option>DD</option>
                 <option>Combat</option>
                 <option>Alternate / Combo</option>
-              </select>
+              </select><br /><br />
+            Time played:<br />
+            <input id="hours" type="text" size="2" maxlength="2" data-ng-model="Hours" />&nbsp;<label for="hours">hours</label><br />
+            <input id="minutes" type="text" size="2" maxlength="2" data-ng-model="Minutes" />&nbsp;<label for="minutes">minutes</label>
             </div>
             <br /><br />
             <div>
                 Description (Keep it under 100 characters): <input type="text" data-ng-model="Description" maxlength="100" style="width: 200px;" /><br />
-                Story:<br />
-                <textarea data-ng-model="Story" cols="40" rows="10"></textarea>
+                <label for="Story">Story:</label><br />
+                <textarea id="Story" data-ng-model="Story" cols="40" rows="10"></textarea>
             </div>
             <div>
                 <button data-add-game>{{ editText }}</button>&nbsp<button data-ng-click="toggleEdit()">Cancel</button><br />

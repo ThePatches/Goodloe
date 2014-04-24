@@ -71,6 +71,7 @@ angular.module('GameDirectives', [])
                        addedGame.players = $scope.inDecks;
                        addedGame.description = $scope.Description;
                        addedGame.story = $scope.Story;
+                       addedGame.timePlayed = parseInt($scope.Hours * 60) + parseInt($scope.Minutes);
 
                        $("#messages").removeClass("error");
                        $scope.OutGame = addedGame;
@@ -100,6 +101,7 @@ angular.module('GameDirectives', [])
                         newGame.players = $scope.inDecks;
                         newGame.description = $scope.Description;
                         newGame.story = $scope.Story;
+                        newGame.timePlayed = parseInt($scope.Hours) * 60 + parseInt($scope.Minutes);
 
                         var reqBody = {};
                         reqBody.oldGame = oldGame;
