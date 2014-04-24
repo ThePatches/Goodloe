@@ -72,10 +72,23 @@ goodloeApp.config(['$routeProvider',
 
 var defaultController = angular.module('defaultController', []);
 
-defaultController.controller('DefaultController', ['$scope', '$http', function($scope, $http)
+defaultController.controller('DefaultController', ['$scope', '$cookies', function($scope, $cookies)
 {
     var aDate = new Date(jQuery.now());
     $scope.Date =  aDate.toUTCString();
+    $scope.userName = null;
+
+    $scope.isLoggedIn = function()
+    {
+        //$scope.SomeStuff = $cookies.gookie ? JSON.parse($cookies.gookie).username : "None";
+        if ($cookies.gookie)
+        {
+            $scope.userName = JSON.parse($cookies.gookie).username;
+            return true;
+        }
+        else
+            return false;
+    };
 }]);
 
 defaultController.controller("LoginRequest", ['$scope', '$http', '$location', function($scope, $http, $location)

@@ -64,7 +64,7 @@ userControllers.controller("AddUserController", ['$scope', '$http', function($sc
 }]);
 
 //userControllers.controller("ProfileController", ['$scope', '$http', '$cookies', '$location', function($scope, $http, $cookies, $location)
-userControllers.controller("ProfileController", ['$scope', '$cookies', '$http', function($scope, $cookies, $http)
+userControllers.controller("ProfileController", ['$scope', '$cookies', '$http', '$location', function($scope, $cookies, $http, $location)
 {
     $scope.isMe = true;
     //$scope.inUser = {userName: "Dummy User", email: "someone@place.com"};
@@ -93,6 +93,12 @@ userControllers.controller("ProfileController", ['$scope', '$cookies', '$http', 
                 {
                    $scope.errMsg = response;
                 });
+    };
+
+    $scope.doLogOut = function ()
+    {
+        $http.post('/logout');
+        $location.path('/');
     };
 
 }]);

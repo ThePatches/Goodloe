@@ -14,7 +14,10 @@
 
         </ul>
     </div>
-    <div>
+    <div data-ng-show="!isLoggedIn()">
         If you're a registered user, you can login <a href="#/login">here</a>.
+    </div>
+    <div data-ng-show="isLoggedIn()">
+        Hey there, <a href="#/user/me">{{ userName }}</a>, how is it going?
     </div>
 </div>
