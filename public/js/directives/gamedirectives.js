@@ -71,7 +71,11 @@ angular.module('GameDirectives', [])
                        addedGame.players = $scope.inDecks;
                        addedGame.description = $scope.Description;
                        addedGame.story = $scope.Story;
-                       addedGame.timePlayed = parseInt($scope.Hours * 60) + parseInt($scope.Minutes);
+
+                        var theHours = parseInt($scope.Hours) ? parseInt($scope.Hours) : 0;
+                        var theMinutes = parseInt($scope.Minutes) ? parseInt($scope.Minutes) : 0;
+
+                       addedGame.timePlayed = theHours * 60 + parseInt($scope.Minutes);
 
                        $("#messages").removeClass("error");
                        $scope.OutGame = addedGame;
