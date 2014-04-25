@@ -38,6 +38,7 @@ angular.module('GameDirectives', [])
             controller: ['$scope', '$element', '$http', '$location', function($scope, $element, $http, $location)
             {
                 var isWinner = false, i = 0;
+                var theHours = 0, theMinutes = 0;
 
                 $element.click(function (){
 
@@ -72,10 +73,10 @@ angular.module('GameDirectives', [])
                        addedGame.description = $scope.Description;
                        addedGame.story = $scope.Story;
 
-                        var theHours = parseInt($scope.Hours) ? parseInt($scope.Hours) : 0;
-                        var theMinutes = parseInt($scope.Minutes) ? parseInt($scope.Minutes) : 0;
+                        theHours = parseInt($scope.Hours) ? parseInt($scope.Hours) : 0;
+                        theMinutes = parseInt($scope.Minutes) ? parseInt($scope.Minutes) : 0;
 
-                       addedGame.timePlayed = theHours * 60 + parseInt($scope.Minutes);
+                       addedGame.timePlayed = theHours * 60 + theMinutes;
 
                        $("#messages").removeClass("error");
                        $scope.OutGame = addedGame;
@@ -105,6 +106,12 @@ angular.module('GameDirectives', [])
                         newGame.players = $scope.inDecks;
                         newGame.description = $scope.Description;
                         newGame.story = $scope.Story;
+
+                        theHours = parseInt($scope.Hours) ? parseInt($scope.Hours) : 0;
+                        theMinutes = parseInt($scope.Minutes) ? parseInt($scope.Minutes) : 0;
+
+                        newGame.timePlayed = theHours * 60 + theMinutes;
+
                         newGame.timePlayed = parseInt($scope.Hours) * 60 + parseInt($scope.Minutes);
 
                         var reqBody = {};
