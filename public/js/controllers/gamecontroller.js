@@ -21,7 +21,7 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
 
     // TODO: Make the resolving of deck names dependent on the loaded deck list.
     // OR: You can load the whole deck information through foreign keys?
-    $http.get(CONFIG.server + 'query?coll=deck').success(function (data) // Need to get this to work parameterized
+    $http.get('/query?coll=deck').success(function (data) // Need to get this to work parameterized
     {
         $scope.Decks = data;
         $http.get('/query?coll=player').success(function (data) // Need to get this to work parameterized

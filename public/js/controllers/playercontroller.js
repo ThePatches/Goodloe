@@ -40,7 +40,7 @@ playerControllers.controller('PlayerListController', ['$scope', '$http', '$locat
         {
             var nName = $scope.newPlayer.replace(/\s/g, "+");
             $http({
-                url: CONFIG.server + "add?coll=player",
+                url: "/add?coll=player",
                 method: "POST",
                 data: {name: nName, games: 0, wins: 0, active: true},
                 headers: {'Content-type': 'application/json; charset=utf-8'}
@@ -68,7 +68,7 @@ playerControllers.controller('PlayerController', ['$scope', '$routeParams','$htt
 
     if ($scope.playerId != 'new')
     {
-        $http.get(CONFIG.server + 'query?coll=player&id=' + $scope.playerId).success(function (data)
+        $http.get('/query?coll=player&id=' + $scope.playerId).success(function (data)
         {
             $scope.Player = data[0];
         });
