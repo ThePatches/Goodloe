@@ -112,7 +112,7 @@ angular.module('GameDirectives', [])
 
                         newGame.timePlayed = theHours * 60 + theMinutes;
 
-                        newGame.timePlayed = parseInt($scope.Hours) * 60 + parseInt($scope.Minutes);
+                        //newGame.timePlayed = parseInt($scope.Hours) * 60 + parseInt($scope.Minutes);
 
                         var reqBody = {};
                         reqBody.oldGame = oldGame;
