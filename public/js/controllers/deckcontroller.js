@@ -18,6 +18,11 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
             return "";
     };
 
+    $scope.isEditing = function()
+    {
+      return ($scope.deckId == 'new' || $scope.doEdit == true);
+    };
+
     $scope.buildObject = function()
     {
         var retObject = {name: $scope.Deck.name.replace(/\s/g, "+"), color: encodeURIComponent($scope.Deck.color), builder: $scope.Deck.builder.replace(/\s/g, "+")}
@@ -105,8 +110,8 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
     }
 }]);
 
-deckControllers.controller('DeckListController', ['$scope', '$http', '$location',
-    function($scope, $http, $location) {
+deckControllers.controller('DeckListController', ['$scope', '$http', '$location', '$cookies',
+    function($scope, $http, $location, $cookies) {
 
         $scope.groupField = null;
 
@@ -123,6 +128,13 @@ deckControllers.controller('DeckListController', ['$scope', '$http', '$location'
         $scope.loadDeck = function(inID)
         {
             $location.path("/deck/" + inID);
+        };
+
+        $scope.canEdit = function()
+        {
+            var myCookie = $cookies.gookie ? JSON.parse($cookies.gookie) : null;
+
+            return myCookie != null && myCookie.adminRights > 0;
         };
 
         // TODO: Add $scope.$watch(groupField) that organizes the deck list into groups

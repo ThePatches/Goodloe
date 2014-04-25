@@ -1,6 +1,6 @@
 <div>
 
-    <div data-ng-show="deckId != 'new' || doEdit != true">
+    <div data-ng-show="!isEditing()">
         <span>Deck Name:&nbsp;</span>{{ fixName(Deck.name) }}<br />
         <span>Color:&nbsp;</span>{{ Deck.color }}<br />
         <span>Builder:&nbsp;</span>{{ fixName(Deck.builder) }}
@@ -9,7 +9,7 @@
         </p>
     </div>
     <!-- This portion is only visible if you're trying to make a new deck -->
-    <div data-ng-show="deckId == 'new' || doEdit == true">
+    <div data-ng-show="isEditing()">
         <h3>Add a New Deck to the Meta</h3>
         Deck Name : <input type="text" data-ng-model="Deck.name" /><br />
         Colors: <input type="text" data-ng-model="Deck.color"><br />
