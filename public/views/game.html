@@ -35,7 +35,7 @@
 
 <div class="Game">
     <div data-ng-show="!newGame && !editGame">
-        <b>Description:</b><span class="description">{{ inGame.description }}</span><br />
+        <b>Description:</b>&nbsp;<span class="description">{{ inGame.description }}</span><br />
         <b>Time Played:</b>&nbsp;<span> {{ HumanTime(inGame.timePlayed) }}</span>
         <p class="story">Story: <br />{{ inGame.story }}</p>
 
@@ -43,7 +43,7 @@
         <ul style="list-style: none; padding: 10px 5px;">
             <li data-ng-repeat="aPlayer in inGame.players" data-ng-class="{winner: aPlayer.winner}"> <span data-ng-show="aPlayer.winner">Winner!&nbsp;</span>{{ getDescription(inDecks[$index]) }}</li>
         </ul>
-        <button data-ng-click="toggleEdit()">Edit Game</button><br />
+        <button data-ng-click="toggleEdit()" data-ng-show="canEdit()">Edit Game</button><br />
         <a href="#/games">Return to Games List</a>
     </div>
 
