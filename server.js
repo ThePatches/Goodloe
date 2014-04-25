@@ -558,7 +558,7 @@ app.post('/logout', function(req, res)
     res.send(200);
 });
 
-app.get('/maxWins', function(req, res)
+/*app.get('/maxWins', function(req, res)
 {
     var Player = connection.model('Players', SCHEMAS.PlayerSchema, 'Players');
     Player.findOne({}).sort("-wins").exec( function (err, doc)
@@ -566,7 +566,7 @@ app.get('/maxWins', function(req, res)
         if (err) console.log("Error! " + err);
         res.send(doc);
     });
-});
+});*/
 
 app.post('/adduser', auth, function(req, res)
 {
