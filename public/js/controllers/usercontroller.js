@@ -4,11 +4,19 @@
 
 var userControllers = angular.module('userControllers', []);
 
-userControllers.controller("LoginController", ['$scope', '$http', '$cookies', '$location', function($scope, $http, $cookies, $location)
+userControllers.controller("LoginController", ['$scope', '$http', '$cookies', '$location', '$routeParams', function($scope, $http, $cookies, $location, $routeParams)
 {
     $scope.userName = null;
     $scope.password = null;
     $scope.SomeStuff = $cookies.gookie ? JSON.parse($cookies.gookie).username : "None";
+    $scope.Reason = $routeParams.reason;
+    $scope.logOutMsg = "Log Out";
+
+    if ($scope.Reason == "auth") // TODO: Expand this for other reasons?
+    {
+        $scope.SomeStuff = "You attempted to access a feature that requires you be logged in.";
+        $scope.logOutMsg = "OK";
+    }
 
     $scope.DoLogin = function()
     {
@@ -21,7 +29,7 @@ userControllers.controller("LoginController", ['$scope', '$http', '$cookies', '$
 
                     $scope.userName = "";
                     $scope.password = "";
-                    $location.path('/');
+                    $location.path('/').search('');
                 }
                 else
                 {
@@ -37,6 +45,7 @@ userControllers.controller("LoginController", ['$scope', '$http', '$cookies', '$
     {
         $http.post("/logout");
         $scope.SomeStuff = "None";
+        $scope.logOutMsg = "Log Out";
     };
 }]);
 
