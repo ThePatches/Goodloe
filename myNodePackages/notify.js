@@ -2,7 +2,7 @@
  * Created by Patrick Taylor on 3/12/14.
  */
 var aws = require('aws-sdk');
-var CONFIG = require("./../config/development.json"); // You must change this
+var CONFIG = require("./../config/production.json"); // You must change this
 
 aws.config.update(CONFIG.snsUser);
 
@@ -18,9 +18,25 @@ exports.sendNotification = function (params, callback) // sendEmail(message_para
 
 exports.sendAWSEmail = function(params, callback)
 {
-    console.log("not implemented!");
-    aws.config.update({region: "us-west-2"}); // have to make sure I get this right.
-    var ses = new aws.SES();
+    //console.log("not implemented!");
+    aws.config.update({region: "us-west-2"});
+    var ses = new aws.SES({apiVersion: '2010-12-01'});
+    var from = "noreply@goodloeleague.net";
 
-    ses.sendEmail(params, callback);
+    ses.sendEmail( {
+        Source: from,
+        Destination: { ToAddresses: params.toAddress },
+        Message: {
+            Subject: {
+            Data: params.Subject
+            },
+        Body: {
+        Text: {
+            Data: params.Body
+            }
+        }
+    }
+    }, callback);
+
+    //ses.sendEmail(params, callback);
 };

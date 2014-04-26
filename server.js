@@ -531,6 +531,17 @@ app.post('/update', auth, function(req, res)
     }
 });
 
+app.get('/emailTest', function(req, res)
+{
+    var params = {toAddress: ["warder05@gmail.com"], Subject: "Test Email", Body: "This is a test email!"};
+    notify.sendAWSEmail(params, function(err, data)
+    {
+        if (err) throw err;
+        res.send("check the console!");
+    });
+
+});
+
 
 app.get('/encrypt', auth, function(req, res)
 {
