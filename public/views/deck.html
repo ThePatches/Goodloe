@@ -3,24 +3,26 @@
     <div data-ng-show="!isEditing()">
         <span>Deck Name:&nbsp;</span>{{ fixName(Deck.name) }}<br />
         <span>Color:&nbsp;</span>{{ Deck.color }}<br />
-        <span>Builder:&nbsp;</span>{{ fixName(Deck.builder) }}
-        <p>
-            <button data-ng-click="doEdit = !doEdit" data-ng-show="CheckCookie()">Toggle Edit Form</button> <!-- We can make this into a directive which would be awesome -->
-        </p>
+        <span>Builder:&nbsp;</span>{{ fixName(Deck.builder) }}<br />
+        <span>Commander:&nbsp;</span>{{ fixName(Deck.commander) }}<br /><br />
+        <button data-ng-click="toggleEdit()" data-ng-show="CheckCookie()">Toggle Edit Form</button><br /><br />
+        <a href="#/decks" class="navLink">Return to Deck List</a>
     </div>
     <!-- This portion is only visible if you're trying to make a new deck -->
-    <div data-ng-show="isEditing()">
+    <div data-ng-show="isEditing()" id="formDiv">
         <h3>Add a New Deck to the Meta</h3>
-        Deck Name : <input type="text" data-ng-model="Deck.name" /><br />
-        Colors: <input type="text" data-ng-model="Deck.color"><br />
-        Builder: <input type="text" data-ng-model="Deck.builder"><br />
-        <div data-ng-show="false">
-            Commander:&nbsp;<input type="text" data-ng-model="commander" /><br />
-            Card list:<br />
-            <textarea></textarea>
+        <label for="deckName">Deck Name:</label><input type="text" id="deckName" data-ng-model="Deck.name" /><br />
+        <label for="deckColor">Colors:</label><input type="text" id="deckColor" data-ng-model="Deck.color"><br />
+        <label for="deckBuilder">Builder:</label><input type="text" id="deckBuilder" data-ng-model="Deck.builder"><br />
+        <label for="deckCommander">Commander:</label><input type="text" id="deckCommander" data-ng-model="Deck.commander" /><br /><br />
+        <div>
+            <button data-ng-click="addDeck()" style="float: left; clear: left;">{{ ButtonText }}</button>
+            <button data-ng-click="cancelEdit()" style="float: left; clear: right; margin-left: 3px;" >Cancel</button>
+        <br /><br />
         </div>
-        <button data-ng-click="addDeck()">{{ ButtonText }}</button> <!-- This should probably be a directive, too. Since it would cover the change in text. -->
     </div>
-    <br />
-    <a href="#/decks">Return to Deck List</a>
+    <div>
+
+    </div>
+
 </div>
