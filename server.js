@@ -218,9 +218,9 @@ app.post('/requser', function(req, res) // TODO: Set this to work with SES so th
             var nHash = CONFIG.useCrypt ? bcrypt.hashSync(inObject.password) : inObject.password;
             var msgContent = "Person: " + inObject.person + "\nUsername: " + inObject.username + "\nPassword: " + nHash;
             var params = {
-                Message: msgContent,
+                Body: msgContent,
                 Subject: "New User for Goodloe League Requested",
-                TopicArn: CONFIG.snsEmails
+                toAddress: [CONFIG.adminEmail]
             }
             if (CONFIG.snsUser.accessKeyId == "")
             {
