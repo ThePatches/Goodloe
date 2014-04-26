@@ -244,9 +244,9 @@ app.post('/suggest', function(req, res)
 
     var msgContent = "Suggestion: " + inObject.title + "\nDescription: " + inObject.suggestion + "\n\nEmail: " + inObject.email;
     var params = {
-        Message: msgContent,
+        Body: msgContent,
         Subject: "Goodloe League Suggestion Box",
-        TopicArn: CONFIG.snsEmails
+        toAddress: [CONFIG.adminEmail]
     }
 
     if (CONFIG.snsUser.accessKeyId == "")
