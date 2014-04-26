@@ -16,7 +16,8 @@ var PlayerSchema = new Schema({
 var DeckSchema = new Schema({
     name: String,
     color: String,
-    builder: String
+    builder: String,
+    commander: String
 });
 
 var GameSchema = new Schema({

@@ -365,6 +365,8 @@ app.post('/update', auth, function(req, res)
                 doc.name = theItem.name;
                 doc.builder = theItem.builder;
                 doc.color = theItem.color;
+                doc.commander = theItem.commander;
+                //doc.cardList = theItem.cardList;
                 doc.save();
 
                 res.send(doc);
