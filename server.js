@@ -227,7 +227,7 @@ app.post('/requser', function(req, res) // TODO: Set this to work with SES so th
                 res.send(500, "No access key!");
             }
             else {
-                notify.sendEmail(params, function (err, data)
+                notify.sendAWSEmail(params, function (err, data)
                 {
                     if (err) res.send(500, err);
                     res.send(data);
@@ -254,7 +254,7 @@ app.post('/suggest', function(req, res)
         res.send(500, "No access key!");
     }
     else {
-        notify.sendEmail(params, function (err, data)
+        notify.sendAWSEmail(params, function (err, data)
         {
             if (err) res.send(500, err);
             res.send(data);
