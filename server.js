@@ -309,23 +309,33 @@ app.post('/add', auth, function(req, res) // Need to convert these all to post r
            if (err) console.log("Error!");
             else if (numberAffected > 0)
            {
-               Player.update({_id: {$in: playerList}}, {$inc: {games: 1}}, {multi: true}, function(err, numberAffected, docs)
+               console.log("Game saved!");
+               if (theItem.gameType != "1v1")
                {
-                   console.log(docs);
-                   if (err) {
-                       console.log("Error! " + err);
-                       res.send(500);
-                   }
-                   else
+                   Player.update({_id: {$in: playerList}}, {$inc: {games: 1}}, {multi: true}, function(err, numberAffected, docs)
                    {
-                       Player.update({_id: winner}, {$inc: {wins: 1}}, {multi: false}, function (err, numberAffected, docs)
+                       console.log(docs);
+                       if (err) {
+                           console.log("Error! " + err);
+                           res.send(500);
+                       }
+                       else
                        {
-                           if (numberAffected == 1)
-                            res.send(product);
-                       });
+                           Player.update({_id: winner}, {$inc: {wins: 1}}, {multi: false}, function (err, numberAffected, docs)
+                           {
+                               if (numberAffected == 1)
+                                res.send(product);
+                           });
 
-                   }
-               });
+                       }
+                   });
+               }
+               else
+               {
+                   console.log("Ignored user changes.");
+                   if (numberAffected == 1)
+                    res.send(product);
+               }
 
            }
            else
