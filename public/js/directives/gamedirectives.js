@@ -99,8 +99,15 @@ angular.module('GameDirectives', [])
                     }
                     else
                     {
+
                         var oldGame = $scope.oldGame;
                         var newGame = {};
+
+                        if ($scope.gameType == "1v1" || oldGame.gameType == "1v1")
+                        {
+                            alert("You cannot edit games that are 1v1 (or change games into 1v1 type) in this version!");
+                            return;
+                        }
 
                         newGame.winType = $scope.winType;
                         newGame.gameType = $scope.gameType;
