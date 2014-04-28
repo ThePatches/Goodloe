@@ -44,9 +44,17 @@ var UserSchema = new Schema({
     wantemail: Boolean
 });
 
+var VersionSchema = new Schema({
+    _id: Number,
+    version: String,
+    changes: [ String ],
+    published: Boolean
+});
+
 module.exports = {
     PlayerSchema: PlayerSchema,
     DeckSchema: DeckSchema,
     GameSchema: GameSchema,
-    UserSchema: UserSchema
+    UserSchema: UserSchema,
+    VersionSchema: VersionSchema
 };
