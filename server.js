@@ -30,7 +30,6 @@ app.configure(function (){
     app.use(passport.initialize());
     app.use(passport.session());
     app.set('port', process.env.PORT || CONFIG.usePort);
-    app.set('version', "0.5.1");
 });
 
 //var connection = mongoose.createConnection(CONFIG.connString);
@@ -47,6 +46,7 @@ app.get('/version', function(req, res)
 });
 
 var Users = connection.model("Users", SCHEMAS.UserSchema, "GoodUsers");
+var Version = connection.model("Version", SCHEMAS.VersionSchema, "Version");
 
 passport.use(new LocalStrategy(function(username, password, done)
 {
@@ -594,5 +594,9 @@ app.get('*', function(req, res)
     res.sendfile('./public/index.html');
 });
 
-httpServer.listen(app.get('port'));
-console.log("Listening on port: " + app.get('port'));
+Version.findOne({}).sort("-_id").exec(function(err, member)
+{
+   app.set('version', member.version);
+   httpServer.listen(app.get('port'));
+   console.log("Listening on port: " + app.get('port'));
+});
