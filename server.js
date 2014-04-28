@@ -30,6 +30,7 @@ app.configure(function (){
     app.use(passport.initialize());
     app.use(passport.session());
     app.set('port', process.env.PORT || CONFIG.usePort);
+    app.set('version', "0.5.1");
 });
 
 //var connection = mongoose.createConnection(CONFIG.connString);
@@ -40,6 +41,10 @@ connection.once('open', function ()
 	console.log('opened database');
 });
 
+app.get('/version', function(req, res)
+{
+    res.send(app.get('version'));
+});
 
 var Users = connection.model("Users", SCHEMAS.UserSchema, "GoodUsers");
 

@@ -27,13 +27,26 @@
     <!-- Style Sheets -->
     <link rel="stylesheet" href="styles/global.css" />
 
+    <script type="text/javascript">
+        // This is here because this stuff happens outside of angular
+        $(document).ready(function()
+        {
+
+            $.ajax({url: "/version"})
+                    .done(function(version)
+                    {
+                        $("#versionSpan").text(version);
+                    });
+        });
+    </script>
+
 </head>
   <body>
 
     <div data-ng-view class="container"></div>
 
     <div id="footer">
-        Version 0.5.1, Written by Patrick Taylor, 2014. Design by <a href="http://laurenraeorsini.com/">Lauren Orsini</a>. Code hosted at <a href="https://github.com/ThePatches/Goodloe">GitHub</a>.
+        Version <span id="versionSpan">You experienced a painful javascript error.</span>, Written by Patrick Taylor, 2014. Design by <a href="http://laurenraeorsini.com/">Lauren Orsini</a>. Code hosted at <a href="https://github.com/ThePatches/Goodloe">GitHub</a>.
     </div>
   </body>
 </html>
