@@ -5,7 +5,7 @@
 var conn = new Mongo();
 var db = conn.getDB("goodloedb");
 
-var patchNote = {_id: 1, version: "0.5.1", changes: ["Applied DB Upgrading Script",
-    "Added changelog page"], published: false};
+var newPatches = ["Added Version Tracking from the Database",
+    "You can now set commanders independently of deck name."];
 
-db.Version.insert(patchNote); // The version in my database at home is better
+db.Version.insert({_id: 1, version: "0.5.1", patches: newPatches, published: false});
