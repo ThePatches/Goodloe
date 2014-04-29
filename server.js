@@ -611,6 +611,11 @@ app.get('*', function(req, res)
 
 Version.findOne({}).sort("-_id").exec(function(err, member)
 {
+    if (member.published == false) // broadcast stuff goes here
+    {
+        member.published = true;
+        member.save();
+    }
    app.set('version', member.version);
    httpServer.listen(app.get('port'));
    console.log("Listening on port: " + app.get('port'));
