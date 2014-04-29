@@ -55,6 +55,11 @@ goodloeApp.config(['$routeProvider',
                   templateUrl: "views/userprofile.html",
                   controller: "ProfileController"
                 })
+            .when('/changelog',
+            {
+                templateUrl: "views/patchlist.html",
+                controller: "PatchListController"
+            })
             .when('/suggest',
             {
                 templateUrl: "views/suggest.html",
@@ -177,6 +182,21 @@ defaultController.controller("SuggestController", ['$scope', '$http', '$location
     {
         $location.path("/");
     };
+}]);
+
+defaultController.controller("PatchListController", ['$scope', '$http', function($scope, $http)
+{
+    $scope.PatchList = null;
+
+    $http.get('/patches')
+        .success(function(data)
+        {
+            $scope.PatchList = data;
+        })
+        .error(function(err)
+        {
+           $scope.PatchList = [{version: "Failed to get version!", patches: [err]}]
+        });
 }]);
 
 angular.module("GlobalDirectives", [])

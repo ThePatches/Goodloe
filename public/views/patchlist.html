@@ -1,0 +1,19 @@
+<script type="text/ng-template" id="patch-template">
+    <span>Version: {{ patch.version }}</span>
+    <ul style="list-style-type: square; margin-left: 20px;">
+        <li data-ng-repeat="note in patch.changes">
+            {{ note }}
+        </li>
+    </ul>
+</script>
+
+<div>
+    <h2>Patch Notes:</h2>
+    <ul style="list-style: none;">
+        <li data-ng-repeat="patch in PatchList" data-ng-include="'patch-template'" style="padding-bottom: 10px;">
+        </li>
+    </ul>
+    <div style="padding-top: 30px;">
+        <a href="/" class="navLink">Return to Main Page</a>
+    </div>
+</div>

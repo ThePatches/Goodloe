@@ -5,4 +5,7 @@
 var conn = new Mongo();
 var db = conn.getDB("goodloedb");
 
-db.Version.insert({_id: 1, version: "0.5.1", patches: ["This is a test patch for db upgrading"], published: false});
+var patchNote = {_id: 1, version: "0.5.1", changes: ["Applied DB Upgrading Script",
+    "Added changelog page"], published: false};
+
+db.Version.insert(patchNote); // The version in my database at home is better

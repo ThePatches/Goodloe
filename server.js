@@ -92,6 +92,21 @@ var auth = function(req, res, next)
 
 }; //- See more at: https://vickev.com/#!/article/authentication-in-single-page-applications-node-js-passportjs-angularjs
 
+app.get('/patches', function(req, res)
+{
+    Version.find({}, function(err, patches)
+    {
+        if (err)
+        {
+            console.log("Error! " + err);
+            res.send(500, err);
+        }
+        else
+            res.send(patches);
+    });
+});
+
+
 app.get('/query', function(req, res)
 {
     var spaceUrl = req.url.replace(/\s/g,"%2B");
