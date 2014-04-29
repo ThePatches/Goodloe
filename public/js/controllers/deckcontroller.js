@@ -40,8 +40,8 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
 
     $scope.buildObject = function()
     {
-        var retObject = {name: $scope.Deck.name.replace(/\s/g, "+"), color: encodeURIComponent($scope.Deck.color), builder: $scope.Deck.builder.replace(/\s/g, "+"),
-        commander: $scope.Deck.commander.replace(/\s/g, '+')}
+        var retObject = {name: $scope.Deck.name, color: encodeURIComponent($scope.Deck.color), builder: $scope.Deck.builder,
+        commander: $scope.Deck}
         if ($scope.deckId != "new")
             retObject._id = $scope.Deck._id;
 
@@ -85,7 +85,7 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
                 method: "POST",
                 data: {addedDeck: addedDeck},
                 headers: {'Content-type': 'application/json; charset=utf-8'}
-            }).success(function (data)
+            }).success(function ()
                 {
                     //$scope.OutGame = data;
                     $scope.toggleEdit();

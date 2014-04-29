@@ -39,7 +39,7 @@ playerControllers.controller('PlayerListController', ['$scope', '$http', '$locat
 
         $scope.addPlayer = function ()
         {
-            var nName = $scope.newPlayer.replace(/\s/g, "+");
+            var nName = $scope.newPlayer;
             $http({
                 url: "/add?coll=player",
                 method: "POST",

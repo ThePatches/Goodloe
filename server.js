@@ -292,7 +292,7 @@ app.post('/add', auth, function(req, res) // Need to convert these all to post r
     }
     else if (queryData["coll"] == "player")
     {
-        var aName = req.body.name.replace(/\s/g, "%20");
+        var aName = req.body.name;
         theItem = {name: aName, games: 0, active: true, wins: 0};
         var nPlayer = new Player(theItem);
 
@@ -469,7 +469,7 @@ app.post('/update', auth, function(req, res)
                 }
                 else
                 {
-                    Player.update({_id: winner}, {$inc: {wins: -1}}, {multi: false}, function (err, numberAffected, docs)
+                    Player.update({_id: winner}, {$inc: {wins: -1}}, {multi: false}, function (err, numberAffected)
                     {
                         if (numberAffected == 1) // All changes rolled back, time to change the rest of the game info...
                         {
@@ -494,7 +494,7 @@ app.post('/update', auth, function(req, res)
 
                                     doc.save();
                                     var nOutGame = doc;
-                                    Player.update({_id: {$in: nPList}}, {$inc: {games: 1}}, {multi: true}, function(err, numberAffected, docs)
+                                    Player.update({_id: {$in: nPList}}, {$inc: {games: 1}}, {multi: true}, function(err)
                                     {
                                         //console.log(docs);
                                         if (err) {
