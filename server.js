@@ -94,7 +94,7 @@ var auth = function(req, res, next)
 
 app.get('/patches', function(req, res)
 {
-    Version.find({}, function(err, patches)
+    Version.find({}).sort("-_id").exec(function(err, patches)
     {
         if (err)
         {

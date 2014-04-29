@@ -1,5 +1,19 @@
+<style type="text/css">
+    span.patchTitle:hover
+    {
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    span.patchTitle
+    {
+        color: #0099ff;
+    }
+</style>
+
 <script type="text/ng-template" id="patch-template">
-    <span>Version: {{ patch.version }}</span>
+    <span class="patchTitle">Version: {{ patch.version }}</span>
+    <input type="hidden" value="{{$index}}" />
     <ul style="list-style-type: square; margin-left: 20px;">
         <li data-ng-repeat="note in patch.changes">
             {{ note }}
