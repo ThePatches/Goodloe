@@ -10,6 +10,18 @@ Okay, I lied. The application now uses [AngularJS][4], since I didn't like Ember
 + **Dev:** This is a semi-stable branch representing the latest stable development efforts. Will occasionally be a few features ahead of "master".
 + **Master:** Basically the deployed version. Previously the active development branch, now it's going to be the "stable" branch that only differs from what is deployed by levels of configuration.
 
+#### Changelog
+
+Starting with version **5.1**, the there will be an in-db-maintained changelog. I will replicate the changelog contents in *Master*'s merge commits but you can also walk back through the history of `dbupgrade.js` to see the changelog as it will appear on the server. If you're doing that, make sure you are using the file on the *Master* branch, as patches to production won't get their changelog entries pushed into *dev* (the code just gets rebased back into *dev* so it can be incorporated
+
+#### Versioning
+
+Versions are as follows: `Major.Minor.Patch`
+
++ **Major:** Still on version 0. I will probably upgrade to version 1 when the searching functionality is whole.
++ **Minor:** Each time I merge dev into master, this will increment. Roughly tracks feature additions/upgrades
++ **Patch:** Only increments when I need to patch between minor versions. A number higher than 1 indicates a production bug fix.
+
 ## Project Purpose
 
 The purpose of this application is to track the evolution of our MTG:Commander metagame. It has a public URL, but that's more for our expedience (can be used outside of my house). I will post more on how the database works and what information we track once the project is up and running (and into its database development portion).
