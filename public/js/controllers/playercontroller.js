@@ -49,15 +49,21 @@ playerControllers.controller('PlayerListController', ['$scope', '$http', '$locat
                 {
                     $scope.Players.push(data);
                     $scope.doEdit = false;
-
-
                 });
         }
     }]);
 
-playerControllers.controller('PlayerController', ['$scope', '$routeParams','$http', function ($scope, $routeParams, $http)
+playerControllers.controller('PlayerController', ['$scope', '$routeParams','$http', '$cookies', '$location', function ($scope, $routeParams, $http, $cookies, $location)
 {
     $scope.playerId = $routeParams.playerId;
+    $scope.isEditing = false;
+
+    $scope.canEdit = function ()
+    {
+        var myCookie = $cookies.gookie ? JSON.parse($cookies.gookie) : null;
+
+        return myCookie != null && myCookie.adminRights > 0;
+    };
 
     $scope.fixName = function (inName)
     {
@@ -82,6 +88,15 @@ playerControllers.controller('PlayerController', ['$scope', '$routeParams','$htt
             .success(function (data)
             {
                 $scope.Player = data;
+                $scope.isEditing = false;
+            }).error(function (err)
+                {
+                    if (err == "Unauthorized")
+                    {
+                        //alert("You are not logged in. You must be logged in to continue!");
+                        $location.path('/login').search({reason: "auth"});
+                }
+                //$scope.OutGame = "Something went wrong!";
             });
     };
 }]);

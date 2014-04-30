@@ -12,13 +12,16 @@
             <dt>Games Played:</dt>
             <dd>{{ Player.games }}</dd>
         </dl>
+        <button data-ng-show="canEdit()" data-ng-click="isEditing = !isEditing">Edit</button>
     </div>
 
-    <label for="pname">Name:</label><input type="text" id="pname" data-ng-model="Player.name" />
-    <button data-ng-click="updatePlayer()">Update Player</button>
+    <div id="formDiv" data-ng-show="isEditing">
+        <label for="pname">Name:</label><input type="text" id="pname" data-ng-model="Player.name" /><br />
+        <button data-ng-click="updatePlayer()" style="float:left; clear: left;">Update Player</button><br /><br />
+    </div>
 
-    <div>
-        <a href="#/players">Return to Player List</a>
-        <a href="/">Return to the Main Page</a>
+    <div style="padding-top: 10px;">
+        <a href="#/players" class="navLink">Return to Player List</a>&nbsp;
+        <a href="/" class="navLink">Return to the Main Page</a>
     </div>
 </div>
