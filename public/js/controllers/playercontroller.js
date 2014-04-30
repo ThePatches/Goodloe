@@ -96,7 +96,6 @@ playerControllers.controller('PlayerController', ['$scope', '$routeParams','$htt
                         //alert("You are not logged in. You must be logged in to continue!");
                         $location.path('/login').search({reason: "auth"});
                 }
-                //$scope.OutGame = "Something went wrong!";
             });
     };
 }]);
