@@ -74,4 +74,14 @@ playerControllers.controller('PlayerController', ['$scope', '$routeParams','$htt
             $scope.Player = data[0];
         });
     }
+
+    $scope.updatePlayer = function ()
+    {
+        var thePlayer = $scope.Player;
+        $http.post('/update?coll=player', {thePlayer: thePlayer})
+            .success(function (data)
+            {
+                $scope.Player = data;
+            });
+    };
 }]);

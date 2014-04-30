@@ -525,6 +525,26 @@ app.post('/update', auth, function(req, res)
 
             break;
 
+        case "player":
+            theItem = req.body.thePlayer;
+
+            console.log(theItem);
+
+            Player.findOne({_id: theItem._id}, function(err, doc)
+            {
+               if (err)
+               {
+                   res.send(err);
+               }
+               else
+               {
+                   doc.name = theItem.name;
+                   doc.save();
+                   res.send(doc);
+               }
+            });
+
+            break;
         default:
             res.send(queryData);
             break;
