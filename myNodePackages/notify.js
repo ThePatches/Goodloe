@@ -6,8 +6,6 @@ var CONFIG = require("./../config/production.json"); // You must change this
 
 aws.config.update(CONFIG.snsUser);
 
-exports.text = "Some Text";
-
 exports.sendNotification = function (params, callback) // sendEmail(message_params, callback)
     {
         aws.config.update({region: "us-west-2"});
