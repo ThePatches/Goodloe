@@ -40,8 +40,13 @@ connection.once('open', function ()
 	console.log('opened database');
 });
 
+app.get('/version', function(req, res)
+{
+    res.send(app.get('version'));
+});
 
 var Users = connection.model("Users", SCHEMAS.UserSchema, "GoodUsers");
+var Version = connection.model("Version", SCHEMAS.VersionSchema, "Version");
 
 passport.use(new LocalStrategy(function(username, password, done)
 {
@@ -86,6 +91,21 @@ var auth = function(req, res, next)
         next();
 
 }; //- See more at: https://vickev.com/#!/article/authentication-in-single-page-applications-node-js-passportjs-angularjs
+
+app.get('/patches', function(req, res)
+{
+    Version.find({}).sort("-_id").exec(function(err, patches)
+    {
+        if (err)
+        {
+            console.log("Error! " + err);
+            res.send(500, err);
+        }
+        else
+            res.send(patches);
+    });
+});
+
 
 app.get('/query', function(req, res)
 {
@@ -198,16 +218,16 @@ app.post('/requser', function(req, res) // TODO: Set this to work with SES so th
             var nHash = CONFIG.useCrypt ? bcrypt.hashSync(inObject.password) : inObject.password;
             var msgContent = "Person: " + inObject.person + "\nUsername: " + inObject.username + "\nPassword: " + nHash;
             var params = {
-                Message: msgContent,
+                Body: msgContent,
                 Subject: "New User for Goodloe League Requested",
-                TopicArn: CONFIG.snsEmails
+                toAddress: [CONFIG.adminEmail]
             }
             if (CONFIG.snsUser.accessKeyId == "")
             {
                 res.send(500, "No access key!");
             }
             else {
-                notify.sendEmail(params, function (err, data)
+                notify.sendAWSEmail(params, function (err, data)
                 {
                     if (err) res.send(500, err);
                     res.send(data);
@@ -224,9 +244,9 @@ app.post('/suggest', function(req, res)
 
     var msgContent = "Suggestion: " + inObject.title + "\nDescription: " + inObject.suggestion + "\n\nEmail: " + inObject.email;
     var params = {
-        Message: msgContent,
+        Body: msgContent,
         Subject: "Goodloe League Suggestion Box",
-        TopicArn: CONFIG.snsEmails
+        toAddress: [CONFIG.adminEmail]
     }
 
     if (CONFIG.snsUser.accessKeyId == "")
@@ -234,7 +254,7 @@ app.post('/suggest', function(req, res)
         res.send(500, "No access key!");
     }
     else {
-        notify.sendEmail(params, function (err, data)
+        notify.sendAWSEmail(params, function (err, data)
         {
             if (err) res.send(500, err);
             res.send(data);
@@ -375,6 +395,8 @@ app.post('/update', auth, function(req, res)
                 doc.name = theItem.name;
                 doc.builder = theItem.builder;
                 doc.color = theItem.color;
+                doc.commander = theItem.commander;
+                //doc.cardList = theItem.cardList;
                 doc.save();
 
                 res.send(doc);
@@ -509,6 +531,17 @@ app.post('/update', auth, function(req, res)
     }
 });
 
+app.get('/emailTest', function(req, res)
+{
+    var params = {toAddress: ["warder05@gmail.com"], Subject: "Test Email", Body: "This is a test email!"};
+    notify.sendAWSEmail(params, function(err, data)
+    {
+        if (err) throw err;
+        res.send("check the console!");
+    });
+
+});
+
 
 app.get('/encrypt', auth, function(req, res)
 {
@@ -536,7 +569,7 @@ app.post('/logout', function(req, res)
     res.send(200);
 });
 
-app.get('/maxWins', function(req, res)
+/*app.get('/maxWins', function(req, res)
 {
     var Player = connection.model('Players', SCHEMAS.PlayerSchema, 'Players');
     Player.findOne({}).sort("-wins").exec( function (err, doc)
@@ -544,7 +577,7 @@ app.get('/maxWins', function(req, res)
         if (err) console.log("Error! " + err);
         res.send(doc);
     });
-});
+});*/
 
 app.post('/adduser', auth, function(req, res)
 {
@@ -587,5 +620,14 @@ app.get('*', function(req, res)
     res.sendfile('./public/index.html');
 });
 
-httpServer.listen(app.get('port'));
-console.log("Listening on port: " + app.get('port'));
+Version.findOne({}).sort("-_id").exec(function(err, member)
+{
+    if (member.published == false) // broadcast stuff goes here
+    {
+        member.published = true;
+        member.save();
+    }
+   app.set('version', member.version);
+   httpServer.listen(app.get('port'));
+   console.log("Listening on port: " + app.get('port'));
+});

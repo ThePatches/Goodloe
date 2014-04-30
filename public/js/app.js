@@ -55,6 +55,11 @@ goodloeApp.config(['$routeProvider',
                   templateUrl: "views/userprofile.html",
                   controller: "ProfileController"
                 })
+            .when('/changelog',
+            {
+                templateUrl: "views/patchlist.html",
+                controller: "PatchListController"
+            })
             .when('/suggest',
             {
                 templateUrl: "views/suggest.html",
@@ -122,7 +127,7 @@ defaultController.controller("LoginRequest", ['$scope', '$http', '$location', fu
             method: "POST",
             data: newUser,
             headers: {'Content-type': 'application/json; charset=utf-8'}
-        }).success(function (data)
+        }).success(function ()
             {
                 $scope.Messages = "A request to add your user has been sent to the site admin.";
                 $scope.canSubmit = false;
@@ -160,7 +165,7 @@ defaultController.controller("SuggestController", ['$scope', '$http', '$location
             method: "POST",
             data: subObject,
             headers: {'Content-type': 'application/json; charset=utf-8'}
-        }).success(function (data)
+        }).success(function ()
             {
                 $scope.Messages = "You suggestion has been sent to the site admin.";
                 $scope.canSubmit = false;
@@ -177,6 +182,21 @@ defaultController.controller("SuggestController", ['$scope', '$http', '$location
     {
         $location.path("/");
     };
+}]);
+
+defaultController.controller("PatchListController", ['$scope', '$http', function($scope, $http)
+{
+    $scope.PatchList = null;
+
+    $http.get('/patches')
+        .success(function(data)
+        {
+            $scope.PatchList = data;
+        })
+        .error(function(err)
+        {
+           $scope.PatchList = [{version: "Failed to get version!", patches: [err]}]
+        });
 }]);
 
 angular.module("GlobalDirectives", [])
@@ -201,4 +221,32 @@ angular.module("GlobalDirectives", [])
                 });
             }]
         }
-    });
+    })
+
+    .directive("patchExpander", function()
+    {
+        return {
+            restrict: "A",
+            controller: ['$scope', '$element', '$attrs', function($scope, $element, $attrs)
+            {
+                var parentElement = $element.parent();
+                var list = parentElement.find("ul");
+
+                $element.click(function ()
+                {
+                   if (list.is(":visible"))
+                       list.css("display", "none");
+                   else
+                       list.css("display", "block");
+                });
+
+                $element.ready(function ()
+                {
+                    if ($attrs.patchIndex > 0)
+                        list.css("display", "none");
+                });
+            }]
+        }
+    })
+
+;

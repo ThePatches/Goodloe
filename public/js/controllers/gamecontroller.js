@@ -3,7 +3,7 @@
  */
 var gameControllers = angular.module('gameControllers', []);
 
-gameControllers.controller("GameController", ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http)
+gameControllers.controller("GameController", ['$scope', '$routeParams', '$http', '$cookies',function($scope, $routeParams, $http, $cookies)
 {
     $scope.Decks = null;
     $scope.Players = null;
@@ -47,6 +47,14 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
             }
         });
     });
+
+    /* @return boolean*/
+    $scope.canEdit = function()
+    {
+        var myCookie = $cookies.gookie ? JSON.parse($cookies.gookie) : null;
+
+        return myCookie != null && myCookie.adminRights > 0;
+    };
 
     /** @return string */
     $scope.HumanTime = function(totalMinutes) // This function is probably redundant
@@ -135,7 +143,7 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
 
 }]);
 
-gameControllers.controller("GameListController", ['$scope', '$http', '$location', function($scope, $http, $location){
+gameControllers.controller("GameListController", ['$scope', '$http', '$location', '$cookies', function($scope, $http, $location, $cookies){
     $http.get('/query?coll=game').success(function (data)
     {
         $scope.Games = data;
@@ -156,5 +164,13 @@ gameControllers.controller("GameListController", ['$scope', '$http', '$location'
         var oDate = Date.parse(inDate);
         var aDate = new Date(oDate);
         return aDate.toDateString();
+    };
+
+    /* @return boolean*/
+    $scope.canEdit = function()
+    {
+        var myCookie = $cookies.gookie ? JSON.parse($cookies.gookie) : null;
+
+        return myCookie != null && myCookie.adminRights > 0;
     };
 }]);

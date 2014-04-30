@@ -11,6 +11,7 @@ playerControllers.controller('PlayerListController', ['$scope', '$http', '$locat
         $scope.doEdit = false;
         $scope.newPlayer = null;
 
+        /** @return boolean */
         $scope.CheckCookie = function()
         {
             var theCookie = $cookies.gookie ? JSON.parse($cookies.gookie) : "None";

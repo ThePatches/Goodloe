@@ -92,6 +92,8 @@ angular.module('GameDirectives', [])
                                     $location.path('/game/' + data._id);
                                 }).error(function (err)
                                 {
+                                    if (err == "Unauthorized")
+                                        $location.path('/login').search({reason: "auth"});
                                     $scope.OutGame = "Something went wrong!";
                                 });
                     }
@@ -138,6 +140,11 @@ angular.module('GameDirectives', [])
                                 $scope.inGame = data;
                             }).error(function (err)
                             {
+                                if (err == "Unauthorized")
+                                {
+                                    //alert("You are not logged in. You must be logged in to continue!");
+                                    $location.path('/login').search({reason: "auth"});
+                                }
                                 $scope.OutGame = "Something went wrong!";
                             });
                     }
