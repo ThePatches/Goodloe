@@ -49,6 +49,8 @@ playerControllers.controller('PlayerListController', ['$scope', '$http', '$locat
                 {
                     $scope.Players.push(data);
                     $scope.doEdit = false;
+
+
                 });
         }
     }]);
