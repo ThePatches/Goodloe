@@ -65,6 +65,11 @@ goodloeApp.config(['$routeProvider',
                 templateUrl: "views/suggest.html",
                 controller: "SuggestController"
             })
+            .when('/rules',
+            {
+                templateUrl: "views/rules.html",
+                controller: "RulesController"
+            })
         .otherwise({
                 templateUrl: "views/404View.html",
                 controller: defaultController
@@ -91,6 +96,10 @@ defaultController.controller('DefaultController', ['$scope', '$cookies', functio
         else
             return false;
     };
+}]);
+
+defaultController.controller("RulesController",['$scope', function($scope){
+    $scope.Title = "Rules";
 }]);
 
 defaultController.controller("LoginRequest", ['$scope', '$http', '$location', function($scope, $http, $location)
