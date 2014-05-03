@@ -292,7 +292,7 @@ app.post('/add', auth, function(req, res) // Need to convert these all to post r
     }
     else if (queryData["coll"] == "player")
     {
-        var aName = req.body.name.replace(/\s/g, "%20");
+        var aName = req.body.name;
         theItem = {name: aName, games: 0, active: true, wins: 0};
         var nPlayer = new Player(theItem);
 
@@ -469,12 +469,10 @@ app.post('/update', auth, function(req, res)
                 }
                 else
                 {
-                    Player.update({_id: winner}, {$inc: {wins: -1}}, {multi: false}, function (err, numberAffected, docs)
+                    Player.update({_id: winner}, {$inc: {wins: -1}}, {multi: false}, function (err, numberAffected)
                     {
                         if (numberAffected == 1) // All changes rolled back, time to change the rest of the game info...
                         {
-                            /*var nGame = Game(newGame);
-                            nGame._id = oldGame._id;*/
                             Game.findOne({_id: oldGame._id}, function (err, doc)
                             {
                                 if (err)
@@ -494,9 +492,8 @@ app.post('/update', auth, function(req, res)
 
                                     doc.save();
                                     var nOutGame = doc;
-                                    Player.update({_id: {$in: nPList}}, {$inc: {games: 1}}, {multi: true}, function(err, numberAffected, docs)
+                                    Player.update({_id: {$in: nPList}}, {$inc: {games: 1}}, {multi: true}, function(err)
                                     {
-                                        //console.log(docs);
                                         if (err) {
                                             console.log("Error! " + err);
                                             res.send(500);
@@ -507,7 +504,6 @@ app.post('/update', auth, function(req, res)
                                             {
                                                 if (numberAffected == 1)
                                                 {
-                                                    //newGame._id
                                                     res.send(nOutGame); // this is a hack, but it should work.
                                                 }
                                             });
@@ -525,6 +521,26 @@ app.post('/update', auth, function(req, res)
 
             break;
 
+        case "player":
+            theItem = req.body.thePlayer;
+
+            console.log(theItem);
+
+            Player.findOne({_id: theItem._id}, function(err, doc)
+            {
+               if (err)
+               {
+                   res.send(err);
+               }
+               else
+               {
+                   doc.name = theItem.name;
+                   doc.save();
+                   res.send(doc);
+               }
+            });
+
+            break;
         default:
             res.send(queryData);
             break;
@@ -556,7 +572,6 @@ app.get('/encrypt', auth, function(req, res)
 
 app.post('/login', passport.authenticate('local'), function(req, res)
 {
-    //console.log(req.user);
     var retUser = req.user;
     res.cookie(CONFIG.cookieName, JSON.stringify({id: retUser._id, username: retUser.username, adminRights: retUser.adminRights, email: retUser.email, wantemail: retUser.wantemail }));
     res.send(retUser);
@@ -569,15 +584,6 @@ app.post('/logout', function(req, res)
     res.send(200);
 });
 
-/*app.get('/maxWins', function(req, res)
-{
-    var Player = connection.model('Players', SCHEMAS.PlayerSchema, 'Players');
-    Player.findOne({}).sort("-wins").exec( function (err, doc)
-    {
-        if (err) console.log("Error! " + err);
-        res.send(doc);
-    });
-});*/
 
 app.post('/adduser', auth, function(req, res)
 {
