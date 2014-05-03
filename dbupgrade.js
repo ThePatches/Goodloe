@@ -2,7 +2,7 @@
  * Created by Patrick Taylor on 4/28/14.
  */
 
-var newPatches = ["User Updating feature added",
+var newPatches = ["Player Updating feature added",
     "Fixed issues with + signs within the database",
     "Beginnings of 'Goodloe Rules' page"];
 
