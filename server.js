@@ -396,7 +396,7 @@ app.post('/update', auth, function(req, res)
                 doc.builder = theItem.builder;
                 doc.color = theItem.color;
                 doc.commander = theItem.commander;
-                //doc.cardList = theItem.cardList;
+                doc.deckList = theItem.deckList;
                 doc.save();
 
                 res.send(doc);
