@@ -9,6 +9,8 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
     $scope.deckId = $routeParams.deckId;
     $scope.doEdit = false;
     $scope.ButtonText = $scope.deckId == "new" ? "Add Deck" : "Update Deck";
+    $scope.showDeckList = false;
+    $scope.ListButtonText = "Show Deck List";
 
     $scope.fixName = function (inName)
     {
@@ -38,10 +40,16 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
             $scope.toggleEdit();
     };
 
+    $scope.toggleDeckList = function()
+    {
+        $scope.showDeckList = !$scope.showDeckList;
+        $scope.ListButtonText = $scope.showDeckList ? "Hide Deck List" : "Show Deck List";
+    };
+
     $scope.buildObject = function()
     {
         var retObject = {name: $scope.Deck.name, color: encodeURIComponent($scope.Deck.color), builder: $scope.Deck.builder,
-        commander: $scope.Deck};
+        commander: $scope.Deck.commander, deckList: $scope.parseDeck()};
 
         if ($scope.deckId != "new")
             retObject._id = $scope.Deck._id;
@@ -155,6 +163,16 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
             if (data != "no deck returned")
             {
                 $scope.Deck = data[0];
+
+                // Now, create the deckList
+                var textDeck = "";
+
+                for (var i = 0; i < data[0].deckList.length; i++)
+                {
+                    textDeck = textDeck + data[0].deckList[i].card + " x " + data[0].deckList[i].qty + "\n";
+                }
+
+                $scope.Deck.deckList = textDeck;
             }
         });
 

@@ -3,6 +3,12 @@
         color: red;
         font-style: italic;
     }
+
+    pre.deckList {
+        margin: 10px 10px 10px 10px;
+        font-family: monospace;
+        font-size: 0.9em;
+    }
 </style>
 <div>
     <div data-ng-show="!isEditing()">
@@ -10,8 +16,12 @@
         <span>Color:&nbsp;</span>{{ Deck.color }}<br />
         <span>Builder:&nbsp;</span>{{ fixName(Deck.builder) }}<br />
         <span>Commander:&nbsp;</span>{{ fixName(Deck.commander) }}<br /><br />
-        <button data-ng-click="toggleEdit()" data-ng-show="CheckCookie()">Toggle Edit Form</button><br /><br />
-        <a href="#/decks" class="navLink">Return to Deck List</a>
+        <button data-ng-click="toggleDeckList()" data-ng-show="Deck.deckList.length > 0">{{ ListButtonText }}</button>
+        <pre data-ng-show="showDeckList" class="deckList">{{ Deck.deckList }}</pre>
+        <div style="margin-top: 20px;">
+            <button data-ng-click="toggleEdit()" data-ng-show="CheckCookie()">Toggle Edit Form</button><br /><br />
+            <a href="#/decks" class="navLink">Return to Deck List</a>
+        </div>
     </div>
     <!-- This portion is only visible if you're trying to make a new deck -->
     <div data-ng-show="isEditing()" id="formDiv">
