@@ -53,10 +53,18 @@ var VersionSchema = new Schema({
     published: Boolean
 });
 
+var BannedListSchema = new Schema({
+    cardname: String,
+    gatherer: String,
+    reason: String,
+    date: Date
+});
+
 module.exports = {
     PlayerSchema: PlayerSchema,
     DeckSchema: DeckSchema,
     GameSchema: GameSchema,
     UserSchema: UserSchema,
-    VersionSchema: VersionSchema
+    VersionSchema: VersionSchema,
+    BannedListSchema: BannedListSchema
 };
