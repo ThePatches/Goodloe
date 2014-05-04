@@ -5,8 +5,6 @@
 //var conn = new Mongo();
 //var db = conn.getDB("goodloedb");
 
-var newPatches = ["Player Updating feature added",
-    "Fixed issues with + signs within the database",
-    "Beginnings of 'Goodloe Rules' page"];
+var newPatches = ["You can now add a list of cards to a deck"];
 
-db.Version.insert({_id: 2, version: "0.6.1", changes: newPatches, published: false});
+db.Version.insert({_id: 3, version: "0.6.2", changes: newPatches, published: false});
