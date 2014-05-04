@@ -1,5 +1,10 @@
+<style>
+    span.errMsg {
+        color: red;
+        font-style: italic;
+    }
+</style>
 <div>
-
     <div data-ng-show="!isEditing()">
         <span>Deck Name:&nbsp;</span>{{ fixName(Deck.name) }}<br />
         <span>Color:&nbsp;</span>{{ Deck.color }}<br />
@@ -15,7 +20,7 @@
         <label for="deckColor">Colors:</label><input type="text" id="deckColor" data-ng-model="Deck.color"><br />
         <label for="deckBuilder">Builder:</label><input type="text" id="deckBuilder" data-ng-model="Deck.builder"><br />
         <label for="deckCommander">Commander:</label><input type="text" id="deckCommander" data-ng-model="Deck.commander" /><br /><br />
-        <label for="deckList">Deck List:</label><br/>
+        <label for="deckList">Deck List:</label><span class="errMsg">{{ ErrMsg }}</span><br/>
         <textarea id="deckList" data-ng-model="Deck.deckList" cols="55" rows="25" placeholder="[CardName] x [Qty]"></textarea>
         <div>
             <button data-ng-click="addDeck()" style="float: left; clear: left;">{{ ButtonText }}</button>

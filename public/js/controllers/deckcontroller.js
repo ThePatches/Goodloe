@@ -72,7 +72,7 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
         }
         else
         {
-            return {};
+            throw "Incorrect Format";
         }
 
         var object = {card: "", qty: 0};
@@ -82,24 +82,34 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
         return object;
     }
 
+    $scope.doParse = function()
+    {
+        $scope.SomeCards = $scope.parseDeck();
+    };
+
     $scope.parseDeck = function()
     {
         var cardList = $scope.Deck.deckList.split("\n");
+        var i = 0;
 
         try
         {
             var someCards = [];
-            for (var i = 0; i < cardList.length; i++)
+            for (i = 0; i < cardList.length; i++)
             {
                 someCards.push(parseCard(cardList[i]));
             }
+
+            $scope.ErrMsg = "";
+
+            return someCards;
         }
         catch (ex)
         {
-            $scope.ErrMsg = ex;
+            $scope.ErrMsg = ex + " at line " + (i + 1);
         }
 
-        return someCards;
+        return [];
     };
 
     $scope.addDeck = function()
