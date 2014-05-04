@@ -15,6 +15,8 @@
         <label for="deckColor">Colors:</label><input type="text" id="deckColor" data-ng-model="Deck.color"><br />
         <label for="deckBuilder">Builder:</label><input type="text" id="deckBuilder" data-ng-model="Deck.builder"><br />
         <label for="deckCommander">Commander:</label><input type="text" id="deckCommander" data-ng-model="Deck.commander" /><br /><br />
+        <label for="deckList">Deck List:</label><br/>
+        <textarea id="deckList" data-ng-model="Deck.deckList" cols="55" rows="25" placeholder="[CardName] x [Qty]"></textarea>
         <div>
             <button data-ng-click="addDeck()" style="float: left; clear: left;">{{ ButtonText }}</button>
             <button data-ng-click="cancelEdit()" style="float: left; clear: right; margin-left: 3px;" >Cancel</button>
