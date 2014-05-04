@@ -9,6 +9,8 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
     $scope.deckId = $routeParams.deckId;
     $scope.doEdit = false;
     $scope.ButtonText = $scope.deckId == "new" ? "Add Deck" : "Update Deck";
+    $scope.showDeckList = false;
+    $scope.ListButtonText = "Show Deck List";
 
     $scope.fixName = function (inName)
     {
@@ -38,10 +40,17 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
             $scope.toggleEdit();
     };
 
+    $scope.toggleDeckList = function()
+    {
+        $scope.showDeckList = !$scope.showDeckList;
+        $scope.ListButtonText = $scope.showDeckList ? "Hide Deck List" : "Show Deck List";
+    };
+
     $scope.buildObject = function()
     {
         var retObject = {name: $scope.Deck.name, color: encodeURIComponent($scope.Deck.color), builder: $scope.Deck.builder,
-        commander: $scope.Deck}
+        commander: $scope.Deck.commander, deckList: $scope.parseDeck()};
+
         if ($scope.deckId != "new")
             retObject._id = $scope.Deck._id;
 
@@ -57,6 +66,58 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
             return false;
 
         return (theCookie.username && theCookie.username != "");
+    };
+
+    function parseCard(inString)
+    {
+        var pattern = /\sx\s\d{1,2}/ig;
+        var theMatch = pattern.exec(inString);
+
+        if (theMatch != null)
+        {
+            var card = inString.substring(0, inString.indexOf(theMatch)).trim();
+            var qty = parseInt(theMatch[0].split('x')[1].trim());
+        }
+        else
+        {
+            throw "Incorrect Format";
+        }
+
+        var object = {card: "", qty: 0};
+        object.card = card;
+        object.qty = qty;
+
+        return object;
+    }
+
+    $scope.doParse = function()
+    {
+        $scope.SomeCards = $scope.parseDeck();
+    };
+
+    $scope.parseDeck = function()
+    {
+        var cardList = $scope.Deck.deckList.split("\n");
+        var i = 0;
+
+        try
+        {
+            var someCards = [];
+            for (i = 0; i < cardList.length; i++)
+            {
+                someCards.push(parseCard(cardList[i]));
+            }
+
+            $scope.ErrMsg = "";
+
+            return someCards;
+        }
+        catch (ex)
+        {
+            $scope.ErrMsg = ex + " at line " + (i + 1);
+        }
+
+        return [];
     };
 
     $scope.addDeck = function()
@@ -96,26 +157,22 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
         }
     };
 
-    $scope.parseList = function(inText)
-    {
-        var masterList = [];
-        var i;
-        var tempList = inText.split("\n");
-        var itemArray = null;
-
-        for (i = 0; i < inText.length; i++)
-        {
-            itemArray = tempList[i].split("x").trim();
-            masterList.append({card: itemArray[0], count: parseInt(itemArray[1])});
-        }
-    };
-
     if ($scope.deckId != 'new')
     {
         $http.get('/query?coll=deck&id=' + $scope.deckId).success(function (data) {
             if (data != "no deck returned")
             {
                 $scope.Deck = data[0];
+
+                // Now, create the deckList
+                var textDeck = "";
+
+                for (var i = 0; i < data[0].deckList.length; i++)
+                {
+                    textDeck = textDeck + data[0].deckList[i].card + " x " + data[0].deckList[i].qty + "\n";
+                }
+
+                $scope.Deck.deckList = textDeck;
             }
         });
 

@@ -1,12 +1,27 @@
-<div>
+<style>
+    span.errMsg {
+        color: red;
+        font-style: italic;
+    }
 
+    pre.deckList {
+        margin: 10px 10px 10px 10px;
+        font-family: monospace;
+        font-size: 0.9em;
+    }
+</style>
+<div>
     <div data-ng-show="!isEditing()">
         <span>Deck Name:&nbsp;</span>{{ fixName(Deck.name) }}<br />
         <span>Color:&nbsp;</span>{{ Deck.color }}<br />
         <span>Builder:&nbsp;</span>{{ fixName(Deck.builder) }}<br />
         <span>Commander:&nbsp;</span>{{ fixName(Deck.commander) }}<br /><br />
-        <button data-ng-click="toggleEdit()" data-ng-show="CheckCookie()">Toggle Edit Form</button><br /><br />
-        <a href="#/decks" class="navLink">Return to Deck List</a>
+        <button data-ng-click="toggleDeckList()" data-ng-show="Deck.deckList.length > 0">{{ ListButtonText }}</button>
+        <pre data-ng-show="showDeckList" class="deckList">{{ Deck.deckList }}</pre>
+        <div style="margin-top: 20px;">
+            <button data-ng-click="toggleEdit()" data-ng-show="CheckCookie()">Toggle Edit Form</button><br /><br />
+            <a href="#/decks" class="navLink">Return to Deck List</a>
+        </div>
     </div>
     <!-- This portion is only visible if you're trying to make a new deck -->
     <div data-ng-show="isEditing()" id="formDiv">
@@ -15,6 +30,8 @@
         <label for="deckColor">Colors:</label><input type="text" id="deckColor" data-ng-model="Deck.color"><br />
         <label for="deckBuilder">Builder:</label><input type="text" id="deckBuilder" data-ng-model="Deck.builder"><br />
         <label for="deckCommander">Commander:</label><input type="text" id="deckCommander" data-ng-model="Deck.commander" /><br /><br />
+        <label for="deckList">Deck List:</label><span class="errMsg">{{ ErrMsg }}</span><br/>
+        <textarea id="deckList" data-ng-model="Deck.deckList" cols="55" rows="25" placeholder="[CardName] x [Qty]"></textarea>
         <div>
             <button data-ng-click="addDeck()" style="float: left; clear: left;">{{ ButtonText }}</button>
             <button data-ng-click="cancelEdit()" style="float: left; clear: right; margin-left: 3px;" >Cancel</button>
