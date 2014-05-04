@@ -41,7 +41,8 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
     $scope.buildObject = function()
     {
         var retObject = {name: $scope.Deck.name, color: encodeURIComponent($scope.Deck.color), builder: $scope.Deck.builder,
-        commander: $scope.Deck}
+        commander: $scope.Deck};
+
         if ($scope.deckId != "new")
             retObject._id = $scope.Deck._id;
 
@@ -57,6 +58,48 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
             return false;
 
         return (theCookie.username && theCookie.username != "");
+    };
+
+    function parseCard(inString)
+    {
+        var pattern = /\sx\s\d{1,2}/ig;
+        var theMatch = pattern.exec(inString);
+
+        if (theMatch != null)
+        {
+            var card = inString.substring(0, inString.indexOf(theMatch)).trim();
+            var qty = parseInt(theMatch[0].split('x')[1].trim());
+        }
+        else
+        {
+            return {};
+        }
+
+        var object = {card: "", qty: 0};
+        object.card = card;
+        object.qty = qty;
+
+        return object;
+    }
+
+    $scope.parseDeck = function()
+    {
+        var cardList = $scope.Deck.deckList.split("\n");
+
+        try
+        {
+            var someCards = [];
+            for (var i = 0; i < cardList.length; i++)
+            {
+                someCards.push(parseCard(cardList[i]));
+            }
+        }
+        catch (ex)
+        {
+            $scope.ErrMsg = ex;
+        }
+
+        return someCards;
     };
 
     $scope.addDeck = function()
@@ -93,20 +136,6 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
                 {
                     $scope.OutGame = "Something went wrong! " + err;
                 });
-        }
-    };
-
-    $scope.parseList = function(inText)
-    {
-        var masterList = [];
-        var i;
-        var tempList = inText.split("\n");
-        var itemArray = null;
-
-        for (i = 0; i < inText.length; i++)
-        {
-            itemArray = tempList[i].split("x").trim();
-            masterList.append({card: itemArray[0], count: parseInt(itemArray[1])});
         }
     };
 
