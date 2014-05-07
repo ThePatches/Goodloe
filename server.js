@@ -406,8 +406,9 @@ app.post('/update', auth, function(req, res)
 
         case "user":
             theItem = req.body.inUser;
+            console.log(theItem);
             var currUser = JSON.parse(req.cookies[CONFIG.cookieName]);
-            if (currUser.adminRights != 3 || currUser._id != theItem._id)
+            if (currUser.adminRights != 3 || currUser.id != theItem._id)
             {
                 res.send(401, "You cannot make a change to this user!");
             }

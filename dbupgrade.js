@@ -5,6 +5,6 @@
 //var conn = new Mongo();
 //var db = conn.getDB("goodloedb");
 
-var newPatches = ["You can now add a list of cards to a deck"];
+var newPatches = ["Fixed an issue preventing players from updating their own profiles."];
 
-db.Version.insert({_id: 3, version: "0.6.2", changes: newPatches, published: false});
+db.Version.insert({_id: 4, version: "0.6.3", changes: newPatches, published: false});
