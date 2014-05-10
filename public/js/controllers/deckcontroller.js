@@ -97,6 +97,7 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
 
     $scope.parseDeck = function()
     {
+        if (!$scope.Deck.deckList || $scope.Deck.deckList == "")
         var cardList = $scope.Deck.deckList.split("\n");
         var i = 0;
 

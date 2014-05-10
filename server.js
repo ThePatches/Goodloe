@@ -92,6 +92,17 @@ var auth = function(req, res, next)
 
 }; //- See more at: https://vickev.com/#!/article/authentication-in-single-page-applications-node-js-passportjs-angularjs
 
+var specAuth = function(req, res, next)
+{
+    var uCookie = JSON.parse(req.cookies[CONFIG.cookieName]);
+    if (req.isAuthenticated() && uCookie.adminRights == 3)
+    {
+        next();
+    }
+    else
+        res.send(401, "Viewing the User List Requires Admin Rights!");
+}
+
 app.get('/patches', function(req, res)
 {
     Version.find({}).sort("-_id").exec(function(err, patches)
@@ -103,6 +114,21 @@ app.get('/patches', function(req, res)
         }
         else
             res.send(patches);
+    });
+});
+
+app.get('/ulist', specAuth, function(req, res)
+{
+    Users.find({}, 'username email, wantemail, active, adminRights', function(err, users)
+    {
+        if (err)
+        {
+            res.send(500, "Error: " + err);
+        }
+        else
+        {
+            res.send(users);
+        }
     });
 });
 
@@ -155,7 +181,7 @@ app.get('/query', function(req, res)
             });
             break;
 
-        case "game":
+        case "game": //TODO: Spec the correct fields when getting the whole list
             var GameModel = connection.model('Games', SCHEMAS.GameSchema, 'Games');
             DeckModel = connection.model("Deck", SCHEMAS.DeckSchema, 'Deck');
             PlayerModel = connection.model('Players', SCHEMAS.PlayerSchema, 'Players');
@@ -221,7 +247,7 @@ app.post('/requser', function(req, res) // TODO: Set this to work with SES so th
                 Body: msgContent,
                 Subject: "New User for Goodloe League Requested",
                 toAddress: [CONFIG.adminEmail]
-            }
+            };
             if (CONFIG.snsUser.accessKeyId == "")
             {
                 res.send(500, "No access key!");

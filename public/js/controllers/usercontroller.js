@@ -109,3 +109,17 @@ userControllers.controller("ProfileController", ['$scope', '$cookies', '$http', 
     };
 
 }]);
+
+userControllers.controller("UserListController", ['$scope', '$cookies', '$http', function($scope, $cookies, $http)
+{
+    var inUser = JSON.parse($cookies.gookie);
+
+    if (inUser.adminRights == 3)
+    {
+        $http.get('/ulist')
+            .success(function(data)
+            {
+                $scope.Users = data;
+            });
+    }
+}]);

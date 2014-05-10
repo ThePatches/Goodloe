@@ -1,0 +1,11 @@
+<script type="text/ng-template" id="user-template">
+    <span>User: </span>{{user.username }}<br />
+    <span>Email: </span>{{ user.email }}
+</script>
+
+<div>
+    <h2>User List</h2>
+    <ul style="list-style: none;">
+        <li data-ng-repeat="user in Users" data-ng-include="'user-template'" style="padding-bottom: 5px;"></li>
+    </ul>
+</div>
