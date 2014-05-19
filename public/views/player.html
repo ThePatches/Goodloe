@@ -1,3 +1,16 @@
+<style>
+    div.percent
+    {
+        font-size: 1.2em;
+    }
+
+    div.percent span
+    {
+        font-weight: bold;
+        color: red;
+    }
+</style>
+
 <div class="Player">
     <div data-ng-show="!newPlayer">
         <h2>Viewing a Player's Record</h2>
@@ -12,6 +25,9 @@
             <dt>Games Played:</dt>
             <dd>{{ Player.games }}</dd>
         </dl>
+        <div class="percent">
+            Current Percentage: <span>{{ Player.wins / Player.games }}</span>
+        </div>
         <button data-ng-show="canEdit()" data-ng-click="isEditing = !isEditing">Edit</button>
     </div>
 
