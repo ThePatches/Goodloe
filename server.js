@@ -10,6 +10,9 @@ passport = require("passport");
 LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
 var notify = require("./myNodePackages/notify.js");
+var bodyParser = require("body-parser");
+var cookieParser = require("cookie-parser");
+var session = require("express-session");
 
 
 var app = express();
@@ -22,15 +25,13 @@ var httpServer = http.createServer(app);
 //var httpsServer = https.createServer(credentials, app);
 
 //console.log(process.env.PORT);
-app.configure(function (){
-    app.use(express.cookieParser());
-    app.use(express.static(__dirname + '/public'));
-    app.use(express.bodyParser());
-    app.use(express.session({ secret: 'SECRET' }));
-    app.use(passport.initialize());
-    app.use(passport.session());
-    app.set('port', process.env.PORT || CONFIG.usePort);
-});
+app.use(cookieParser());
+app.use(express.static(__dirname + '/public'));
+app.use(bodyParser());
+app.use(session({ secret: 'SECRET' }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.set('port', process.env.PORT || CONFIG.usePort);
 
 //var connection = mongoose.createConnection(CONFIG.connString);
 var connection = mongoose.createConnection("mongodb://" + CONFIG.user + ":" + CONFIG.password + "@" + CONFIG.server + "/" + CONFIG.db);

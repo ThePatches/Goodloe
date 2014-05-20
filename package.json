@@ -13,7 +13,10 @@
         "passport": "0.2.x",
         "passport-local": "0.1.x",
         "mongoose": "3.8.x",
-        "express": "3.4.x",
-        "bcrypt-nodejs": "0.0.x"
+        "express": "~4.0.0",
+        "bcrypt-nodejs": "0.0.x",
+        "body-parser": "~1.0.0",
+        "express-session": "~1.2.0",
+        "cookie-parser": "~0.1.0"
     }
 }
