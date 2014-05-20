@@ -3,18 +3,15 @@ var https = require('https');
 var express = require('express');
 var url = require('url');
 var CONFIG = require('./config/development.json'); // You must change this to match the actual name of your configuration file.
-var SCHEMAS = require('./myNodePackages/schemas.js');
 var bcrypt = require('bcrypt-nodejs');
 var fs = require('fs');
 passport = require("passport");
 LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
-var notify = require("./myNodePackages/notify.js");
 var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
 var session = require("express-session");
 var serveStatic = require("serve-static");
-
 
 var app = express();
 
@@ -34,13 +31,17 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.set('port', process.env.PORT || CONFIG.usePort);
 
-//var connection = mongoose.createConnection(CONFIG.connString);
 var connection = mongoose.createConnection("mongodb://" + CONFIG.user + ":" + CONFIG.password + "@" + CONFIG.server + "/" + CONFIG.db);
-//console.log("mongodb://" + CONFIG.user + ":" + CONFIG.password + "@" + CONFIG.server + "/" + CONFIG.db);
 connection.once('open', function ()
 {
 	console.log('opened database');
 });
+
+var models = require("./models/index")(CONFIG, connection);
+var SCHEMAS = models.schemasModel;
+var notify = models.notifyModel;
+var userModel = models.userModel;
+
 
 app.get('/version', function(req, res)
 {
@@ -121,7 +122,7 @@ app.get('/patches', function(req, res)
 
 app.get('/ulist', specAuth, function(req, res)
 {
-    Users.find({}, 'username email wantemail active adminRights', function(err, users)
+    /*Users.find({}, 'username email wantemail active adminRights', function(err, users)
     {
         if (err)
         {
@@ -131,6 +132,13 @@ app.get('/ulist', specAuth, function(req, res)
         {
             res.send(users);
         }
+    });*/
+    userModel.userlist(function(err, users)
+    {
+        if (err)
+            res.send(500, "Error: " + err);
+        else
+            res.send(users);
     });
 });
 
@@ -275,7 +283,7 @@ app.post('/suggest', function(req, res)
         Body: msgContent,
         Subject: "Goodloe League Suggestion Box",
         toAddress: [CONFIG.adminEmail]
-    }
+    };
 
     if (CONFIG.snsUser.accessKeyId == "")
     {
@@ -433,7 +441,19 @@ app.post('/update', auth, function(req, res)
             break;
 
         case "user":
-            theItem = req.body.inUser;
+            userModel.updateUser(req, req.cookies[CONFIG.cookieName], function(err, doc)
+            {
+                if (err)
+                {
+                    if (err.code == 401)
+                        res.send(401, err.msg);
+                    else
+                        res.send(err);
+                }
+                else
+                    res.send(doc);
+            });
+            /*theItem = req.body.inUser;
             console.log(theItem);
             var currUser = JSON.parse(req.cookies[CONFIG.cookieName]);
             if (currUser.adminRights != 3 && currUser.id != theItem.id)
@@ -455,7 +475,7 @@ app.post('/update', auth, function(req, res)
                     doc.save();
                     res.send(doc);
                 });
-            }
+            }*/
 
             break;
 
@@ -576,17 +596,6 @@ app.post('/update', auth, function(req, res)
     }
 });
 
-app.get('/emailTest', function(req, res)
-{
-    var params = {toAddress: ["warder05@gmail.com"], Subject: "Test Email", Body: "This is a test email!"};
-    notify.sendAWSEmail(params, function(err, data)
-    {
-        if (err) throw err;
-        res.send("check the console!");
-    });
-
-});
-
 
 app.get('/encrypt', auth, function(req, res)
 {
@@ -614,7 +623,7 @@ app.post('/logout', function(req, res)
 });
 
 
-app.post('/adduser', auth, function(req, res)
+/*app.post('/adduser', auth, function(req, res)
 {
     var uCookie = JSON.parse(req.cookies[CONFIG.cookieName]);
     var addUser = req.body.addUser;
@@ -648,7 +657,7 @@ app.post('/adduser', auth, function(req, res)
             }
         });
     }
-});
+});*/
 
 app.get('*', function(req, res)
 {
