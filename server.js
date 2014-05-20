@@ -119,7 +119,7 @@ app.get('/patches', function(req, res)
 
 app.get('/ulist', specAuth, function(req, res)
 {
-    Users.find({}, 'username email, wantemail, active, adminRights', function(err, users)
+    Users.find({}, 'username email wantemail active adminRights', function(err, users)
     {
         if (err)
         {
