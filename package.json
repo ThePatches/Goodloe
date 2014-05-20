@@ -17,6 +17,7 @@
         "bcrypt-nodejs": "0.0.x",
         "body-parser": "~1.0.0",
         "express-session": "~1.2.0",
-        "cookie-parser": "~0.1.0"
+        "cookie-parser": "~1.1.0",
+        "serve-static": "~1.1.0"
     }
 }

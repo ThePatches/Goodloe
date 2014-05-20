@@ -13,6 +13,7 @@ var notify = require("./myNodePackages/notify.js");
 var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
 var session = require("express-session");
+var serveStatic = require("serve-static");
 
 
 var app = express();
@@ -26,7 +27,7 @@ var httpServer = http.createServer(app);
 
 //console.log(process.env.PORT);
 app.use(cookieParser());
-app.use(express.static(__dirname + '/public'));
+app.use(serveStatic(__dirname + '/public'));
 app.use(bodyParser());
 app.use(session({ secret: 'SECRET' }));
 app.use(passport.initialize());
