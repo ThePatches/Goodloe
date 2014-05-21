@@ -12,11 +12,11 @@ module.exports = function(CONFIG, connection)
     return {
         addUser: function(userCookie, addUser, callback)
         {
-            var uCookie = JSON.parse(userCookie);
+            var uCookie = JSON.parse(userCookie[CONFIG.cookieName]);
             if (uCookie.adminRights != 3)
             {
                 console.log("admin rights failed!");
-                callback("Admin failure!");
+                callback({statusCode: 401, message: "Admin failure!"}, null);
             }
             else
             {

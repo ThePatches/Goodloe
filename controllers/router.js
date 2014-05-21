@@ -13,6 +13,7 @@ module.exports = function(app, models)
 
     app.get('/ulist', auth.specialAuth, userController.ulist);
     app.get('/finduser', userController.findUser);
+    app.post('/adduser', auth.specialAuth, userController.addUser);
 
     app.get('/version', function(req, res)
     {

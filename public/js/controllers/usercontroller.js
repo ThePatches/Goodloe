@@ -104,8 +104,11 @@ userControllers.controller("ProfileController", ['$scope', '$cookies', '$http', 
 
     $scope.doLogOut = function ()
     {
-        $http.post('/logout');
-        $location.path('/');
+        $http.get('/logout').success(function()
+        {
+            $location.path('/');
+        });
+
     };
 
 }]);

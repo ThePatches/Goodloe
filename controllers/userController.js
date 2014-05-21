@@ -6,7 +6,7 @@ var url = require('url');
 
 module.exports = function(userModel)
 {
-    console.log(userModel);
+    //console.log(userModel);
     function ulist(req, res)
     {
         userModel.userlist(function(err, list)
@@ -37,15 +37,28 @@ module.exports = function(userModel)
         });
     }
 
-    function login(req, res)
+    function addUser(req, res)
     {
-        var retUser = req.user;
-        res.cookie(CONFIG.cookieName, JSON.stringify({id: retUser._id, username: retUser.username, adminRights: retUser.adminRights, email: retUser.email, wantemail: retUser.wantemail }));
-        res.send(retUser);
+        var uCookie = req.cookies;
+        var addUser = req.body.addUser;
+        userModel.addUser(uCookie, addUser, function(err, msg)
+        {
+           if (err)
+           {
+               if (err.statusCode == 401){
+                   res.send(err);
+               } else {
+                   res.send(500, err);
+               }
+           } else {
+               res.send(msg);
+           }
+        });
     }
 
     return {
         ulist : ulist,
-        findUser: findUser
+        findUser: findUser,
+        addUser: addUser
     };
 };
