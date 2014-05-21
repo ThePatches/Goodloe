@@ -43,7 +43,7 @@ userControllers.controller("LoginController", ['$scope', '$http', '$cookies', '$
 
     $scope.DoLogOut = function ()
     {
-        $http.post("/logout");
+        $http.get("/logout");
         $scope.SomeStuff = "None";
         $scope.logOutMsg = "Log Out";
     };

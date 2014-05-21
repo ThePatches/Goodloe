@@ -12,6 +12,7 @@ var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
 var session = require("express-session");
 var serveStatic = require("serve-static");
+var router = require('./controllers/router.js');
 
 var app = express();
 
@@ -42,11 +43,7 @@ var SCHEMAS = models.schemasModel;
 var notify = models.notifyModel;
 var userModel = models.userModel;
 
-
-app.get('/version', function(req, res)
-{
-    res.send(app.get('version'));
-});
+router(app, models);
 
 var Users = connection.model("Users", SCHEMAS.UserSchema, "GoodUsers");
 var Version = connection.model("Version", SCHEMAS.VersionSchema, "Version");
@@ -104,7 +101,7 @@ var specAuth = function(req, res, next)
     }
     else
         res.send(401, "Viewing the User List Requires Admin Rights!");
-}
+};
 
 app.get('/patches', function(req, res)
 {
@@ -117,28 +114,6 @@ app.get('/patches', function(req, res)
         }
         else
             res.send(patches);
-    });
-});
-
-app.get('/ulist', specAuth, function(req, res)
-{
-    /*Users.find({}, 'username email wantemail active adminRights', function(err, users)
-    {
-        if (err)
-        {
-            res.send(500, "Error: " + err);
-        }
-        else
-        {
-            res.send(users);
-        }
-    });*/
-    userModel.userlist(function(err, users)
-    {
-        if (err)
-            res.send(500, "Error: " + err);
-        else
-            res.send(users);
     });
 });
 
@@ -453,29 +428,6 @@ app.post('/update', auth, function(req, res)
                 else
                     res.send(doc);
             });
-            /*theItem = req.body.inUser;
-            console.log(theItem);
-            var currUser = JSON.parse(req.cookies[CONFIG.cookieName]);
-            if (currUser.adminRights != 3 && currUser.id != theItem.id)
-            {
-                res.send(401, "You cannot make a change to this user!");
-            }
-            else
-            {
-                Users.findOne({_id: theItem.id}, function (err, doc)
-                {
-                    if (err) res.send(err);
-
-                    //console.log(doc);
-                    doc.email = theItem.email;
-                    doc.wantemail = theItem.wantemail;
-
-                    // More options can appear here
-
-                    doc.save();
-                    res.send(doc);
-                });
-            }*/
 
             break;
 
@@ -606,20 +558,6 @@ app.get('/encrypt', auth, function(req, res)
 
     res.send(hash);
 
-});
-
-app.post('/login', passport.authenticate('local'), function(req, res)
-{
-    var retUser = req.user;
-    res.cookie(CONFIG.cookieName, JSON.stringify({id: retUser._id, username: retUser.username, adminRights: retUser.adminRights, email: retUser.email, wantemail: retUser.wantemail }));
-    res.send(retUser);
-});
-
-app.post('/logout', function(req, res)
-{
-    req.logOut();
-    res.clearCookie(CONFIG.cookieName);
-    res.send(200);
 });
 
 

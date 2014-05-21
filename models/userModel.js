@@ -87,7 +87,26 @@ module.exports = function(CONFIG, connection)
                 });
             }
 
-        }
+        },
+
+        findUser: function(name, callback)
+        {
+            var findObject = {};
+            findObject.username = name;
+            Users.findOne(findObject, function(err, user)
+            {
+                if (err) {
+                    callback(err, null);
+                }
+                if (!user){
+                    callback(err, null);
+                }
+
+                callback(null, {username: user.username, active: user.active});
+            });
+        },
+
+        RawUser: Users
     };
 };
 

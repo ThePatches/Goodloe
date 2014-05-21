@@ -11,6 +11,7 @@ module.exports = function(inConfig, connection)
     return {
         notifyModel: notify,
         schemasModel: schemas,
-        userModel: userModel
+        userModel: userModel,
+        CONFIG: inConfig
     };
 };
