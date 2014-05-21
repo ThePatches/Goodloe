@@ -8,12 +8,14 @@ module.exports = function(inConfig, connection)
     var schemas = require("./schemas.js");
     var userModel = require("./userModel.js")(inConfig, connection);
     var deckModel = require("./deckModel.js")(connection);
+    var playerModel = require('./playerModel.js')(connection);
 
     return {
         notifyModel: notify,
         schemasModel: schemas,
         userModel: userModel,
         deckModel: deckModel,
+        playerModel: playerModel,
         CONFIG: inConfig
     };
 };

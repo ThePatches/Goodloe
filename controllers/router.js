@@ -12,6 +12,7 @@ module.exports = function(app, models)
     var auth = require("./auth")(models.userModel, models.CONFIG);
     var tools = require("./tools")(models);
     var deckController = require('./deckController')(models.deckModel);
+    var playerController = require('./playerController')(models.playerModel);
 
     console.log(tools);
 
@@ -51,4 +52,6 @@ module.exports = function(app, models)
     app.post('/deck/get', deckController.Search);
     app.post('/deck/add', auth.isAuthenticated, deckController.Add);
     app.post('/deck/update', auth.isAuthenticated, deckController.Update);
+
+    app.get('/player/get', playerController.Get);
 };
