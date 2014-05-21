@@ -10,9 +10,15 @@ module.exports = function(app, models)
     //console.log(models.userModel);
     var userController = require('./userController')(models.userModel);
     var auth = require("./auth")(models.userModel, models.CONFIG);
+    var tools = require("./tools")(models.notifyModel);
+    var deckController = require('./deckController')(models.deckModel);
+
+    console.log(tools);
 
     app.get('/ulist', auth.specialAuth, userController.ulist);
     app.get('/finduser', userController.findUser);
+    app.get('/encrypt', auth.isAuthenticated, auth.encrypt);
+    app.post('/suggest', tools.suggest);
     app.post('/adduser', auth.specialAuth, userController.addUser);
 
     app.get('/version', function(req, res)
@@ -36,4 +42,10 @@ module.exports = function(app, models)
         res.clearCookie(models.CONFIG.cookieName);
         res.send(200);
     });
+
+
+    /***************************************************Data Schema*********************************************************************/
+
+    app.get('/deck/get', deckController.Get);
+    app.post('/deck/add', deckController.Add);
 };

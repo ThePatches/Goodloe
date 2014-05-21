@@ -6,6 +6,7 @@ var bcrypt = require('bcrypt-nodejs');
 passport = require("passport");
 LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
+var url = require('url');
 
 module.exports = function(userModel, CONFIG)
 {
@@ -64,9 +65,20 @@ module.exports = function(userModel, CONFIG)
             res.send(401, "Viewing the User List Requires Admin Rights!");
     }
 
+    function encrypt(req, res)
+    {
+        var queryData = req.url;
+        queryData = url.parse(queryData, true).query;
+
+        var hash = bcrypt.hashSync(queryData["pass"]);
+
+        res.send(hash);
+    }
+
     return {
         isAuthenticated: auth,
-        specialAuth: specAuth
+        specialAuth: specAuth,
+        encrypt: encrypt
     };
 };
 

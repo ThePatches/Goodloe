@@ -92,17 +92,7 @@ var auth = function(req, res, next)
 
 }; //- See more at: https://vickev.com/#!/article/authentication-in-single-page-applications-node-js-passportjs-angularjs
 
-var specAuth = function(req, res, next)
-{
-    var uCookie = JSON.parse(req.cookies[CONFIG.cookieName]);
-    if (req.isAuthenticated() && uCookie.adminRights == 3)
-    {
-        next();
-    }
-    else
-        res.send(401, "Viewing the User List Requires Admin Rights!");
-};
-
+// need to refactor a tools model before I can get this to work right...
 app.get('/patches', function(req, res)
 {
     Version.find({}).sort("-_id").exec(function(err, patches)
@@ -247,30 +237,6 @@ app.post('/requser', function(req, res) // TODO: Set this to work with SES so th
         }
 
     });
-});
-
-app.post('/suggest', function(req, res)
-{
-    var inObject = req.body;
-
-    var msgContent = "Suggestion: " + inObject.title + "\nDescription: " + inObject.suggestion + "\n\nEmail: " + inObject.email;
-    var params = {
-        Body: msgContent,
-        Subject: "Goodloe League Suggestion Box",
-        toAddress: [CONFIG.adminEmail]
-    };
-
-    if (CONFIG.snsUser.accessKeyId == "")
-    {
-        res.send(500, "No access key!");
-    }
-    else {
-        notify.sendAWSEmail(params, function (err, data)
-        {
-            if (err) res.send(500, err);
-            res.send(data);
-        });
-    }
 });
 
 app.post('/add', auth, function(req, res) // Need to convert these all to post requests
@@ -547,55 +513,6 @@ app.post('/update', auth, function(req, res)
             break;
     }
 });
-
-
-app.get('/encrypt', auth, function(req, res)
-{
-    var queryData = req.url;
-    queryData = url.parse(queryData, true).query;
-
-    var hash = bcrypt.hashSync(queryData["pass"]);
-
-    res.send(hash);
-
-});
-
-
-/*app.post('/adduser', auth, function(req, res)
-{
-    var uCookie = JSON.parse(req.cookies[CONFIG.cookieName]);
-    var addUser = req.body.addUser;
-
-    console.log(addUser);
-
-    if (uCookie.adminRights != 3)
-    {
-        console.log("admin rights failed");
-        res.send(401);
-    }
-    else
-    {
-        var nHash = addUser.encrypt ? addUser.password : bcrypt.hashSync(addUser.pass);
-        console.log(nHash);
-        var nUser = new Users({username: addUser.username, hash: nHash, active: true, adminRights: addUser.adminRights});
-
-        nUser.save(function (err, product, numberAffected)
-        {
-            {
-                if (err)
-                {
-                    console.log("Something doesn't work!");
-                    res.send(500);
-                }
-
-                if (numberAffected > 0)
-                {
-                    res.send("User Created");
-                }
-            }
-        });
-    }
-});*/
 
 app.get('*', function(req, res)
 {

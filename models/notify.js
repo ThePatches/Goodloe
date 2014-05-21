@@ -42,6 +42,13 @@ module.exports = function(CONFIG)
             }, callback);
 
             //ses.sendEmail(params, callback);
-        }
+        },
+
+       adminEmail: CONFIG.adminEmail,
+
+       canSend: function()
+       {
+           return CONFIG.snsUser.accessKeyId != "";
+       }
     };
 };
