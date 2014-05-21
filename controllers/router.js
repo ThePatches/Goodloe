@@ -10,7 +10,7 @@ module.exports = function(app, models)
     //console.log(models.userModel);
     var userController = require('./userController')(models.userModel);
     var auth = require("./auth")(models.userModel, models.CONFIG);
-    var tools = require("./tools")(models.notifyModel);
+    var tools = require("./tools")(models);
     var deckController = require('./deckController')(models.deckModel);
 
     console.log(tools);
@@ -19,6 +19,7 @@ module.exports = function(app, models)
     app.get('/finduser', userController.findUser);
     app.get('/encrypt', auth.isAuthenticated, auth.encrypt);
     app.post('/suggest', tools.suggest);
+    app.post('/requser', tools.requestUser);
     app.post('/adduser', auth.specialAuth, userController.addUser);
 
     app.get('/version', function(req, res)

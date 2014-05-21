@@ -182,45 +182,6 @@ app.get('/query', function(req, res)
     }
 });
 
-app.post('/requser', function(req, res) // TODO: Set this to work with SES so that you can use SNS for major notifications.
-{
-    var inObject = req.body;
-    var findObject = {};
-
-    findObject.username = inObject.username;
-    Users.findOne(findObject, function(err, user)
-    {
-        if (err) {
-            res.send(500, "Error: " + err);
-        }
-        if (user){
-            res.send(500, "A user with that name already exists.");
-        }
-        else // now, we send the email to me...
-        {
-            var nHash = CONFIG.useCrypt ? bcrypt.hashSync(inObject.password) : inObject.password;
-            var msgContent = "Person: " + inObject.person + "\nUsername: " + inObject.username + "\nPassword: " + nHash;
-            var params = {
-                Body: msgContent,
-                Subject: "New User for Goodloe League Requested",
-                toAddress: [CONFIG.adminEmail]
-            };
-            if (CONFIG.snsUser.accessKeyId == "")
-            {
-                res.send(500, "No access key!");
-            }
-            else {
-                notify.sendAWSEmail(params, function (err, data)
-                {
-                    if (err) res.send(500, err);
-                    res.send(data);
-                });
-            }
-        }
-
-    });
-});
-
 app.post('/add', auth, function(req, res) // Need to convert these all to post requests
 {
     var spaceUrl = req.url.replace(/\s/g,"%2B");
