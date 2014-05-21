@@ -30,11 +30,55 @@ module.exports = function(deckModel)
 
     function Add(req, res)
     {
+        var theItem = req.body.addedDeck;
+        deckModel.simpleAdd(theItem, function(err, deck)
+        {
+            if (err)
+            {
+                res.send(500, err);
+            } else {
+                res.statusCode = 200;
+                res.send(deck);
+            }
+        });
+    }
+
+    function Search(req, res) // This is kinda bogus
+    {
+        var inBody = req.body.inSearch;
+
+        deckModel.advancedGet(inBody.query, inBody.fields, function(err, deck)
+        {
+            if (err)
+            {
+                res.send(500, err);
+            } else {
+                res.statusCode = 200;
+                res.send(deck);
+            }
+        });
+    }
+
+    function Update(req, res)
+    {
+        var theItem = req.body.addedDeck;
+        deckModel.simpleUpdate(theItem, function(err, deck)
+        {
+            if (err){
+                res.send(500, err);
+            } else {
+                res.statusCode = 200;
+                res.send(deck);
+            }
+        });
+
         res.send("not implemented!");
     }
 
     return {
       Get: Get,
-      Add: Add
+      Add: Add,
+      Search: Search,
+      Update: Update
     };
 };

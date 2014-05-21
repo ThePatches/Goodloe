@@ -47,5 +47,7 @@ module.exports = function(app, models)
     /***************************************************Data Schema*********************************************************************/
 
     app.get('/deck/get', deckController.Get);
-    app.post('/deck/add', deckController.Add);
+    app.post('/deck/get', deckController.Search);
+    app.post('/deck/add', auth.isAuthenticated, deckController.Add);
+    app.post('/deck/update', auth.isAuthenticated, deckController.Update);
 };

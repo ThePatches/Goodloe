@@ -48,7 +48,7 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
 
     $scope.buildObject = function()
     {
-        var retObject = {name: $scope.Deck.name, color: encodeURIComponent($scope.Deck.color), builder: $scope.Deck.builder,
+        var retObject = {name: $scope.Deck.name, color: $scope.Deck.color, builder: $scope.Deck.builder,
         commander: $scope.Deck.commander, deckList: $scope.parseDeck()};
 
         if ($scope.deckId != "new")
@@ -97,25 +97,27 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
 
     $scope.parseDeck = function()
     {
-        if (!$scope.Deck.deckList || $scope.Deck.deckList == "")
-        var cardList = $scope.Deck.deckList.split("\n");
-        var i = 0;
-
-        try
-        {
-            var someCards = [];
-            for (i = 0; i < cardList.length; i++)
+            if (!$scope.Deck.deckList || $scope.Deck.deckList == "")
             {
-                someCards.push(parseCard(cardList[i]));
+            var cardList = $scope.Deck.deckList.split("\n");
+            var i = 0;
+
+            try
+            {
+                var someCards = [];
+                for (i = 0; i < cardList.length; i++)
+                {
+                    someCards.push(parseCard(cardList[i]));
+                }
+
+                $scope.ErrMsg = "";
+
+                return someCards;
             }
-
-            $scope.ErrMsg = "";
-
-            return someCards;
-        }
-        catch (ex)
-        {
-            $scope.ErrMsg = ex + " at line " + (i + 1);
+            catch (ex)
+            {
+                $scope.ErrMsg = ex + " at line " + (i + 1);
+            }
         }
 
         return [];
@@ -128,7 +130,7 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
         if ($scope.deckId == "new")
         {
             $http({
-                url: "/add?coll=deck",
+                url: "/deck/add",
                 method: "POST",
                 data: {addedDeck: addedDeck},
                 headers: {'Content-type': 'application/json; charset=utf-8'}
@@ -143,7 +145,7 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
         else
         {
             $http({
-                url: "/update?coll=deck",
+                url: "/deck/update",
                 method: "POST",
                 data: {addedDeck: addedDeck},
                 headers: {'Content-type': 'application/json; charset=utf-8'}
@@ -160,7 +162,7 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
 
     if ($scope.deckId != 'new')
     {
-        $http.get('/query?coll=deck&id=' + $scope.deckId).success(function (data) {
+        $http.get('/deck/get?id=' + $scope.deckId).success(function (data) {
             if (data != "no deck returned")
             {
                 $scope.Deck = data[0];
@@ -197,7 +199,7 @@ deckControllers.controller('DeckListController', ['$scope', '$http', '$location'
         $scope.Decks = null;
         var masterList = null;
 
-        $http.get('/query?coll=deck').success(function (data) // Need to get this to work parameterized
+        $http.get('/deck/get').success(function (data) // Need to get this to work parameterized
         {
             masterList = data;
             $scope.showAll();

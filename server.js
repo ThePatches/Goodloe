@@ -138,24 +138,6 @@ app.get('/query', function(req, res)
             });
             break;
 
-        case "deck":
-            DeckModel = connection.model("DeckModel", SCHEMAS.DeckSchema, "Deck");
-
-            if (queryData["id"])
-            {
-                findObject._id = queryData["id"];
-            }
-
-            DeckModel.find(findObject, function(err, deck){
-                if (err)
-                {
-                    console.log("Error" + err);
-                }
-
-                res.send(deck);
-            });
-            break;
-
         case "game": //TODO: Spec the correct fields when getting the whole list
             var GameModel = connection.model('Games', SCHEMAS.GameSchema, 'Games');
             DeckModel = connection.model("Deck", SCHEMAS.DeckSchema, 'Deck');
@@ -251,23 +233,7 @@ app.post('/add', auth, function(req, res) // Need to convert these all to post r
 
     console.log(req.body);
 
-    if (queryData["coll"] == "deck")
-    {
-        theItem = req.body.addedDeck;
-        var nDeck = new Deck(theItem);
-
-        nDeck.save(function (err, product, numberAffected)
-        {
-           if (err) console.log("Error!");
-           else if (numberAffected > 0)
-                res.send(product);
-            else {
-              console.log("Something went wrong!");
-              res.send("Failure!");
-           }
-        });
-    }
-    else if (queryData["coll"] == "player")
+    if (queryData["coll"] == "player")
     {
         var aName = req.body.name;
         theItem = {name: aName, games: 0, active: true, wins: 0};
@@ -358,29 +324,6 @@ app.post('/update', auth, function(req, res)
 
     switch (queryData["coll"])
     {
-        case "deck":
-            var Deck = connection.model('Deck', SCHEMAS.DeckSchema, 'Deck');
-            theItem = req.body.addedDeck;
-
-            console.log(theItem);
-
-            Deck.findOne({_id: theItem._id}, function(err, doc)
-            {
-                if (err) res.send(err);
-
-                console.log(doc);
-                doc.name = theItem.name;
-                doc.builder = theItem.builder;
-                doc.color = theItem.color;
-                doc.commander = theItem.commander;
-                doc.deckList = theItem.deckList;
-                doc.save();
-
-                res.send(doc);
-            });
-
-            break;
-
         case "user":
             userModel.updateUser(req, req.cookies[CONFIG.cookieName], function(err, doc)
             {
