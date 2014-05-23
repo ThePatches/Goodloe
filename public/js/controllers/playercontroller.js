@@ -22,7 +22,7 @@ playerControllers.controller('PlayerListController', ['$scope', '$http', '$locat
             return (theCookie.username && theCookie.username != "");
         };
 
-        $http.get('/query?coll=player').success(function (data)
+        $http.get('/player/get').success(function (data)
         {
             $scope.Players = data;
         });
@@ -41,7 +41,7 @@ playerControllers.controller('PlayerListController', ['$scope', '$http', '$locat
         {
             var nName = $scope.newPlayer;
             $http({
-                url: "/add?coll=player",
+                url: "/player/add",
                 method: "POST",
                 data: {name: nName, games: 0, wins: 0, active: true},
                 headers: {'Content-type': 'application/json; charset=utf-8'}
@@ -75,7 +75,7 @@ playerControllers.controller('PlayerController', ['$scope', '$routeParams','$htt
 
     if ($scope.playerId != 'new')
     {
-        $http.get('/query?coll=player&id=' + $scope.playerId).success(function (data)
+        $http.get('/player/get?&id=' + $scope.playerId).success(function (data)
         {
             $scope.Player = data[0];
         });
@@ -84,7 +84,7 @@ playerControllers.controller('PlayerController', ['$scope', '$routeParams','$htt
     $scope.updatePlayer = function ()
     {
         var thePlayer = $scope.Player;
-        $http.post('/update?coll=player', {thePlayer: thePlayer})
+        $http.post('/player/update', {thePlayer: thePlayer})
             .success(function (data)
             {
                 $scope.Player = data;

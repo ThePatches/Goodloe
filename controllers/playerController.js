@@ -29,7 +29,38 @@ module.exports = function(playerModel)
         });
     }
 
+    function Add(req, res)
+    {
+        var aName = req.body.name;
+        var theItem = {name: aName, games: 0, active: true, wins: 0};
+
+        playerModel.simpleAdd(theItem, function(err, doc)
+        {
+           if (err)
+            res.send(err);
+           else {
+               res.send(doc);
+           }
+        });
+    }
+
+    function Update(req, res)
+    {
+        var theItem = req.body.thePlayer;
+
+        playerModel.simpleUpdate(theItem, function(err, doc)
+        {
+            if (err)
+                res.send(err);
+            else {
+                res.send(doc);
+            }
+        });
+    }
+
     return {
-        Get: Get
+        Get: Get,
+        Add: Add,
+        Update: Update
     };
 };
