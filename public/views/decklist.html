@@ -1,6 +1,31 @@
+<style>
+    .picker
+    {
+        list-style-type: none;
+        padding: 10px;
+    }
+
+    .picker li
+    {
+        display: inline;
+    }
+
+    li.selected
+    {
+
+    }
+</style>
+
 <h2>Deck List at Goodloe</h2>
 
 <div data-ng-model="Decks">
+    <ul class="picker">
+        <li data-ng-repeat="color in Colors">
+            <a href="" data-ng-click="colorFilter(color.symbol); color.selected = true;">{{ color.name }}</a>
+        </li>
+
+        <li><a href="" data-ng-click="showAll()">All</a></li>
+    </ul>
     <ul>
         <li data-ng-repeat="deck in Decks">
             <a href data-ng-click="loadDeck(deck._id)" class="ListItem">{{ fixName(deck.name)}} by {{ fixName(deck.builder) }}</a>

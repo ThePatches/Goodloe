@@ -188,10 +188,19 @@ deckControllers.controller('DeckListController', ['$scope', '$http', '$location'
     function($scope, $http, $location, $cookies) {
 
         $scope.groupField = null;
+        $scope.Colors = [{name: "White", symbol: "W", selected: false},
+            {name: "Blue", symbol: "U", selected: false},
+            {name: "Black", symbol: "B", selected: false},
+            {name: "Red", symbol: "R", selected: false},
+            {name: "Green", symbol: "G", selected: false}
+        ];
+        $scope.Decks = null;
+        var masterList = null;
 
         $http.get('/query?coll=deck').success(function (data) // Need to get this to work parameterized
         {
-            $scope.Decks = data;
+            masterList = data;
+            $scope.showAll();
         });
 
         $scope.fixName = function (inName)
@@ -202,6 +211,19 @@ deckControllers.controller('DeckListController', ['$scope', '$http', '$location'
         $scope.loadDeck = function(inID)
         {
             $location.path("/deck/" + inID);
+        };
+
+        $scope.colorFilter = function(inColor)
+        {
+            $scope.Decks = $.grep(masterList, function(item)
+            {
+                return item.color.indexOf(inColor) > -1;
+            });
+        };
+
+        $scope.showAll = function()
+        {
+            $scope.Decks = masterList;
         };
 
         $scope.canEdit = function()
