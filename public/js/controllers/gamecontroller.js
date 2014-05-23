@@ -144,7 +144,7 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
 }]);
 
 gameControllers.controller("GameListController", ['$scope', '$http', '$location', '$cookies', function($scope, $http, $location, $cookies){
-    $http.get('/query?coll=game').success(function (data)
+    $http.get('/game/get?id=').success(function (data)
     {
         $scope.Games = data;
     });

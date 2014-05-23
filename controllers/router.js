@@ -13,6 +13,7 @@ module.exports = function(app, models)
     var tools = require("./tools")(models);
     var deckController = require('./deckController')(models.deckModel);
     var playerController = require('./playerController')(models.playerModel);
+    var gameController = require('./gameController')(models.gameModel);
 
     console.log(tools);
 
@@ -56,4 +57,7 @@ module.exports = function(app, models)
     app.get('/player/get', playerController.Get);
     app.post('/player/add', auth.isAuthenticated, playerController.Add);
     app.post('/player/update', auth.isAuthenticated, playerController.Update);
+
+    app.get('/game/list', gameController.getList);
+    app.get('/game/get', gameController.simpleGet);
 };

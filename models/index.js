@@ -9,6 +9,7 @@ module.exports = function(inConfig, connection)
     var userModel = require("./userModel.js")(inConfig, connection);
     var deckModel = require("./deckModel.js")(connection);
     var playerModel = require('./playerModel.js')(connection);
+    var gameModel = require('./gameModel.js')(connection);
 
     return {
         notifyModel: notify,
@@ -16,6 +17,7 @@ module.exports = function(inConfig, connection)
         userModel: userModel,
         deckModel: deckModel,
         playerModel: playerModel,
+        gameModel: gameModel,
         CONFIG: inConfig
     };
 };
