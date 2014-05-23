@@ -118,26 +118,6 @@ app.get('/query', function(req, res)
 
     switch (queryData["coll"])
     {
-        case "player":
-            PlayerModel = connection.model('PlayerModel', SCHEMAS.PlayerSchema, 'Players');
-
-            if (queryData["id"])
-            {
-                findObject._id = queryData["id"];
-            }
-
-
-            findObject.active = true;
-            PlayerModel.find(findObject, function(err, player)
-            {
-                if (err)
-                {
-                    console.log("Error " + err);
-                }
-                res.send(player);
-            });
-            break;
-
         case "game": //TODO: Spec the correct fields when getting the whole list
             var GameModel = connection.model('Games', SCHEMAS.GameSchema, 'Games');
             DeckModel = connection.model("Deck", SCHEMAS.DeckSchema, 'Deck');
@@ -194,27 +174,7 @@ app.post('/add', auth, function(req, res) // Need to convert these all to post r
 
     console.log(req.body);
 
-    if (queryData["coll"] == "player")
-    {
-        var aName = req.body.name;
-        theItem = {name: aName, games: 0, active: true, wins: 0};
-        var nPlayer = new Player(theItem);
-
-        nPlayer.save(function (err, product, numberAffected)
-        {
-            if (err) console.log("Error!");
-            else if (numberAffected > 0)
-            {
-                console.log(product);
-                res.send(product);
-            }
-            else {
-                console.log("Something went wrong!");
-                res.send("Failure!");
-            }
-        });
-    }
-    else if (queryData["coll"] == "game")
+    if (queryData["coll"] == "game")
     {
         theItem = req.body.addedGame;
         var nGame = new Game(theItem)
@@ -392,26 +352,6 @@ app.post('/update', auth, function(req, res)
 
             break;
 
-        case "player":
-            theItem = req.body.thePlayer;
-
-            console.log(theItem);
-
-            Player.findOne({_id: theItem._id}, function(err, doc)
-            {
-               if (err)
-               {
-                   res.send(err);
-               }
-               else
-               {
-                   doc.name = theItem.name;
-                   doc.save();
-                   res.send(doc);
-               }
-            });
-
-            break;
         default:
             res.send(queryData);
             break;
