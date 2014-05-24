@@ -1,9 +1,44 @@
+<style>
+    ul.gameList
+    {
+        text-align: center;
+        margin-top: 25px;
+    }
+
+    ul.gameList li
+    {
+        list-style-type: none; padding-bottom: 5px;
+    }
+
+    ul.gameList li:hover
+    {
+        background-color: lightblue;
+        cursor: pointer;
+    }
+
+    span.gameDescription
+    {
+        font-size: 1.2em;
+        font-family: serif;
+    }
+
+    span.gameWinner
+    {
+        font-style: italic;
+        font-weight: bold;
+    }
+</style>
+
 <h2>Games of the Goodloe Meta</h2>
 
 <div data-ng-model="Games">
-    <ul>
-        <li data-ng-repeat="game in Games">
+    <ul class="gameList">
+        <!-- <li data-ng-repeat="game in Games">
             <a href data-ng-click="loadGame(game._id)" class="ListItem">Played On: {{ convDate(game.playedOn) }} - Type: {{ game.gameType }} - Description: {{ game.description }}</a>
+        </li> -->
+        <li data-ng-repeat="game in Games" data-ng-click="loadGame(game._id)">
+            <span class="gameDescription">{{ game.description }}</span><br />
+            <span class="gameWinner">Won by {{ game.winner }}</span>, played on {{ convDate(game.playedOn) }}
         </li>
     </ul>
     <div style="padding-top: 15px;">
