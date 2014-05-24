@@ -5,6 +5,6 @@
 //var conn = new Mongo();
 //var db = conn.getDB("goodloedb");
 
-var newPatches = ["Added a User List for me", "Fixed an issue with updating decks when there was no list provided.", "Added a win percentage to the player page."];
+var newPatches = ["Moved to Express4", "Reworked the server to make more sense", "Added Select2 on the Game Page for deck selection", "Reworked the layout of the Game page"];
 
-db.Version.insert({_id: 5, version: "0.6.4", changes: newPatches, published: false});
+db.Version.insert({_id: 6, version: "1.0.1", changes: newPatches, published: false});
