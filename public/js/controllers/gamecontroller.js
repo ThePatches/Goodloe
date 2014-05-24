@@ -6,6 +6,7 @@ var gameControllers = angular.module('gameControllers', []);
 gameControllers.controller("GameController", ['$scope', '$routeParams', '$http', '$cookies', '$location',function($scope, $routeParams, $http, $cookies, $location)
 {
     $scope.Decks = null;
+    $scope.masterDeckList = null;
     $scope.Players = null;
     $scope.newGame = true;
     $scope.selDeck = null;
@@ -19,11 +20,12 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
 
     $scope.newGame = $routeParams.gameId == "new";
 
+
     // TODO: Make the resolving of deck names dependent on the loaded deck list.
     // OR: You can load the whole deck information through foreign keys?
     $http.get('/deck/get').success(function (data) // Need to get this to work parameterized
     {
-        $scope.Decks = data;
+        $scope.masterDeckList = data;
         $http.get('/player/get').success(function (data) // Need to get this to work parameterized
         {
             $scope.Players = data;
@@ -43,10 +45,28 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
                         {
                             $scope.inDecks.push($scope.convFromDB($scope.inGame.players[i]));
                         }
+
+                        $scope.Decks = $scope.calcDeckList();
                     });
             }
         });
     });
+
+    $scope.calcDeckList = function()
+    {
+        return $.grep($scope.masterDeckList, function(item)
+        {
+            var i;
+            for (i = 0; i < $scope.inDecks.length; i++)
+            {
+                if (item._id == $scope.inDecks[i].deckName)
+                    return false;
+            }
+
+            return true;
+        });
+
+    };
 
     /* @return boolean*/
     $scope.canEdit = function()
@@ -101,10 +121,11 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
 
     $scope.removeDeck = function (index)
     {
-        $scope.inDecks.splice(index, 1);
+        var value = $scope.inDecks.splice(index, 1);
+        $scope.Decks.push(value);
     };
 
-    $scope.getDescription = function(inObject)
+    $scope.getDescription = function(inObject) // TODO: convert these into better iterators?
     {
         var theDeck = null, thePlayer = null, i = 0;
 
@@ -114,9 +135,9 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
                 if (inObject.player == $scope.Players[i]._id)
                     thePlayer = $scope.Players[i].name;
 
-            for (i = 0; i < $scope.Decks.length; i++)
-                if (inObject.deckName == $scope.Decks[i]._id)
-                    theDeck = $scope.fixName($scope.Decks[i].name);
+            for (i = 0; i < $scope.masterDeckList.length; i++)
+                if (inObject.deckName == $scope.masterDeckList[i]._id)
+                    theDeck = $scope.fixName($scope.masterDeckList[i].name);
 
             return $scope.fixName(thePlayer) + " playing " + $scope.fixName(theDeck);
         }

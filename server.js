@@ -41,11 +41,11 @@ connection.once('open', function ()
 var models = require("./models/index")(CONFIG, connection);
 var SCHEMAS = models.schemasModel;
 var notify = models.notifyModel;
-var userModel = models.userModel;
+//var userModel = models.userModel;
 
 router(app, models);
 
-var Users = connection.model("Users", SCHEMAS.UserSchema, "GoodUsers");
+//var Users = connection.model("Users", SCHEMAS.UserSchema, "GoodUsers");
 var Version = connection.model("Version", SCHEMAS.VersionSchema, "Version");
 
 // need to refactor a tools model before I can get this to work right...
@@ -63,35 +63,6 @@ app.get('/patches', function(req, res)
     });
 });
 
-
-app.get('/query', function(req, res)
-{
-    var spaceUrl = req.url.replace(/\s/g,"%2B");
-    var queryData = url.parse(spaceUrl, true).query;
-    var findObject = {};
-
-    switch (queryData["coll"])
-    {
-        case "user": // this isn't really useful...
-
-            findObject.username = queryData["name"];
-            Users.findOne(findObject, function(err, user)
-            {
-                if (err) {
-                    res.send(500, "Error: " + err);
-                }
-                if (!user){
-                    res.send(500, "No user found!");
-                }
-
-                res.send({username: user.username, active: user.active});
-            });
-            break;
-
-        default:
-            res.send("Invalid query type!");
-    }
-});
 
 app.get('*', function(req, res)
 {

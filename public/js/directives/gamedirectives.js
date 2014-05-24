@@ -10,7 +10,7 @@ angular.module('GameDirectives', [])
             {
                 $element.click(function()
                 {
-                    var deckCrtl = $("#" + $attrs.deckCrtl);
+                    //var deckCrtl = $("#" + $attrs.deckCrtl);
                     var playerCrtl = $("#" + $attrs.playerCrtl);
 
                     if ($scope.selDeck == null || playerCrtl.val() == "")
@@ -22,7 +22,8 @@ angular.module('GameDirectives', [])
                             $scope.inDecks = [];
 
                         $scope.inDecks.push({deckName: $scope.selDeck, player: $scope.selPlayer, winner: false});
-                        deckCrtl.children('option:selected').remove();
+                        //deckCrtl.children('option:selected').remove();
+                        $scope.Decks = $scope.calcDeckList();
                         playerCrtl.children('option:selected').remove();
                         $scope.selDeck = null;
                         $scope.selPlayer = null;

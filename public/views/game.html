@@ -52,7 +52,7 @@
         <div>
             <h3>Add Players and Decks</h3>
             Add Deck:
-            <select id="DeckList" data-ng-model="selDeck">
+            <select data-ui-select2="{width: element}" id="DeckList" data-ng-model="selDeck" data-placeholder="Choose a Deck" style="width: 45%" >
                 <option data-ng-repeat="deck in Decks" value="{{ deck._id }}">{{ getDeckName(deck) }}</option>
             </select><br />
             Add Player:

@@ -21,6 +21,7 @@ module.exports = function(app, models)
     app.get('/finduser', userController.findUser);
     app.get('/encrypt', auth.isAuthenticated, auth.encrypt);
     app.post('/suggest', tools.suggest);
+
     app.post('/requser', tools.requestUser);
     app.post('/adduser', auth.specialAuth, userController.addUser);
     app.post('/user/update', auth.isAuthenticated, userController.updateUser);
