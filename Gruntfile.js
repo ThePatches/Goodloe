@@ -40,7 +40,7 @@ module.exports = function(grunt)
         },
 
         jshint: {
-            files: ["public/js/controllers/*.js"],
+            files: ["public/js/controllers/*.js", "public/js/directives/*.js", "public/js/app.js"],
             options:
             {
                 globals:
