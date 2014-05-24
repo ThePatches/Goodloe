@@ -191,6 +191,8 @@ deckControllers.controller('DeckListController', ['$scope', '$http', '$location'
     function($scope, $http, $location, $cookies) {
 
         $scope.groupField = null;
+        $scope.Decks = null;
+        $scope.masterList = null;
         $scope.Colors = [{name: "White", symbol: "W", selected: false},
             {name: "Blue", symbol: "U", selected: false},
             {name: "Black", symbol: "B", selected: false},
@@ -198,11 +200,10 @@ deckControllers.controller('DeckListController', ['$scope', '$http', '$location'
             {name: "Green", symbol: "G", selected: false}
         ];
         $scope.Decks = null;
-        var masterList = null;
 
         $http.get('/deck/get').success(function (data) // Need to get this to work parameterized
         {
-            masterList = data;
+            $scope.masterList = data;
             $scope.showAll();
         });
 
@@ -218,7 +219,7 @@ deckControllers.controller('DeckListController', ['$scope', '$http', '$location'
 
         $scope.colorFilter = function(inColor)
         {
-            $scope.Decks = $.grep(masterList, function(item)
+            $scope.Decks = $.grep($scope.masterList, function(item)
             {
                 return item.color.indexOf(inColor) > -1;
             });
@@ -226,7 +227,7 @@ deckControllers.controller('DeckListController', ['$scope', '$http', '$location'
 
         $scope.showAll = function()
         {
-            $scope.Decks = masterList;
+            $scope.Decks = $scope.masterList;
         };
 
         $scope.canEdit = function()

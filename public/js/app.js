@@ -1,5 +1,5 @@
 var goodloeApp = angular.module('goodloeApp', ['ngRoute', 'deckControllers', "defaultController", "ngCookies",
-    "gameControllers", "userControllers", "playerControllers", "GameDirectives", "GlobalDirectives", "ui.select2"]);
+    "gameControllers", "userControllers", "playerControllers", "GameDirectives", "DeckDirectives", "GlobalDirectives", "ui.select2"]);
 
 goodloeApp.config(['$routeProvider',
     function($routeProvider)
