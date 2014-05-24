@@ -13,7 +13,7 @@ angular.module('GameDirectives', [])
                     //var deckCrtl = $("#" + $attrs.deckCrtl);
                     var playerCrtl = $("#" + $attrs.playerCrtl);
 
-                    if ($scope.selDeck == null || playerCrtl.val() == "")
+                    if ($scope.selDeck === null || playerCrtl.val() === "")
                         return;
 
                     $scope.$apply(function ()
@@ -30,7 +30,7 @@ angular.module('GameDirectives', [])
                     });
                 });
             }]
-        }
+        };
     })
 
     .directive('addGame', function () {
@@ -155,6 +155,6 @@ angular.module('GameDirectives', [])
                 });
 
             }]
-        }
+        };
     })
 ;

@@ -119,7 +119,7 @@ defaultController.controller("LoginRequest", ['$scope', '$http', '$location', fu
 
     $scope.doSubmit = function() // TODO: Finish validations
     {
-        if ($scope.pass2.trim() == "")
+        if ($scope.pass2.trim() === "")
         {
             $scope.showErr = true;
             return;
@@ -210,7 +210,7 @@ defaultController.controller("PatchListController", ['$scope', '$http', function
         })
         .error(function(err)
         {
-           $scope.PatchList = [{version: "Failed to get version!", patches: [err]}]
+           $scope.PatchList = [{version: "Failed to get version!", patches: [err]}];
         });
 }]);
 
@@ -232,10 +232,10 @@ angular.module("GlobalDirectives", [])
                     $("#" + clearDivId + ">textarea").each(function ()
                     {
                         $(this).val("");
-                    })
+                    });
                 });
             }]
-        }
+        };
     })
 
     .directive("patchExpander", function()
@@ -261,7 +261,7 @@ angular.module("GlobalDirectives", [])
                         list.css("display", "none");
                 });
             }]
-        }
+        };
     })
 
 ;
