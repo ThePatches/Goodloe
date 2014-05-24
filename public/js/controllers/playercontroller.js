@@ -19,7 +19,7 @@ playerControllers.controller('PlayerListController', ['$scope', '$http', '$locat
             if (theCookie == "None")
                 return false;
 
-            return (theCookie.username && theCookie.username != "");
+            return (theCookie.username && theCookie.username !== "");
         };
 
         $http.get('/player/get').success(function (data)
@@ -50,7 +50,7 @@ playerControllers.controller('PlayerListController', ['$scope', '$http', '$locat
                     $scope.Players.push(data);
                     $scope.doEdit = false;
                 });
-        }
+        };
     }]);
 
 playerControllers.controller('PlayerController', ['$scope', '$routeParams','$http', '$cookies', '$location', function ($scope, $routeParams, $http, $cookies, $location)
@@ -62,7 +62,7 @@ playerControllers.controller('PlayerController', ['$scope', '$routeParams','$htt
     {
         var myCookie = $cookies.gookie ? JSON.parse($cookies.gookie) : null;
 
-        return myCookie != null && myCookie.adminRights > 0;
+        return myCookie !== null && myCookie.adminRights > 0;
     };
 
     $scope.fixName = function (inName)

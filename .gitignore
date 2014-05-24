@@ -8,3 +8,4 @@ passwords
 *.key
 *.crt
 branches
+build/*

@@ -73,7 +73,7 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
     {
         var myCookie = $cookies.gookie ? JSON.parse($cookies.gookie) : null;
 
-        return myCookie != null && myCookie.adminRights > 0;
+        return myCookie !== null && myCookie.adminRights > 0;
     };
 
     /** @return string */
@@ -110,7 +110,7 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
         $scope.editGame = !$scope.editGame;
         $scope.editText = "Save";
 
-        if ($scope.editGame == true)
+        if ($scope.editGame === true)
             $scope.oldGame = $scope.inGame;
     };
 
@@ -143,7 +143,7 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
         }
         else
         {
-            return "No Decks Selected"
+            return "No Decks Selected";
         }
 
     };
@@ -197,6 +197,6 @@ gameControllers.controller("GameListController", ['$scope', '$http', '$location'
     {
         var myCookie = $cookies.gookie ? JSON.parse($cookies.gookie) : null;
 
-        return myCookie != null && myCookie.adminRights > 0;
+        return myCookie !== null && myCookie.adminRights > 0;
     };
 }]);

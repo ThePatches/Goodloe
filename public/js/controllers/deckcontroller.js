@@ -22,7 +22,7 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
 
     $scope.isEditing = function()
     {
-      return ($scope.deckId == 'new' || $scope.doEdit == true);
+      return ($scope.deckId == 'new' || $scope.doEdit === true);
     };
 
     $scope.toggleEdit = function ()
@@ -55,7 +55,7 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
             retObject._id = $scope.Deck._id;
 
         return retObject;
-    }
+    };
 
     /** @return boolean */
     $scope.CheckCookie = function()
@@ -65,18 +65,19 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
         if (theCookie == "None")
             return false;
 
-        return (theCookie.username && theCookie.username != "");
+        return (theCookie.username && theCookie.username !== "");
     };
 
     function parseCard(inString)
     {
         var pattern = /\sx\s\d{1,2}/ig;
         var theMatch = pattern.exec(inString);
+        var card, qty;
 
-        if (theMatch != null)
+        if (theMatch !== null)
         {
-            var card = inString.substring(0, inString.indexOf(theMatch)).trim();
-            var qty = parseInt(theMatch[0].split('x')[1].trim());
+            card = inString.substring(0, inString.indexOf(theMatch)).trim();
+            qty = parseInt(theMatch[0].split('x')[1].trim());
         }
         else
         {
@@ -97,7 +98,7 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
 
     $scope.parseDeck = function()
     {
-            if (!$scope.Deck.deckList || $scope.Deck.deckList == "")
+            if (!$scope.Deck.deckList || $scope.Deck.deckList === "")
             {
             var cardList = $scope.Deck.deckList.split("\n");
             var i = 0;
@@ -232,8 +233,6 @@ deckControllers.controller('DeckListController', ['$scope', '$http', '$location'
         {
             var myCookie = $cookies.gookie ? JSON.parse($cookies.gookie) : null;
 
-            return myCookie != null && myCookie.adminRights > 0;
+            return myCookie !== null && myCookie.adminRights > 0;
         };
-
-        // TODO: Add $scope.$watch(groupField) that organizes the deck list into groups
 }]);
