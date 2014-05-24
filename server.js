@@ -118,29 +118,6 @@ app.get('/query', function(req, res)
 
     switch (queryData["coll"])
     {
-        case "game": //TODO: Spec the correct fields when getting the whole list
-            var GameModel = connection.model('Games', SCHEMAS.GameSchema, 'Games');
-            DeckModel = connection.model("Deck", SCHEMAS.DeckSchema, 'Deck');
-            PlayerModel = connection.model('Players', SCHEMAS.PlayerSchema, 'Players');
-
-
-            if (queryData["id"])
-            {
-                findObject._id = queryData["id"];
-            }
-
-            GameModel.find(findObject).populate('Players', 'name')
-                .populate('players.player').populate('players.deckName')
-                .exec(function (err, games)
-                {
-                    if (err)
-                    {
-                        console.log("Error" + err);
-                    }
-                    res.send(games);
-                });
-            break;
-
         case "user": // this isn't really useful...
 
             findObject.username = queryData["name"];
@@ -177,7 +154,7 @@ app.post('/add', auth, function(req, res) // Need to convert these all to post r
     if (queryData["coll"] == "game")
     {
         theItem = req.body.addedGame;
-        var nGame = new Game(theItem)
+        var nGame = new Game(theItem);
         var playerList = [];
         var winner = null;
 

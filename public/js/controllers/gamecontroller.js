@@ -3,7 +3,7 @@
  */
 var gameControllers = angular.module('gameControllers', []);
 
-gameControllers.controller("GameController", ['$scope', '$routeParams', '$http', '$cookies',function($scope, $routeParams, $http, $cookies)
+gameControllers.controller("GameController", ['$scope', '$routeParams', '$http', '$cookies', '$location',function($scope, $routeParams, $http, $cookies, $location)
 {
     $scope.Decks = null;
     $scope.Players = null;
@@ -21,15 +21,15 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
 
     // TODO: Make the resolving of deck names dependent on the loaded deck list.
     // OR: You can load the whole deck information through foreign keys?
-    $http.get('/query?coll=deck').success(function (data) // Need to get this to work parameterized
+    $http.get('/deck/get').success(function (data) // Need to get this to work parameterized
     {
         $scope.Decks = data;
-        $http.get('/query?coll=player').success(function (data) // Need to get this to work parameterized
+        $http.get('/player/get').success(function (data) // Need to get this to work parameterized
         {
             $scope.Players = data;
             if (!$scope.newGame)
             {
-                $http.get("/query?coll=game&id=" + $routeParams.gameId)
+                $http.get("/game/get?id=" + $routeParams.gameId)
                     .success(function (data) {
                         $scope.inGame = data[0];
                         $scope.Description = $scope.inGame.description;
@@ -82,6 +82,11 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
 
     $scope.toggleEdit = function ()
     {
+        if ($scope.newGame)
+        {
+            $location.path('/games');
+        }
+        
         $scope.editGame = !$scope.editGame;
         $scope.editText = "Save";
 
@@ -144,7 +149,7 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
 }]);
 
 gameControllers.controller("GameListController", ['$scope', '$http', '$location', '$cookies', function($scope, $http, $location, $cookies){
-    $http.get('/game/get?id=').success(function (data)
+    $http.get('/game/list').success(function (data)
     {
         $scope.Games = data;
     });

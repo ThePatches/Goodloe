@@ -41,8 +41,43 @@ module.exports = function(gameModel)
         });
     }
 
+    function simpleAdd(req, res)
+    {
+        var theItem = req.body.addedGame;
+        gameModel.simpleAdd(theItem, function(err, product)
+        {
+            if (err)
+            {
+                res.statusCode = 500;
+                res.send(err);
+            } else {
+                res.statusCode = 200;
+                res.send(product);
+            }
+        });
+    }
+
+    function simpleUpdate(req, res)
+    {
+        var theItem = req.body.games;
+
+        gameModel.simpleUpdate(theItem.oldGame, theItem.newGame, function(err, game)
+        {
+            if (err)
+            {
+                res.statusCode = 500;
+                res.send(err);
+            } else {
+                res.statusCode = 200;
+                res.send(game);
+            }
+        });
+    }
+
     return     {
         getList: listGet,
-        simpleGet: simpleGet
+        simpleGet: simpleGet,
+        simpleAdd: simpleAdd,
+        simpleUpdate: simpleUpdate
     };
 };

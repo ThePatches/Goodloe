@@ -82,7 +82,7 @@ angular.module('GameDirectives', [])
                        $scope.OutGame = addedGame;
 
                         $http({
-                                url: "/add?coll=game",
+                                url: "/game/add",
                                 method: "POST",
                                 data: {addedGame: addedGame},
                                 headers: {'Content-type': 'application/json; charset=utf-8'}
@@ -131,7 +131,7 @@ angular.module('GameDirectives', [])
                         $scope.OutGame = newGame;
 
                         $http({
-                            url: "/update?coll=game",
+                            url: "/game/update",
                             method: "POST",
                             data: {games: reqBody},
                             headers: {'Content-Type': 'application/json; charset=utf-8'}

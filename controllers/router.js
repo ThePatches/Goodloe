@@ -60,4 +60,6 @@ module.exports = function(app, models)
 
     app.get('/game/list', gameController.getList);
     app.get('/game/get', gameController.simpleGet);
+    app.post('/game/add', auth.isAuthenticated, gameController.simpleAdd);
+    app.post('/game/update', auth.isAuthenticated, gameController.simpleUpdate);
 };
