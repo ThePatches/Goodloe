@@ -91,7 +91,7 @@ userControllers.controller("ProfileController", ['$scope', '$cookies', '$http', 
 
     $scope.saveMe = function ()
     {
-            $http.post('/update?coll=user', {inUser: $scope.inUser})
+            $http.post('/user/update', {inUser: $scope.inUser})
                 .success(function (response)
                 {
                     $scope.inUser = response;

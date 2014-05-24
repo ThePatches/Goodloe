@@ -48,50 +48,6 @@ router(app, models);
 var Users = connection.model("Users", SCHEMAS.UserSchema, "GoodUsers");
 var Version = connection.model("Version", SCHEMAS.VersionSchema, "Version");
 
-passport.use(new LocalStrategy(function(username, password, done)
-{
-    Users.findOne({username: username}, function(err, user)
-    {
-        if (err) {return done(err);}
-        if (!user || user.active == false){
-            return done(null, false, {message: "Incorrect user name"});
-        }
-
-        var isTrue = CONFIG.useCrypt ? bcrypt.compareSync(password, user.hash) : (password == user.hash);
-
-        if (isTrue) // maybe needs to be more involved (convert the password into the challenge
-        {
-            return done(null, user);
-        }
-
-        return done(null, false, {message: "Incorrect password"});
-    });
-}));
-
-passport.serializeUser(function(user, done){
-    done(null, user._id);
-});
-
-passport.deserializeUser(function(id, done)
-{
-    Users.findById(id, function(err,user){
-        if(err) done(err);
-        done(null,user);
-    });
-});
-
-var auth = function(req, res, next)
-{
-    if (!req.isAuthenticated())
-    {
-        res.clearCookie(CONFIG.cookieName);
-        res.send(401);
-    }
-    else
-        next();
-
-}; //- See more at: https://vickev.com/#!/article/authentication-in-single-page-applications-node-js-passportjs-angularjs
-
 // need to refactor a tools model before I can get this to work right...
 app.get('/patches', function(req, res)
 {
@@ -134,40 +90,6 @@ app.get('/query', function(req, res)
 
         default:
             res.send("Invalid query type!");
-    }
-});
-
-app.post('/update', auth, function(req, res)
-{
-    var spaceUrl = req.url.replace(/\s/g,"%2B");
-    var queryData = url.parse(spaceUrl, true).query;
-    var theItem = {};
-    var Player = connection.model('Player', SCHEMAS.PlayerSchema, 'Players');
-    var i = 0;
-
-    switch (queryData["coll"])
-    {
-        case "user":
-            userModel.updateUser(req, req.cookies[CONFIG.cookieName], function(err, doc)
-            {
-                if (err)
-                {
-                    if (err.code == 401)
-                        res.send(401, err.msg);
-                    else
-                        res.send(err);
-                }
-                else
-                    res.send(doc);
-            });
-
-            break;
-
-            break;
-
-        default:
-            res.send(queryData);
-            break;
     }
 });
 

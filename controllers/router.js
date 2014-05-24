@@ -8,7 +8,7 @@ LocalStrategy = require('passport-local').Strategy;
 module.exports = function(app, models)
 {
     //console.log(models.userModel);
-    var userController = require('./userController')(models.userModel);
+    var userController = require('./userController')(models.userModel, models.CONFIG);
     var auth = require("./auth")(models.userModel, models.CONFIG);
     var tools = require("./tools")(models);
     var deckController = require('./deckController')(models.deckModel);
@@ -23,6 +23,7 @@ module.exports = function(app, models)
     app.post('/suggest', tools.suggest);
     app.post('/requser', tools.requestUser);
     app.post('/adduser', auth.specialAuth, userController.addUser);
+    app.post('/user/update', auth.isAuthenticated, userController.updateUser);
 
     app.get('/version', function(req, res)
     {

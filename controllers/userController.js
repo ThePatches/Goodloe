@@ -4,7 +4,7 @@
 
 var url = require('url');
 
-module.exports = function(userModel)
+module.exports = function(userModel, CONFIG)
 {
     //console.log(userModel);
     function ulist(req, res)
@@ -56,9 +56,26 @@ module.exports = function(userModel)
         });
     }
 
+    function updateUser(req, res)
+    {
+        userModel.updateUser(req, req.cookies[CONFIG.cookieName], function(err, doc)
+        {
+            if (err)
+            {
+                if (err.code == 401)
+                    res.send(401, err.msg);
+                else
+                    res.send(err);
+            }
+            else
+                res.send(doc);
+        });
+    }
+
     return {
         ulist : ulist,
         findUser: findUser,
-        addUser: addUser
+        addUser: addUser,
+        updateUser: updateUser
     };
 };
