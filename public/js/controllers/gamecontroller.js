@@ -86,7 +86,7 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
         {
             $location.path('/games');
         }
-        
+
         $scope.editGame = !$scope.editGame;
         $scope.editText = "Save";
 
