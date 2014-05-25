@@ -12,9 +12,9 @@ module.exports = function(deckModel)
         var queryData = url.parse(spaceUrl, true).query;
         var findObject = {};
 
-        if (queryData["id"])
+        if (queryData.id)
         {
-            findObject._id = queryData["id"];
+            findObject._id = queryData.id;
         }
 
         deckModel.simpleGet(findObject, function(err, decks)

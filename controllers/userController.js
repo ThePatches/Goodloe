@@ -26,7 +26,7 @@ module.exports = function(userModel, CONFIG)
     {
         var spaceUrl = req.url.replace(/\s/g,"%2B");
         var queryData = url.parse(spaceUrl, true).query;
-        userModel.findUser(queryData["name"], function(err, user)
+        userModel.findUser(queryData.name, function(err, user)
         {
            if (err)
            {
@@ -40,8 +40,8 @@ module.exports = function(userModel, CONFIG)
     function addUser(req, res)
     {
         var uCookie = req.cookies;
-        var addUser = req.body.addUser;
-        userModel.addUser(uCookie, addUser, function(err, msg)
+        var addedUser = req.body.addUser;
+        userModel.addUser(uCookie, addedUser, function(err, msg)
         {
            if (err)
            {

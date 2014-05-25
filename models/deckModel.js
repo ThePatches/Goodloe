@@ -16,7 +16,7 @@ module.exports = function(connection)
                    callback(err, null);
                 }
 
-                callback(null, deck)
+                callback(null, deck);
             });
         },
 
@@ -28,7 +28,7 @@ module.exports = function(connection)
                     callback(err, null);
                 }
 
-                callback(null, deck)
+                callback(null, deck);
             });
         },
 
@@ -68,5 +68,5 @@ module.exports = function(connection)
                 callback(null, doc);
             });
         }
-    }
+    };
 };

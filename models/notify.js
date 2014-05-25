@@ -48,7 +48,7 @@ module.exports = function(CONFIG)
 
        canSend: function()
        {
-           return CONFIG.snsUser.accessKeyId != "";
+           return CONFIG.snsUser.accessKeyId !== "";
        }
     };
 };

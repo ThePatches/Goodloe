@@ -23,9 +23,9 @@ module.exports = function(gameModel)
         var queryData = url.parse(spaceUrl, true).query;
         var findObject = {};
 
-        if (queryData["id"])
+        if (queryData.id)
         {
-            findObject._id = queryData["id"];
+            findObject._id = queryData.id;
         }
 
         gameModel.simpleGet(findObject, function(err, games)
