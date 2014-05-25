@@ -22,7 +22,7 @@ module.exports = function(grunt)
                     expand: true,
                     cwd: "public/js/",
                     src: ["controllers/*.js", "directives/*.js", "*.js"],
-                    dest: "build/",
+                    dest: "build/public/js/",
                     ext: ".min.js",
                     extDot: "first",
                     flatten: true,
@@ -30,9 +30,9 @@ module.exports = function(grunt)
                     {
                         if (src.indexOf("controller") > 0)
                         {
-                            return dest + "controllers.js";
+                            return dest + "controllers.min.js";
                         } else if (src.indexOf("directive") > 0 )
-                            return dest + "directives.js";
+                            return dest + "directives.min.js";
                         else return dest + src;
                     }
                 }]
@@ -48,10 +48,23 @@ module.exports = function(grunt)
                     jQuery: true
                 }
             }
+        },
+
+        copy: {
+            main: {
+                files: [
+                    {src: "public/index2.html", dest: "build/public/index.html"},
+                    {src: "public/error.html", dest: "build/public/error.html"},
+                    {expand: true, cwd: "public/", src: "views/*", dest: "build/public/", filter: 'isFile'},
+                    {expand: true, cwd: "public/js/", src: "libs/**", dest: "build/public/js/", filter: 'isFile'},
+                    {expand: true, cwd: "public/", src: "styles/*", dest: "build/public/"}
+                ]
+            }
         }
     });
 
     grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks("grunt-contrib-jshint");
-    grunt.registerTask('default', ['jshint','uglify']);
+    grunt.loadNpmTasks(("grunt-contrib-copy"));
+    grunt.registerTask('default', ['jshint','uglify', 'copy']);
 };
