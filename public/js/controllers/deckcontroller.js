@@ -219,28 +219,14 @@ deckControllers.controller('DeckListController', ['$scope', '$http', '$location'
 
         $scope.colorFilter = function(inColor)
         {
-            $scope.Colors = $scope.Colors.map(function(item)
-            {
-                item.selected = false;
-                return item;
-            });
-
-            inColor.selected = true;
-
             $scope.Decks = $.grep($scope.masterList, function(item)
             {
-                return item.color.indexOf(inColor.symbol) > -1;
+                return item.color.indexOf(inColor) > -1;
             });
         };
 
         $scope.showAll = function()
         {
-            $scope.Colors = $scope.Colors.map(function(item)
-            {
-                item.selected = false;
-                return item;
-            });
-
             $scope.Decks = $scope.masterList;
         };
 

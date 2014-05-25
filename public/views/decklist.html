@@ -19,12 +19,6 @@
         display: inline;
     }
 
-    a.selected
-    {
-        color: black;
-        font-weight: bold;
-        cursor: not-allowed;
-    }
 </style>
 
 <h2>Deck List at Goodloe</h2>
@@ -36,7 +30,7 @@
     <ul style="list-style-type: none;">
     <ul class="picker">
         <li data-ng-repeat="color in Colors">
-            <a href="" data-ng-click="colorFilter(color);" data-ng-class="{selected: color.selected}">{{ color.name }}</a>
+            <a href="" data-ng-click="colorFilter(color.symbol); color.selected = true;">{{ color.name }}</a>
         </li>
 
         <li><a href="" data-ng-click="showAll()">All</a></li>
