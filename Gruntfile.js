@@ -57,7 +57,10 @@ module.exports = function(grunt)
                     {src: "public/error.html", dest: "build/public/error.html"},
                     {expand: true, cwd: "public/", src: "views/*", dest: "build/public/", filter: 'isFile'},
                     {expand: true, cwd: "public/js/", src: "libs/**", dest: "build/public/js/", filter: 'isFile'},
-                    {expand: true, cwd: "public/", src: "styles/*", dest: "build/public/"}
+                    {expand: true, cwd: "public/", src: "styles/*", dest: "build/public/"},
+                    {expand: true, src: ["dbupgrade.js", "server.js", "package.json"], dest: "build/"},
+                    {expand: true, src: "config/production.json", dest: "build/"},
+                    {expand: true, src: ["controllers/*", "models/*"], dest: "build/"}
                 ]
             }
         }

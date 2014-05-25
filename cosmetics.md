@@ -9,5 +9,3 @@
 
 + mongo shell script for setting up new databases
 + node/npm deployment script
-+ maintain configuration files
-+ hide production code better
