@@ -3,7 +3,6 @@ var https = require('https');
 var express = require('express');
 var url = require('url');
 var CONFIG = require('./config/development.json'); // You must change this to match the actual name of your configuration file.
-var bcrypt = require('bcrypt-nodejs');
 var fs = require('fs');
 passport = require("passport");
 LocalStrategy = require('passport-local').Strategy;
@@ -15,15 +14,19 @@ var serveStatic = require("serve-static");
 var router = require('./controllers/router.js');
 
 var app = express();
+var theServer;
 
-/*var privateKey  = fs.readFileSync('sslcert/ssl.key', 'utf8');
-var certificate = fs.readFileSync('sslcert/ssl.crt', 'utf8');
+if (CONFIG.isSSL)
+{
+    var privateKey  = fs.readFileSync('sslcert/ssl.key', 'utf8');
+    var certificate = fs.readFileSync('sslcert/ssl.crt', 'utf8');
 
-var credentials = {key: privateKey, cert: certificate, passphrase: CONFIG.sslpass};*/
-var httpServer = http.createServer(app);
-//var httpsServer = https.createServer(credentials, app);
+    var credentials = {key: privateKey, cert: certificate, passphrase: CONFIG.sslpass};
+    theServer = https.createServer(credentials, app);
+}
+else
+    theServer =  http.createServer(app);
 
-//console.log(process.env.PORT);
 app.use(cookieParser());
 app.use(serveStatic(__dirname + '/public'));
 app.use(bodyParser());
@@ -41,7 +44,6 @@ connection.once('open', function ()
 var models = require("./models/index")(CONFIG, connection);
 var SCHEMAS = models.schemasModel;
 var notify = models.notifyModel;
-//var userModel = models.userModel;
 
 router(app, models);
 
@@ -77,6 +79,6 @@ Version.findOne({}).sort("-_id").exec(function(err, member)
         member.save();
     }
    app.set('version', member.version);
-   httpServer.listen(app.get('port'));
+   theServer.listen(app.get('port'));
    console.log("Listening on port: " + app.get('port'));
 });
