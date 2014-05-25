@@ -27,7 +27,7 @@ module.exports = function(userModel, CONFIG)
         userModel.RawUser.findOne({username: username}, function(err, user)
         {
             if (err) {return done(err);}
-            if (!user || user.active == false){
+            if (!user || user.active === false){
                 return done(null, false, {message: "Incorrect user name"});
             }
 
@@ -70,7 +70,7 @@ module.exports = function(userModel, CONFIG)
         var queryData = req.url;
         queryData = url.parse(queryData, true).query;
 
-        var hash = bcrypt.hashSync(queryData["pass"]);
+        var hash = bcrypt.hashSync(queryData.pass);
 
         res.send(hash);
     }

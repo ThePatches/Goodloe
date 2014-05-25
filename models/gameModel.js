@@ -20,10 +20,10 @@ module.exports = function(connection)
 
        for (var i = 0; i < inGame.players.length; i++)
        {
-           if (inGame.players[i].winner == true)
+           if (inGame.players[i].winner === true)
            {
                oGame.winner = inGame.players[i].player.name;
-               break
+               break;
            }
        }
 
@@ -51,7 +51,7 @@ module.exports = function(connection)
                 {
                     if (err)
                     {
-                        callback(err, null)
+                        callback(err, null);
                     }
                     callback(null, games);
                 });
