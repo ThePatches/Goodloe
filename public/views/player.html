@@ -26,7 +26,7 @@
             <dd>{{ Player.games }}</dd>
         </dl>
         <div class="percent">
-            Current Percentage: <span>{{ Player.wins / Player.games }}</span>
+            Current Percentage: <span>{{ (Player.wins / Player.games).toFixed(4) * 100 }}%</span>
         </div>
         <button data-ng-show="canEdit()" data-ng-click="isEditing = !isEditing">Edit</button>
     </div>
