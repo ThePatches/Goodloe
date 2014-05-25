@@ -27,7 +27,6 @@
     <div class="filterDiv">
         <label for="txtFilter">Filter:</label><input type="text" id="txtFilter" data-deck-filter />
     </div>
-    <ul style="list-style-type: none;">
     <ul class="picker">
         <li data-ng-repeat="color in Colors">
             <a href="" data-ng-click="colorFilter(color.symbol); color.selected = true;">{{ color.name }}</a>
@@ -35,7 +34,7 @@
 
         <li><a href="" data-ng-click="showAll()">All</a></li>
     </ul>
-    <ul>
+    <ul style="list-style-type: none;">
         <li data-ng-repeat="deck in Decks">
             <a href data-ng-click="loadDeck(deck._id)" class="ListItem">{{ fixName(deck.name)}} by {{ fixName(deck.builder) }}</a>
         </li>
