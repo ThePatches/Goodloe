@@ -72,13 +72,13 @@ userControllers.controller("AddUserController", ['$scope', '$http', function($sc
 
 }]);
 
-userControllers.controller("ProfileController", ['$scope', '$cookies', '$http', '$location', function($scope, $cookies, $http, $location)
+userControllers.controller("ProfileController", ['$scope', '$cookieStore', '$http', '$location', function($scope, $cookieStore, $http, $location)
 {
     $scope.isMe = true;
     $scope.newPass1 = null;
     $scope.newPass2 = null;
 
-    $scope.inUser = JSON.parse($cookies.gookie);
+    $scope.inUser = $cookieStore.get(CONFIG.cookieName);
 
     $scope.changePass = function()
     {
@@ -94,7 +94,9 @@ userControllers.controller("ProfileController", ['$scope', '$cookies', '$http', 
             $http.post('/user/update', {inUser: $scope.inUser})
                 .success(function (response)
                 {
+                    $cookieStore.remove(CONFIG.cookieName);
                     $scope.inUser = response;
+                    $cookieStore.put(CONFIG.cookieName, response);
                 })
                 .error(function (response)
                 {
