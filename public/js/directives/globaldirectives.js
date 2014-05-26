@@ -51,16 +51,4 @@ angular.module("GlobalDirectives", [])
             }]
         };
     })
-    .directive("navBlock", function()
-    {
-        return {
-            restrict: "E",
-            templateUrl: "navblock.html",
-            controller: ['$scope', '$element', '$attrs', '$location', function($scope, $element, $attrs, $location)
-            {
-                alert("not implemented!");
-            }]
-        };
-    })
-
 ;
