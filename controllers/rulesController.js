@@ -41,7 +41,7 @@ module.exports = function(rulesModel)
     }
 
     return {
-        Get: Get,
+        getBannedList: Get,
         addACard: addACard
     };
 };

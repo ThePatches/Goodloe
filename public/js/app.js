@@ -1,4 +1,4 @@
-var goodloeApp = angular.module('goodloeApp', ['ngRoute', 'deckControllers', "defaultController", "ngCookies",
+var goodloeApp = angular.module('goodloeApp', ['ngRoute', 'deckControllers', "defaultController", "ngCookies", "rulesControllers",
     "gameControllers", "userControllers", "playerControllers", "GameDirectives", "DeckDirectives", "GlobalDirectives", "ui.select2"]);
 
 goodloeApp.config(['$routeProvider',
@@ -102,10 +102,6 @@ defaultController.controller('DefaultController', ['$scope', '$cookies', functio
         else
             return false;
     };
-}]);
-
-defaultController.controller("RulesController",['$scope', function($scope){
-    $scope.Title = "Rules";
 }]);
 
 defaultController.controller("LoginRequest", ['$scope', '$http', '$location', function($scope, $http, $location)
