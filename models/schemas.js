@@ -57,7 +57,9 @@ var BannedListSchema = new Schema({
     cardname: String,
     gatherer: String,
     reason: String,
-    date: Date
+    date: Date,
+    status: String,
+    votes: Number
 });
 
 module.exports = {
