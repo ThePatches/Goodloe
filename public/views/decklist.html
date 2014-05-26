@@ -40,11 +40,13 @@
 
         <li><a href="" data-ng-click="showAll()">All</a></li>
     </ul>
-    <ul style="list-style-type: none;">
-        <li data-ng-repeat="deck in Decks">
-            <a href data-ng-click="loadDeck(deck._id)" class="ListItem">{{ fixName(deck.name)}} by {{ fixName(deck.builder) }}</a>
-        </li>
-    </ul>
+    <div class="listDiv">
+        <ul style="list-style-type: none;">
+            <li data-ng-repeat="deck in Decks">
+                <a href data-ng-click="loadDeck(deck._id)" class="ListItem">{{ fixName(deck.name)}} by {{ fixName(deck.builder) }}</a>
+            </li>
+        </ul>
+    </div>
     <div style="padding-top: 15px;">
         <a href="#/deck/new" class="navLink" data-ng-show="canEdit()">Enter new deck</a>&nbsp;<a href="/" class="navLink">Return to the Main Page</a>
     </div>

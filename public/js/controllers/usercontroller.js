@@ -115,16 +115,25 @@ userControllers.controller("ProfileController", ['$scope', '$cookieStore', '$htt
 
 }]);
 
-userControllers.controller("UserListController", ['$scope', '$cookies', '$http', function($scope, $cookies, $http)
+userControllers.controller("UserListController", ['$scope', '$cookieStore', '$http', '$location', function($scope, $cookieStore, $http, $location)
 {
-    var inUser = JSON.parse($cookies.gookie);
+    var inUser = $cookieStore[CONFIG.cookieName] ? $cookieStore[CONFIG.cookieName]  : null;
 
-    if (inUser.adminRights == 3)
+    if (inUser && inUser !== null && inUser.adminRights == 3)
     {
         $http.get('/ulist')
             .success(function(data)
             {
                 $scope.Users = data;
+            })
+            .error(function()
+            {
+                $location.path('/');
+                //$cookieStore.remove(CONFIG.cookieName);
             });
+    }
+    else
+    {
+        $location.path('/');
     }
 }]);
