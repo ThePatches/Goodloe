@@ -76,6 +76,11 @@ goodloeApp.config(['$routeProvider',
                 templateUrl: "views/userlist.html",
                 controller: "UserListController"
             })
+            .when("/bannedlist",
+            {
+                templateUrl: "views/bannedlist.html",
+                controller: "BannedListController"
+            })
         .otherwise({
                 templateUrl: "views/404View.html",
                 controller: defaultController

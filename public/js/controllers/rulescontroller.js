@@ -7,3 +7,8 @@ var rulesControllers = angular.module('rulesControllers', []);
 rulesControllers.controller("RulesController",['$scope', function($scope){
     $scope.Title = "Rules";
 }]);
+
+rulesControllers.controller("BannedListController", ['$cope', '$http', function($scope, $http)
+{
+
+}]);
