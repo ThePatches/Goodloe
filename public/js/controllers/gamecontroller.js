@@ -171,7 +171,10 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
 
     $scope.getDescriptionFromGame = function(inPlayer)
     {
-        return inPlayer.player.name + " playing " + inPlayer.deckName.name;
+        if (inPlayer.player.name)
+            return inPlayer.player.name + " playing " + inPlayer.deckName.name;
+        else
+            return $scope.getDescription(inPlayer);
     };
 
     $scope.convFromDB = function(inObject)
