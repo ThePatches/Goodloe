@@ -25,3 +25,18 @@ rulesControllers.controller("BannedListController", ['$scope', '$http', function
             }
         });
 }]);
+
+rulesControllers.controller("BanCardController", ['$scope', '$http', '$location', function($scope, $http, $location)
+{
+    $scope.canBan = true;
+
+    $scope.submitBan = function()
+    {
+        alert("Not implemented!");
+    };
+
+    $scope.Cancel = function()
+    {
+        $location.path("/");
+    };
+}]);
