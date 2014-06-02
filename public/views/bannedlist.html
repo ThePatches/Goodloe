@@ -1,7 +1,12 @@
 <div>
     <h2>Banned List</h2>
-    <div class="listDiv">
-        List goes here
+    <div class="listDiv" data-ng-show="anError != null">
+        <ul>
+            <li data-ng-repeat="card in bannedCards">{{ card.cardname }}</li>
+        </ul>
+    </div>
+    <div class="errorDiv">
+        {{ anError }}
     </div>
     <div id="navigation">
         <ul>
