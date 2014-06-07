@@ -17,6 +17,7 @@ rulesControllers.controller("BannedListController", ['$scope', '$http', function
         .success(function(data)
         {
             $scope.bannedCards = data;
+
         }).error(function(err)
         {
             if (err.statusCode == 500)
@@ -24,15 +25,30 @@ rulesControllers.controller("BannedListController", ['$scope', '$http', function
                 $scope.anError = "Something went wrong. Contact the system administrator";
             }
         });
+
+    $scope.isError = function()
+    {
+        return $scope.anError !== null;
+    };
 }]);
 
 rulesControllers.controller("BanCardController", ['$scope', '$http', '$location', function($scope, $http, $location)
 {
     $scope.canBan = true;
+    $scope.cardName = null;
+    $scope.gatherer = null;
 
     $scope.submitBan = function()
     {
-        alert("Not implemented!");
+        var newCard = {};
+        newCard.cardname = $scope.cardName;
+        newCard.gatherer = $scope.gatherer;
+        newCard.reason = $scope.reason;
+
+        newCard.status = "pending";
+        newCard.votes = 0;
+
+        $http.post("/banned/add", {addedCard: newCard})
     };
 
     $scope.Cancel = function()

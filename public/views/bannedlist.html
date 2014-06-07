@@ -1,6 +1,6 @@
 <div>
     <h2>Banned List</h2>
-    <div class="listDiv" data-ng-show="anError != null">
+    <div class="listDiv" data-ng-show="!isError()">
         <ul>
             <li data-ng-repeat="card in bannedCards">{{ card.cardname }}</li>
         </ul>
@@ -11,7 +11,7 @@
     <div id="navigation">
         <ul>
             <li><a href="#/">Home</a></li>
-            <li><a href="#/proposeBan">Suggest a Card</a></li>
+            <li><a href="#/bancard">Suggest a Card</a></li>
         </ul>
     </div>
 </div>
