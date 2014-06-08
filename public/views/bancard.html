@@ -11,4 +11,7 @@
             <button data-ng-click="submitBan()" >Submit</button>&nbsp;<button data-clear-inputs data-form-div="formDiv">Clear</button>&nbsp;<button data-ng-click="Cancel()">Cancel</button>
         </div>
     </div>
+    <div data-ng-show="!canBan">
+        {{ message }}
+    </div>
 </div>

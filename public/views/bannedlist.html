@@ -1,8 +1,21 @@
+
+<script type="text/ng-template" id="card-template">
+    <a data-ng-click="viewCard(card.gatherer)" href="" class="cardNameLink">{{ card.cardname }}</a><br />
+    <span class="statusSpan">Status: {{ card.status }}</span>&nbsp;<span class="votesSpan">Votes: {{ card.votes }}</span><br />
+    <span class="reasonSpan">Reason:</span><br />
+    <p class="reasonText">
+        {{ card.reason }}
+    </p><br />
+    <button data-ng-show="hasRights(card)" data-ng-click="banCard(card)">Ban This Card</button>
+</script>
+
 <div>
     <h2>Banned List</h2>
     <div class="listDiv" data-ng-show="!isError()">
         <ul>
-            <li data-ng-repeat="card in bannedCards">{{ card.cardname }}</li>
+            <li data-ng-repeat="card in bannedCards" data-ng-include="'card-template'">
+
+            </li>
         </ul>
     </div>
     <div class="errorDiv">

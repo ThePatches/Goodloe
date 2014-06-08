@@ -8,7 +8,7 @@ rulesControllers.controller("RulesController",['$scope', function($scope){
     $scope.Title = "Rules";
 }]);
 
-rulesControllers.controller("BannedListController", ['$scope', '$http', function($scope, $http)
+rulesControllers.controller("BannedListController", ['$scope', '$http', '$window', '$cookieStore', function($scope, $http, $window, $cookieStore)
 {
     $scope.bannedCards = null;
     $scope.anError = null;
@@ -30,6 +30,21 @@ rulesControllers.controller("BannedListController", ['$scope', '$http', function
     {
         return $scope.anError !== null;
     };
+
+    $scope.viewCard = function(url)
+    {
+        $window.open(url);
+    };
+
+    $scope.hasRights = function(card)
+    {
+        return card.pending && $cookieStore[CONFIG.cookieName].adminRights > 1;
+    };
+
+    $scope.banCard = function(card)
+    {
+        alert(card.status);
+    };
 }]);
 
 rulesControllers.controller("BanCardController", ['$scope', '$http', '$location', function($scope, $http, $location)
@@ -37,6 +52,7 @@ rulesControllers.controller("BanCardController", ['$scope', '$http', '$location'
     $scope.canBan = true;
     $scope.cardName = null;
     $scope.gatherer = null;
+    //$scope.canSubmit = true;
 
     $scope.submitBan = function()
     {
@@ -49,6 +65,16 @@ rulesControllers.controller("BanCardController", ['$scope', '$http', '$location'
         newCard.votes = 0;
 
         $http.post("/banned/add", {addedCard: newCard})
+            .success(function()
+            {
+                $scope.canBan = false;
+                $scope.message = "Your suggested ban has been submitted.";
+            })
+            .error(function (err)
+            {
+                $scope.message = "Something went wrong: " + err + " contact the system administrator";
+            })
+        ; // TODO: Add success and failure to this callback
     };
 
     $scope.Cancel = function()

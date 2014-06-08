@@ -25,7 +25,7 @@ module.exports = function(connection)
 
         getBannedList: function(findObject, callback)
         {
-            BannedModel.find(findObject, "cardname gatherer, reason, date status votes", function(err, list)
+            BannedModel.find(findObject, "cardname gatherer reason date status votes", function(err, list)
             {
                 if (err)
                     callback(err, null);
