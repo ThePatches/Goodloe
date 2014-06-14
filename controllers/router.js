@@ -68,4 +68,5 @@ module.exports = function(app, models)
 
     app.get('/banned/get', rulesController.getBannedList);
     app.post('/banned/add', rulesController.addACard);
+    app.get('/banned/vote', rulesController.Vote);
 };

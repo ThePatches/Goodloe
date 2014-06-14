@@ -40,8 +40,29 @@ module.exports = function(rulesModel)
         });
     }
 
+    function Vote(req, res)
+    {
+        var queryData = url.parse(req.url, true).query;
+        var inCard = queryData.id;
+        console.log("Id:" + inCard);
+        rulesModel.vote(inCard, function(err, msg)
+        {
+            console.log(err === null);
+            if (err)
+            {
+                console.log(err);
+                res.statusCode = 500;
+                res.send(err);
+            } else {
+                res.statusCode = 200;
+                res.send(msg);
+            }
+        });
+    }
+
     return {
         getBannedList: Get,
-        addACard: addACard
+        addACard: addACard,
+        Vote: Vote
     };
 };

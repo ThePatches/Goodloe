@@ -20,7 +20,7 @@
 <script type="text/ng-template" id="card-template">
     <a data-ng-click="viewCard(card.gatherer)" href="" class="cardNameLink">{{ card.cardname }}</a><br />
     <span class="statusSpan">Status: {{ card.status }}</span>&nbsp;<span class="votesSpan">Votes: {{ card.votes }}</span>
-    <a href="" class="vote plus" data-ng-click="Vote('for')">+</a><a href="" class="vote minus" data-ng-click="Vote('against')">-</a><br />
+    <a href="" class="vote plus" data-ng-click="Vote(card._id)">+</a><br />
     <span class="reasonSpan">Reason:</span><br />
     <p class="reasonText">
         {{ card.reason }}

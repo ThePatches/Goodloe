@@ -46,9 +46,27 @@ rulesControllers.controller("BannedListController", ['$scope', '$http', '$window
         alert(card.status);
     };
 
-    $scope.Vote = function(decision)
+    $scope.Vote = function(inCard)
     {
-        alert(decision);
+        $http.get('/banned/vote?id=' + inCard)
+            .success(function(outCard)
+            {
+                $scope.bannedCards = $.map($scope.bannedCards, function(n)
+                {
+                    if (n._id == inCard)
+                    {
+                        n.votes++;
+                    }
+
+                    return n;
+                })
+            }).error(function(err)
+            {
+                if (err.statusCode == 500)
+                {
+                    $scope.anError = "Something went wrong. Contact the system administrator.";
+                }
+            });
     }
 }]);
 

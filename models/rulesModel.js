@@ -32,6 +32,19 @@ module.exports = function(connection)
                 else
                     callback(null, list);
             });
+        },
+
+        vote: function(inCard, callback)
+        {
+            BannedModel.update({_id: inCard}, {$inc: {votes: 1}}, {multi: false}, function(err, numAffected)
+            {
+               if (numAffected > 0)
+               {
+                   callback(null, "valid")
+               } else {
+                   callback(err, null);
+               }
+            });
         }
     };
 };
