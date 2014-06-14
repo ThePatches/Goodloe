@@ -1,7 +1,26 @@
+<style type="text/css">
+    a.vote {
+        font-size: 1.2em;
+        font-family: "Glyphicons Halflings", sans-serif;
+        margin-left: 1px;
+        margin-right: 1px;
+        font-weight: bold;
+    }
+
+    a.plus
+    {
+        color: green;
+    }
+
+    a.minus {
+        color: red;
+    }
+</style>
 
 <script type="text/ng-template" id="card-template">
     <a data-ng-click="viewCard(card.gatherer)" href="" class="cardNameLink">{{ card.cardname }}</a><br />
-    <span class="statusSpan">Status: {{ card.status }}</span>&nbsp;<span class="votesSpan">Votes: {{ card.votes }}</span><br />
+    <span class="statusSpan">Status: {{ card.status }}</span>&nbsp;<span class="votesSpan">Votes: {{ card.votes }}</span>
+    <a href="" class="vote plus" data-ng-click="Vote('for')">+</a><a href="" class="vote minus" data-ng-click="Vote('against')">-</a><br />
     <span class="reasonSpan">Reason:</span><br />
     <p class="reasonText">
         {{ card.reason }}

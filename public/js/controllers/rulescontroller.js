@@ -45,6 +45,11 @@ rulesControllers.controller("BannedListController", ['$scope', '$http', '$window
     {
         alert(card.status);
     };
+
+    $scope.Vote = function(decision)
+    {
+        alert(decision);
+    }
 }]);
 
 rulesControllers.controller("BanCardController", ['$scope', '$http', '$location', function($scope, $http, $location)
