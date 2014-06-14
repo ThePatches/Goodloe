@@ -38,7 +38,7 @@ rulesControllers.controller("BannedListController", ['$scope', '$http', '$window
 
     $scope.hasRights = function(card)
     {
-        return card.pending && $cookieStore[CONFIG.cookieName].adminRights > 1;
+        return card.status === "pending" && $cookieStore.get(CONFIG.cookieName).adminRights > 1;
     };
 
     $scope.banCard = function(card)
@@ -59,7 +59,7 @@ rulesControllers.controller("BannedListController", ['$scope', '$http', '$window
                     }
 
                     return n;
-                })
+                });
             }).error(function(err)
             {
                 if (err.statusCode == 500)
@@ -67,7 +67,7 @@ rulesControllers.controller("BannedListController", ['$scope', '$http', '$window
                     $scope.anError = "Something went wrong. Contact the system administrator.";
                 }
             });
-    }
+    };
 }]);
 
 rulesControllers.controller("BanCardController", ['$scope', '$http', '$location', function($scope, $http, $location)
@@ -75,7 +75,6 @@ rulesControllers.controller("BanCardController", ['$scope', '$http', '$location'
     $scope.canBan = true;
     $scope.cardName = null;
     $scope.gatherer = null;
-    //$scope.canSubmit = true;
 
     $scope.submitBan = function()
     {
@@ -96,8 +95,7 @@ rulesControllers.controller("BanCardController", ['$scope', '$http', '$location'
             .error(function (err)
             {
                 $scope.message = "Something went wrong: " + err + " contact the system administrator";
-            })
-        ; // TODO: Add success and failure to this callback
+            });
     };
 
     $scope.Cancel = function()

@@ -60,9 +60,32 @@ module.exports = function(rulesModel)
         });
     }
 
+    function Update(req, res)
+    {
+        var theCard = req.body.theCard;
+        rulesModel.update(theCard, function(err, card)
+        {
+            sendResponse(res, err, card);
+        });
+    }
+
+    function sendResponse(res, err, card)
+    {
+        if (err)
+        {
+            console.log(err);
+            res.statusCode = 500;
+            res.send(err);
+        } else {
+            res.statusCode = 200;
+            res.send(card);
+        }
+    }
+
     return {
         getBannedList: Get,
         addACard: addACard,
-        Vote: Vote
+        Vote: Vote,
+        Update: Update
     };
 };

@@ -54,10 +54,21 @@ module.exports = function(userModel, CONFIG)
 
     } //- See more at: https://vickev.com/#!/article/authentication-in-single-page-applications-node-js-passportjs-angularjs
 
-    function specAuth(req, res, next)
+    function AuthForAdmin(req, res, next)
     {
         var uCookie = JSON.parse(req.cookies[CONFIG.cookieName]);
         if (req.isAuthenticated() && uCookie.adminRights == 3)
+        {
+            next();
+        }
+        else
+            res.send(401, "Viewing the User List Requires Admin Rights!");
+    }
+
+    function AuthForBanning(req, res, next)
+    {
+        var uCookie = JSON.parse(req.cookies[CONFIG.cookieName]);
+        if (req.isAuthenticated() && uCookie.adminRights > 1)
         {
             next();
         }
@@ -77,8 +88,9 @@ module.exports = function(userModel, CONFIG)
 
     return {
         isAuthenticated: auth,
-        specialAuth: specAuth,
-        encrypt: encrypt
+        specialAuth: AuthForAdmin,
+        encrypt: encrypt,
+        banAuth: AuthForBanning
     };
 };
 

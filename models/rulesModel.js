@@ -40,10 +40,29 @@ module.exports = function(connection)
             {
                if (numAffected > 0)
                {
-                   callback(null, "valid")
+                   callback(null, "valid");
                } else {
                    callback(err, null);
                }
+            });
+        },
+
+        update: function(theCard, callback)
+        {
+            BannedModel.findOne({_id: theCard._id}, function(err, card)
+            {
+                if (err) callback(err, null);
+
+                card.cardname = theCard.cardname;
+                card.status = theCard.status;
+                card.date = theCard.date;
+                card.reason = theCard.reason;
+                card.votes = theCard.votes;
+                card.gatherer = theCard.gatherer;
+
+                card.save();
+
+                callback(null, card);
             });
         }
     };
