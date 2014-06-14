@@ -19,13 +19,7 @@ module.exports = function(playerModel)
 
         playerModel.simpleGet(findObject, function(err, players)
         {
-            if (err)
-            {
-                res.send(err);
-            }
-            else {
-                res.send(players);
-            }
+            sendResponse(res, err, doc);
         });
     }
 
@@ -36,11 +30,7 @@ module.exports = function(playerModel)
 
         playerModel.simpleAdd(theItem, function(err, doc)
         {
-           if (err)
-            res.send(err);
-           else {
-               res.send(doc);
-           }
+           sendResponse(res, err, doc);
         });
     }
 
@@ -50,12 +40,20 @@ module.exports = function(playerModel)
 
         playerModel.simpleUpdate(theItem, function(err, doc)
         {
-            if (err)
-                res.send(err);
-            else {
-                res.send(doc);
-            }
+            sendResponse(res, err, doc);
         });
+    }
+
+    function sendResponse(res, err, doc)
+    {
+        if (err)
+        {
+            res.statusCode = 500;
+            res.send(err);
+        } else {
+            res.statusCode = 200;
+            res.send(doc);
+        }
     }
 
     return {
