@@ -12,7 +12,10 @@
 </style>
 <div>
     <div data-ng-show="!isEditing()">
-        <span>Deck Name:&nbsp;</span>{{ fixName(Deck.name) }}<button style="margin-left: 10px;" data-ng-show="Deck.isActive" data-ng-click="RetireDeck()">Retire Deck</button><br />
+        <span>Deck Name:&nbsp;</span>{{ fixName(Deck.name) }}
+        <button style="margin-left: 10px;" data-ng-show="Deck.isActive" data-ng-click="RetireDeck()">Retire Deck</button>
+        <span style="font-weight: bold; color: red; margin-left: 10px;" data-ng-show="!Deck.isActive">Retired</span>
+        <br />
         <span>Color:&nbsp;</span>{{ Deck.color }}<br />
         <span>Builder:&nbsp;</span>{{ fixName(Deck.builder) }}<br />
         <span>Commander:&nbsp;</span>{{ fixName(Deck.commander) }}<br /><br />
