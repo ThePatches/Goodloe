@@ -18,7 +18,8 @@ var DeckSchema = new Schema({
     color: String,
     builder: String,
     commander: String,
-    deckList: [{card: String, qty: Number}] //TODO: Consider only pulling certain information when getting the list versus getting an individual instance
+    deckList: [{card: String, qty: Number}],
+    isActive: Boolean
 });
 
 var GameSchema = new Schema({
