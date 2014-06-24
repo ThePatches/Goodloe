@@ -43,8 +43,26 @@ rulesControllers.controller("BannedListController", ['$scope', '$http', '$window
 
     $scope.banCard = function(card)
     {
-        alert(card.status);
+        card.status = "banned";
+
+        $http.post("/banned/ban", {theCard: card})
+            .success(function()
+            {
+                reMakeList();
+            })
+            .error(function(err)
+            {
+                if (err.statusCode == 500)
+                {
+                    $scope.anError = "Something went wrong. Contact the system administrator.";
+                }
+            });
     };
+
+    function reMakeList()
+    {
+        alert("not implemented!");
+    }
 
     $scope.Vote = function(inCard)
     {
