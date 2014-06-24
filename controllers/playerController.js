@@ -19,7 +19,7 @@ module.exports = function(playerModel)
 
         playerModel.simpleGet(findObject, function(err, players)
         {
-            sendResponse(res, err, doc);
+            sendResponse(res, err, players);
         });
     }
 

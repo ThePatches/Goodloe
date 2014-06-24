@@ -36,7 +36,7 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
                 $scope.inDecks.push($scope.convFromDB($scope.inGame.players[i]));
             }*/
 
-            //$scope.Decks = $scope.calcDeckList();
+            $scope.Decks = $scope.calcDeckList();
         });
 
 
@@ -80,7 +80,7 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
             var i;
             for (i = 0; i < $scope.inDecks.length; i++)
             {
-                if (item._id == $scope.inDecks[i].deckName)
+                if (item._id == $scope.inDecks[i].deckName || !item.isActive)
                     return false;
             }
 
