@@ -17,6 +17,7 @@ rulesControllers.controller("BannedListController", ['$scope', '$http', '$window
         .success(function(data)
         {
             $scope.bannedCards = data;
+            reMakeList();
 
         }).error(function(err)
         {
@@ -38,7 +39,8 @@ rulesControllers.controller("BannedListController", ['$scope', '$http', '$window
 
     $scope.hasRights = function(card)
     {
-        return card.status === "pending" && $cookieStore.get(CONFIG.cookieName).adminRights > 1;
+
+        return card.status === "pending" && $cookieStore.get(CONFIG.cookieName) && $cookieStore.get(CONFIG.cookieName).adminRights > 1;
     };
 
     $scope.banCard = function(card)
@@ -61,7 +63,6 @@ rulesControllers.controller("BannedListController", ['$scope', '$http', '$window
 
     function reMakeList()
     {
-        //alert("not implemented!");
         $scope.isBanned = $.grep($scope.bannedCards, function(item)
         {
             return item.status == "banned";

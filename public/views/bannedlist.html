@@ -12,27 +12,34 @@
         color: green;
     }
 
-    a.minus {
-        color: red;
+    li.bannedlist
+    {
+        margin-bottom: 10px;
     }
 </style>
 
 <script type="text/ng-template" id="card-template">
-    <a data-ng-click="viewCard(card.gatherer)" href="" class="cardNameLink">{{ card.cardname }}</a><br />
+    <a data-ng-click="viewCard(card.gatherer)" href="" class="cardNameLink">{{ card.cardname }}</a>
+    <button data-ng-show="hasRights(card)" style="margin-left: 5px;" data-ng-click="banCard(card)">Ban This Card</button><br />
     <span class="statusSpan">Status: {{ card.status }}</span>&nbsp;<span class="votesSpan">Votes: {{ card.votes }}</span>
-    <a href="" class="vote plus" data-ng-click="Vote(card._id)">+</a><br />
+    <a href="" class="vote plus" data-ng-click="Vote(card._id)" data-ng-show="hasRights(card)">+</a><br />
     <span class="reasonSpan">Reason:</span><br />
     <p class="reasonText">
         {{ card.reason }}
     </p><br />
-    <button data-ng-show="hasRights(card)" data-ng-click="banCard(card)">Ban This Card</button>
 </script>
 
 <div>
     <h2>Banned List</h2>
     <div class="listDiv" data-ng-show="!isError()">
         <ul>
-            <li data-ng-repeat="card in bannedCards" data-ng-include="'card-template'">
+            <li data-ng-repeat="card in isBanned" data-ng-include="'card-template'" class="bannedlist">
+
+            </li>
+        </ul>
+        
+        <ul>
+            <li data-ng-repeat="card in isPending" data-ng-include="'card-template'" class="bannedlist">
 
             </li>
         </ul>
