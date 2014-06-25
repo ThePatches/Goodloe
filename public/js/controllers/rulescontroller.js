@@ -61,7 +61,16 @@ rulesControllers.controller("BannedListController", ['$scope', '$http', '$window
 
     function reMakeList()
     {
-        alert("not implemented!");
+        //alert("not implemented!");
+        $scope.isBanned = $.grep($scope.bannedCards, function(item)
+        {
+            return item.status == "banned";
+        });
+
+        $scope.isPending = $.grep($scope.bannedCards, function(item)
+        {
+            return item.status == "pending";
+        });
     }
 
     $scope.Vote = function(inCard)

@@ -14,7 +14,7 @@ module.exports = function(app, models)
     var deckController = require('./deckController')(models.deckModel);
     var playerController = require('./playerController')(models.playerModel);
     var gameController = require('./gameController')(models.gameModel);
-    var rulesController = require('./rulesController')(models.rulesModel);
+    var rulesController = require('./rulesController')(models.rulesModel, models.notifyModel);
 
     console.log(tools);
 

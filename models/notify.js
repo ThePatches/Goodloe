@@ -16,6 +16,8 @@ module.exports = function(CONFIG)
                 aws.config.update({region: "us-west-2"});
                 var sns = new aws.SNS();
 
+                params.TopicArn = CONFIG.snsEmails;
+
                 sns.publish(params, callback);
             },
 

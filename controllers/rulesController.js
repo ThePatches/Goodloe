@@ -4,7 +4,7 @@
 
 var url = require('url');
 
-module.exports = function(rulesModel)
+module.exports = function(rulesModel, notifier)
 {
     function Get(req, res)
     {
@@ -34,8 +34,30 @@ module.exports = function(rulesModel)
                 res.statusCode = 500;
                 res.send(err);
             } else {
-                res.statusCode = 200;
-                res.send(card);
+                var params = {
+                    Message: "The card: " + card.cardname + " has been proposed for banning.\nPlease look it up here: " + card.gatherer +
+                        " and vote on it.",
+                    Subject: "New Banned Card"
+                };
+
+                if (notifier.canSend())
+                {
+                    notifier.sendNotification(params, function(err, result)
+                    {
+                        if (err)
+                        {
+                            res.statusCode = 500;
+                            res.send("Error in notification service!");
+                        } else {
+                            res.statusCode = 200;
+                            res.send(card);
+                        }
+                    });
+                } else {
+                    res.statusCode = 200;
+                    res.send(card);
+                }
+
             }
         });
     }
