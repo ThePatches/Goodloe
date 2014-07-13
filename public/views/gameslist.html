@@ -29,7 +29,7 @@
     }
 </style>
 
-<h2>Games of the Goodloe Meta</h2>
+<h2 class="nav">Games of the Goodloe Meta</h2>
 
 <div data-ng-model="Games">
     <div class="listDiv">
@@ -37,7 +37,7 @@
             <!-- <li data-ng-repeat="game in Games">
                 <a href data-ng-click="loadGame(game._id)" class="ListItem">Played On: {{ convDate(game.playedOn) }} - Type: {{ game.gameType }} - Description: {{ game.description }}</a>
             </li> -->
-            <li data-ng-repeat="game in Games" data-ng-click="loadGame(game._id)">
+            <li data-ng-repeat="game in Games" data-ng-click="loadGame(game._id)" class="nav">
                 <span class="gameDescription">{{ game.description }}</span><br />
                 <span class="gameWinner">Won by {{ game.winner }}</span>, played on {{ convDate(game.playedOn) }}
             </li>

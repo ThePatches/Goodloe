@@ -2,7 +2,7 @@
 
 <div data-ng-model="Players">
     <ul>
-        <li data-ng-repeat="player in Players">
+        <li data-ng-repeat="player in Players" class="nav" style="list-style-type: none; font-weight: bold;">
             <a href data-ng-click="loadPlayer(player._id)" class="ListItem">{{ fixName(player.name)}}</a>
         </li>
     </ul>

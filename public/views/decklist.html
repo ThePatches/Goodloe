@@ -27,20 +27,20 @@
     }
 </style>
 
-<h2>Deck List at Goodloe</h2>
+<h2 class="nav">Deck List at Goodloe</h2>
 
 <div data-ng-model="Decks">
     <div class="filterDiv">
         <label for="txtFilter">Filter:</label><input type="text" id="txtFilter" data-deck-filter />
     </div>
     <ul class="picker">
-        <li data-ng-repeat="color in Colors">
+        <li data-ng-repeat="color in Colors" class="nav" style="font-weight: bold;">
             <a href="" data-ng-click="colorFilter(color);" data-ng-class="{selected: color.selected}">{{ color.name }}</a>
         </li>
 
-        <li><a href="" data-ng-click="showAll()">All</a></li>
+        <li class="nav" style="font-weight: bold;"><a href="" data-ng-click="showAll()">All</a></li>
     </ul>
-    <div class="listDiv">
+    <div class="listDiv nav">
         <ul style="list-style-type: none;">
             <li data-ng-repeat="deck in Decks">
                 <a href data-ng-click="loadDeck(deck._id)" class="ListItem">{{ fixName(deck.name)}} by {{ fixName(deck.builder) }}</a>
