@@ -50,7 +50,11 @@ rulesControllers.controller("BannedListController", ['$scope', '$http', '$window
         $http.post("/banned/ban", {theCard: card})
             .success(function()
             {
-                reMakeList();
+                $scope.apply(function()
+                    {
+                        reMakeList();
+                    });
+
             })
             .error(function(err)
             {

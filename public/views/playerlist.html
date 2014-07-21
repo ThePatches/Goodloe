@@ -1,4 +1,4 @@
-<h2>Players List at Goodloe</h2>
+<h2 class="nav">Players List at Goodloe</h2>
 
 <div data-ng-model="Players">
     <ul>
@@ -10,8 +10,10 @@
     <div data-ng-show="doEdit">
         New Name: <input type="text" data-ng-model="newPlayer" />&nbsp;<button data-ng-click="addPlayer()">Add</button>&nbsp;<button data-ng-click="doEdit = false">Cancel</button>
     </div>
-    <div style="padding-top: 15px;">
-        <a class="navLink" href="" data-ng-click="doEdit = true" data-ng-show="CheckCookie()">Add a player to the meta</a>
-        <a class="navLink" href="/">Return to the Main Page</a>
+    <div id="navigation">
+        <ul class="nav">
+            <li><a href="#/">Home</a></li>
+            <li><a  href="" data-ng-click="doEdit = true" data-ng-show="CheckCookie()">Add a Player to the Meta</a></li>
+        </ul>
     </div>
 </div>
