@@ -49,7 +49,7 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
     $scope.buildObject = function()
     {
         var retObject = {name: $scope.Deck.name, color: $scope.Deck.color, builder: $scope.Deck.builder,
-        commander: $scope.Deck.commander, deckList: $scope.parseDeck()};
+        commander: $scope.Deck.commander, deckList: $scope.parseDeck(), isActive: $scope.Deck.isActive};
 
         if ($scope.deckId != "new")
             retObject._id = $scope.Deck._id;
@@ -124,6 +124,12 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
         return [];
     };
 
+    $scope.RetireDeck = function()
+    {
+        $scope.Deck.isActive = false;
+        $scope.addDeck();
+    };
+
     $scope.addDeck = function()
     {
         var addedDeck = $scope.buildObject();
@@ -153,7 +159,8 @@ deckControllers.controller('DeckController', ['$scope', '$routeParams','$http', 
             }).success(function ()
                 {
                     //$scope.OutGame = data;
-                    $scope.toggleEdit();
+                    if ($scope.doEdit)
+                        $scope.toggleEdit();
                 }).error(function (err)
                 {
                     $scope.OutGame = "Something went wrong! " + err;

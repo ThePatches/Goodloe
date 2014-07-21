@@ -9,3 +9,4 @@ passwords
 *.crt
 branches
 build/*
+public/images/*

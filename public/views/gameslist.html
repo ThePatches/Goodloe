@@ -29,19 +29,24 @@
     }
 </style>
 
-<h2>Games of the Goodloe Meta</h2>
+<h2 class="nav">Games of the Goodloe Meta</h2>
 
 <div data-ng-model="Games">
-    <ul class="gameList">
-        <!-- <li data-ng-repeat="game in Games">
-            <a href data-ng-click="loadGame(game._id)" class="ListItem">Played On: {{ convDate(game.playedOn) }} - Type: {{ game.gameType }} - Description: {{ game.description }}</a>
-        </li> -->
-        <li data-ng-repeat="game in Games" data-ng-click="loadGame(game._id)">
-            <span class="gameDescription">{{ game.description }}</span><br />
-            <span class="gameWinner">Won by {{ game.winner }}</span>, played on {{ convDate(game.playedOn) }}
-        </li>
-    </ul>
-    <div style="padding-top: 15px;">
-        <a class="navLink" href="#/game/new" data-ng-show="canEdit()">Enter a new game</a>&nbsp;<a class="navLink" href="/">Return to the Main Page</a>
+    <div class="listDiv">
+        <ul class="gameList">
+            <!-- <li data-ng-repeat="game in Games">
+                <a href data-ng-click="loadGame(game._id)" class="ListItem">Played On: {{ convDate(game.playedOn) }} - Type: {{ game.gameType }} - Description: {{ game.description }}</a>
+            </li> -->
+            <li data-ng-repeat="game in Games" data-ng-click="loadGame(game._id)" class="nav">
+                <span class="gameDescription">{{ game.description }}</span><br />
+                <span class="gameWinner">Won by {{ game.winner }}</span>, played on {{ convDate(game.playedOn) }}
+            </li>
+        </ul>
+    </div>
+    <div id="navigation" style="padding-top: 15px;">
+        <ul class="nav">
+            <li><a href="#/game/new" data-ng-show="canEdit()">Enter a new game</a></li>
+            <li><a href="#/">Return to the Main Page</a></li>
+        </ul>
     </div>
 </div>

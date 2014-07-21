@@ -1,0 +1,85 @@
+<style type="text/css">
+    a.vote {
+        font-size: 1.2em;
+        font-family: "Glyphicons Halflings", sans-serif;
+        margin-left: 1px;
+        margin-right: 1px;
+        font-weight: bold;
+    }
+
+    a.plus
+    {
+        color: green;
+    }
+
+    li.bannedlist
+    {
+        margin-bottom: 10px;
+    }
+
+    span.statusSpan {
+        font-weight: bold;
+    }
+
+    a.cardNameLink
+    {
+        font-style: italic;
+        font-weight: bold;
+        font-size: 1.05em;
+    }
+
+    ul.bannedList {
+        background-color: #F0C2B2;
+        border: 1px solid black;
+        border-radius: 25px;
+        margin-bottom: 10px;
+        padding: 3px 3px 3px 10px;
+    }
+
+    h3.pendingTitle {
+        font-size: 1.25rem;
+        text-align: center;
+        margin-bottom: 5px;
+        color: #444;
+        font-weight: bold;
+    }
+</style>
+
+<script type="text/ng-template" id="card-template">
+    <a data-ng-click="viewCard(card.gatherer)" href="" class="cardNameLink nav">{{ card.cardname }}</a>
+    <button data-ng-show="hasRights(card)" style="margin-left: 5px;" data-ng-click="banCard(card)">Ban This Card</button><br />
+    <span class="statusSpan description">Status: {{ card.status }}</span>&nbsp;<span class="votesSpan">Votes: {{ card.votes }}</span>
+    <a href="" class="vote plus" data-ng-click="Vote(card._id)" data-ng-show="hasRights(card)">+</a><br />
+    <span class="reasonSpan">Reason:</span><br />
+    <p class="reasonText">
+        {{ card.reason }}
+    </p><br />
+</script>
+
+<div>
+    <h2 class="nav">Banned List</h2>
+    <div class="listDiv" data-ng-show="!isError()">
+        <ul class="bannedList">
+            <li data-ng-repeat="card in isBanned" data-ng-include="'card-template'" class="bannedlist">
+
+            </li>
+        </ul>
+
+        <h3 class="pendingTitle nav">Under Consideration</h3>
+        <ul>
+            <li data-ng-repeat="card in isPending" data-ng-include="'card-template'" class="bannedlist">
+
+            </li>
+        </ul>
+    </div>
+    <div class="errorDiv">
+        {{ anError }}
+    </div>
+    <div id="navigation">
+        <ul>
+            <li><a href="#/">Home</a></li>
+            <li><a href="#/rules">Return to Rules</a></li>
+            <li><a href="#/bancard">Suggest a Card</a></li>
+        </ul>
+    </div>
+</div>

@@ -12,7 +12,10 @@
 </style>
 <div>
     <div data-ng-show="!isEditing()">
-        <span>Deck Name:&nbsp;</span>{{ fixName(Deck.name) }}<br />
+        <span>Deck Name:&nbsp;</span>{{ fixName(Deck.name) }}
+        <button style="margin-left: 10px;" data-ng-show="Deck.isActive" data-ng-click="RetireDeck()">Retire Deck</button>
+        <span style="font-weight: bold; color: red; margin-left: 10px;" data-ng-show="!Deck.isActive">Retired</span>
+        <br />
         <span>Color:&nbsp;</span>{{ Deck.color }}<br />
         <span>Builder:&nbsp;</span>{{ fixName(Deck.builder) }}<br />
         <span>Commander:&nbsp;</span>{{ fixName(Deck.commander) }}<br /><br />
@@ -20,7 +23,12 @@
         <pre data-ng-show="showDeckList" class="deckList">{{ Deck.deckList }}</pre>
         <div style="margin-top: 20px;">
             <button data-ng-click="toggleEdit()" data-ng-show="CheckCookie()">Toggle Edit Form</button><br /><br />
-            <a href="#/decks" class="navLink">Return to Deck List</a>
+        </div>
+        <div id="navigation">
+            <ul class="nav">
+                <li><a href="#/">Home</a></li>
+                <li><a href="#/decks">Return to Deck List</a></li>
+            </ul>
         </div>
     </div>
     <!-- This portion is only visible if you're trying to make a new deck -->

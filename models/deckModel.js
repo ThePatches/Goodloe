@@ -63,6 +63,7 @@ module.exports = function(connection)
                 doc.color = theItem.color;
                 doc.commander = theItem.commander;
                 doc.deckList = theItem.deckList;
+                doc.isActive = theItem.isActive;
                 doc.save();
 
                 callback(null, doc);

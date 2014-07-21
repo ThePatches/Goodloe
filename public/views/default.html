@@ -1,12 +1,12 @@
-<div>
-    <h2>Welcome to the <a href="#/rules">Goodloe</a> League</h2>
+<div style="position: relative">
+    <h2 class="nav">Welcome to the <a href="#/rules">Goodloe</a> League</h2>
 
-    <p>
+    <p class="description">
         This is a site dedicated to tracking the progression of the commander meta at Goodloe Road. I built this site partially as a MongoDB/Node Testbed that both had a use and was an excuse to set up an AWS environment. Subscription is currently at the whim of the site owner.
     </p>
 
     <div id="navigation">
-        <ul>
+        <ul class="nav">
 
         <li><a href="#/decks">Decks List</a></li>
         <li><a href="#/players">Players List</a></li>
@@ -14,11 +14,11 @@
 
         </ul>
     </div>
-    <div data-ng-show="!isLoggedIn()">
+    <div data-ng-show="!isLoggedIn()" class="nav">
         If you're a registered user, you can login <a href="#/login">here</a>.
     </div>
-    <div data-ng-show="isLoggedIn()">
+    <div data-ng-show="isLoggedIn()" class="nav">
         Hey there, <a href="#/user/me">{{ userName }}</a>, how is it going?
     </div><br />
-    Have an idea for a feature? Use <a href="#/suggest">this form</a> to recommend one!
+    <p>Have an idea for a feature? Use <a href="#/suggest">this form</a> to recommend one!</p>
 </div>

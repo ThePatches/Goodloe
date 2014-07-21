@@ -18,7 +18,7 @@
 
     li.winner
     {
-        font-size: 1.1em;
+        font-size: 1.1rem;
         color: forestgreen;
         font-weight: bold;
     }
@@ -33,7 +33,7 @@
     }
 </style>
 
-<div class="Game">
+<div class="Game description">
     <div data-ng-show="!newGame && !editGame">
         <b>Description:</b>&nbsp;<span class="description">{{ inGame.description }}</span><br />
         <b>Time Played:</b>&nbsp;<span> {{ HumanTime(inGame.timePlayed) }}</span>
@@ -41,7 +41,7 @@
 
         <h3>Players and Decks:</h3>
         <ul style="list-style: none; padding: 10px 5px;">
-            <li data-ng-repeat="aPlayer in inGame.players" data-ng-class="{winner: aPlayer.winner}"> <span data-ng-show="aPlayer.winner">Winner!&nbsp;</span>{{ getDescription(inDecks[$index]) }}</li>
+            <li data-ng-repeat="aPlayer in inGame.players" data-ng-class="{winner: aPlayer.winner}"> <span data-ng-show="aPlayer.winner">Winner!&nbsp;</span>{{ getDescriptionFromGame(aPlayer) }}</li>
         </ul>
         <button data-ng-click="toggleEdit()" data-ng-show="canEdit()">Edit Game</button><br />
         <a href="#/games">Return to Games List</a>
@@ -99,7 +99,7 @@
             <div>
                 Description (Keep it under 100 characters): <input type="text" data-ng-model="Description" maxlength="100" style="width: 200px;" /><br />
                 <label for="Story">Story:</label><br />
-                <textarea id="Story" data-ng-model="Story" cols="40" rows="10"></textarea>
+                <textarea id="Story" data-ng-model="Story" cols="40" rows="10" class="meduim"></textarea>
             </div>
             <div>
                 <button data-add-game>{{ editText }}</button>&nbsp<button data-ng-click="toggleEdit()">Cancel</button><br />

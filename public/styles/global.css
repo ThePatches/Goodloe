@@ -187,3 +187,20 @@ a.navLink
 {
     float: left;
 }
+
+.listDiv {
+    overflow-y: scroll;
+    height: 500px;
+}
+
+textarea.medium
+{
+    overflow: auto;
+    resize: none;
+}
+
+.buttonDiv
+{
+    padding-top: 10px;
+    clear: both;
+}

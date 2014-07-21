@@ -1,0 +1,17 @@
+<div>
+    <h2>Add A Card to the Banned List</h2>
+    <div data-ng-show="canBan">
+        <div id="formDiv">
+            <label for="cardName">Card Name:</label><input type="text" id="cardName" data-ng-model="cardName" /><br />
+            <label for="gatherer">Gatherer Link:</label><input type="text" id="gatherer" data-ng-model="gatherer" /><br />
+            <label for="reason">Reason:</label><br />
+            <textarea id="reason" cols="40" rows="10" class="medium" style="float: left; clear: both;" data-ng-model="reason"></textarea> <br />
+        </div>
+        <div class="buttonDiv">
+            <button data-ng-click="submitBan()" >Submit</button>&nbsp;<button data-clear-inputs data-form-div="formDiv">Clear</button>&nbsp;<button data-ng-click="Cancel()">Cancel</button>
+        </div>
+    </div>
+    <div data-ng-show="!canBan">
+        {{ message }}
+    </div>
+</div>

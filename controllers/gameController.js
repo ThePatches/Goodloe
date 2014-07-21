@@ -10,10 +10,7 @@ module.exports = function(gameModel)
     {
          gameModel.listGet(function(err, games)
          {
-             if (!err)
-             {
-                 res.send(games);
-             }
+             sendResponse(res, err, games);
          });
     }
 
@@ -30,14 +27,7 @@ module.exports = function(gameModel)
 
         gameModel.simpleGet(findObject, function(err, games)
         {
-            if (err)
-            {
-                res.statusCode = 500;
-                res.send(err);
-            } else {
-                res.statusCode = 200;
-                res.send(games);
-            }
+            sendResponse(res, err, games);
         });
     }
 
@@ -46,14 +36,7 @@ module.exports = function(gameModel)
         var theItem = req.body.addedGame;
         gameModel.simpleAdd(theItem, function(err, product)
         {
-            if (err)
-            {
-                res.statusCode = 500;
-                res.send(err);
-            } else {
-                res.statusCode = 200;
-                res.send(product);
-            }
+            sendResponse(res, err, product);
         });
     }
 
@@ -63,15 +46,20 @@ module.exports = function(gameModel)
 
         gameModel.simpleUpdate(theItem.oldGame, theItem.newGame, function(err, game)
         {
-            if (err)
-            {
-                res.statusCode = 500;
-                res.send(err);
-            } else {
-                res.statusCode = 200;
-                res.send(game);
-            }
+            sendResponse(res, err, game);
         });
+    }
+
+    function sendResponse(res, err, game)
+    {
+        if (err)
+        {
+            res.statusCode = 500;
+            res.send(err);
+        } else {
+            res.statusCode = 200;
+            res.send(game);
+        }
     }
 
     return     {

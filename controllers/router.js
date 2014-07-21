@@ -14,6 +14,7 @@ module.exports = function(app, models)
     var deckController = require('./deckController')(models.deckModel);
     var playerController = require('./playerController')(models.playerModel);
     var gameController = require('./gameController')(models.gameModel);
+    var rulesController = require('./rulesController')(models.rulesModel, models.notifyModel);
 
     console.log(tools);
 
@@ -64,4 +65,9 @@ module.exports = function(app, models)
     app.get('/game/get', gameController.simpleGet);
     app.post('/game/add', auth.isAuthenticated, gameController.simpleAdd);
     app.post('/game/update', auth.isAuthenticated, gameController.simpleUpdate);
+
+    app.get('/banned/get', rulesController.getBannedList);
+    app.post('/banned/add', rulesController.addACard);
+    app.get('/banned/vote', rulesController.Vote);
+    app.post('/banned/ban', auth.banAuth, rulesController.Update);
 };

@@ -10,6 +10,7 @@ module.exports = function(inConfig, connection)
     var deckModel = require("./deckModel.js")(connection);
     var playerModel = require('./playerModel.js')(connection);
     var gameModel = require('./gameModel.js')(connection);
+    var rulesModel = require('./rulesModel')(connection);
 
     return {
         notifyModel: notify,
@@ -18,6 +19,7 @@ module.exports = function(inConfig, connection)
         deckModel: deckModel,
         playerModel: playerModel,
         gameModel: gameModel,
+        rulesModel: rulesModel,
         CONFIG: inConfig
     };
 };

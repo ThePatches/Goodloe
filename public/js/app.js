@@ -1,4 +1,4 @@
-var goodloeApp = angular.module('goodloeApp', ['ngRoute', 'deckControllers', "defaultController", "ngCookies",
+var goodloeApp = angular.module('goodloeApp', ['ngRoute', 'deckControllers', "defaultController", "ngCookies", "rulesControllers",
     "gameControllers", "userControllers", "playerControllers", "GameDirectives", "DeckDirectives", "GlobalDirectives", "ui.select2"]);
 
 goodloeApp.config(['$routeProvider',
@@ -76,6 +76,15 @@ goodloeApp.config(['$routeProvider',
                 templateUrl: "views/userlist.html",
                 controller: "UserListController"
             })
+            .when("/bannedlist",
+            {
+                templateUrl: "views/bannedlist.html",
+                controller: "BannedListController"
+            })
+            .when("/bancard", {
+                templateUrl: "views/bancard.html",
+                controller: "BanCardController"
+            })
         .otherwise({
                 templateUrl: "views/404View.html",
                 controller: defaultController
@@ -102,10 +111,6 @@ defaultController.controller('DefaultController', ['$scope', '$cookies', functio
         else
             return false;
     };
-}]);
-
-defaultController.controller("RulesController",['$scope', function($scope){
-    $scope.Title = "Rules";
 }]);
 
 defaultController.controller("LoginRequest", ['$scope', '$http', '$location', function($scope, $http, $location)
@@ -214,54 +219,3 @@ defaultController.controller("PatchListController", ['$scope', '$http', function
         });
 }]);
 
-angular.module("GlobalDirectives", [])
-    .directive("clearInputs", function()
-    {
-        return {
-            restrict: "A",
-            controller: ['$scope', '$element', '$attrs', function($scope, $element, $attrs)
-            {
-                var clearDivId = $attrs.formDiv;
-                $element.click(function()
-                {
-                    $("#" + clearDivId + "> input").each(function ()
-                    {
-                       $(this).val("");
-                    });
-
-                    $("#" + clearDivId + ">textarea").each(function ()
-                    {
-                        $(this).val("");
-                    });
-                });
-            }]
-        };
-    })
-
-    .directive("patchExpander", function()
-    {
-        return {
-            restrict: "A",
-            controller: ['$scope', '$element', '$attrs', function($scope, $element, $attrs)
-            {
-                var parentElement = $element.parent();
-                var list = parentElement.find("ul");
-
-                $element.click(function ()
-                {
-                   if (list.is(":visible"))
-                       list.css("display", "none");
-                   else
-                       list.css("display", "block");
-                });
-
-                $element.ready(function ()
-                {
-                    if ($attrs.patchIndex > 0)
-                        list.css("display", "none");
-                });
-            }]
-        };
-    })
-
-;

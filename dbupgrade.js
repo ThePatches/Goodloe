@@ -2,10 +2,12 @@
  * Created by Patrick Taylor on 4/28/14.
  */
 
-//var conn = new Mongo();
-//var db = conn.getDB("goodloedb");
+var conn = new Mongo();
+var db = conn.getDB("goodloedb");
 
-var newPatches = ["Moved to Express4", "Reworked the server to make more sense", "Added Select2 on the Game Page for deck selection",
-    "Reworked the layout of the Game page", "Added a filter for the Deck list", "Made the player percentage display sane", "Fixed user profile saving bug"];
+var newPatches = ["Added card banning functionality", "Added TypeKit and did some prettifying of the interface", "Decks can be deactivated."];
 
-db.Version.insert({_id: 6, version: "1.0.1", changes: newPatches, published: false});
+db.Version.insert({_id: 8, version: "1.2.0", changes: newPatches, published: false});
+
+db.Deck.update({}, {$set: {isActive: true}}, {multi: true});
+db.GoodUsers.update({name: "Chris"}, {$set: {adminRights: 2}}, {multi: false});

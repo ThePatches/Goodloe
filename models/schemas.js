@@ -18,7 +18,8 @@ var DeckSchema = new Schema({
     color: String,
     builder: String,
     commander: String,
-    deckList: [{card: String, qty: Number}] //TODO: Consider only pulling certain information when getting the list versus getting an individual instance
+    deckList: [{card: String, qty: Number}],
+    isActive: Boolean
 });
 
 var GameSchema = new Schema({
@@ -52,10 +53,20 @@ var VersionSchema = new Schema({
     published: Boolean
 });
 
+var BannedListSchema = new Schema({
+    cardname: String,
+    gatherer: String,
+    reason: String,
+    date: Date,
+    status: String,
+    votes: Number
+});
+
 module.exports = {
     PlayerSchema: PlayerSchema,
     DeckSchema: DeckSchema,
     GameSchema: GameSchema,
     UserSchema: UserSchema,
-    VersionSchema: VersionSchema
+    VersionSchema: VersionSchema,
+    BannedListSchema: BannedListSchema
 };

@@ -59,7 +59,7 @@ module.exports = function(models)
                 var params = {
                     Body: msgContent,
                     Subject: "New User for Goodloe League Requested",
-                    toAddress: [CONFIG.adminEmail]
+                    toAddress: [notifier.adminEmail]
                 };
                 if (!notifier.canSend())
                 {

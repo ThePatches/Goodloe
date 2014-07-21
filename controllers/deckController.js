@@ -19,12 +19,7 @@ module.exports = function(deckModel)
 
         deckModel.simpleGet(findObject, function(err, decks)
         {
-            if (err)
-            {
-                res.send(err);
-            } else {
-                res.send(decks);
-            }
+            sendResponse(res, err, decks);
         });
     }
 
@@ -33,13 +28,7 @@ module.exports = function(deckModel)
         var theItem = req.body.addedDeck;
         deckModel.simpleAdd(theItem, function(err, deck)
         {
-            if (err)
-            {
-                res.send(500, err);
-            } else {
-                res.statusCode = 200;
-                res.send(deck);
-            }
+            sendResponse(res, err, deck);
         });
     }
 
@@ -49,13 +38,7 @@ module.exports = function(deckModel)
 
         deckModel.advancedGet(inBody.query, inBody.fields, function(err, deck)
         {
-            if (err)
-            {
-                res.send(500, err);
-            } else {
-                res.statusCode = 200;
-                res.send(deck);
-            }
+           sendResponse(res, err, deck);
         });
     }
 
@@ -64,15 +47,22 @@ module.exports = function(deckModel)
         var theItem = req.body.addedDeck;
         deckModel.simpleUpdate(theItem, function(err, deck)
         {
-            if (err){
-                res.send(500, err);
-            } else {
-                res.statusCode = 200;
-                res.send(deck);
-            }
+            sendResponse(res, err, deck);
         });
 
-        res.send("not implemented!");
+        //res.send("not implemented!");
+    }
+
+    function sendResponse(res, err, deck)
+    {
+        if (err)
+        {
+            res.statusCode = 500;
+            res.send(err);
+        } else {
+            res.statusCode = 200;
+            res.send(deck);
+        }
     }
 
     return {

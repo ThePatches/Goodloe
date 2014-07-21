@@ -21,6 +21,25 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
     $scope.newGame = $routeParams.gameId == "new";
 
 
+    $http.get("/game/get?id=" + $routeParams.gameId)
+        .success(function (data) {
+            $scope.inGame = data[0];
+            $scope.Description = $scope.inGame.description;
+            $scope.winType = $scope.inGame.winType;
+            $scope.gameType = $scope.inGame.gameType;
+            $scope.Story = $scope.inGame.story;
+            $scope.Hours = ~~($scope.inGame.timePlayed / 60);
+            $scope.Minutes = $scope.inGame.timePlayed % 60;
+            $scope.inDecks = [];
+            /*for (var i = 0; i < $scope.inGame.players.length; i++)
+            {
+                $scope.inDecks.push($scope.convFromDB($scope.inGame.players[i]));
+            }*/
+
+            $scope.Decks = $scope.calcDeckList();
+        });
+
+
     // TODO: Make the resolving of deck names dependent on the loaded deck list.
     // OR: You can load the whole deck information through foreign keys?
     $http.get('/deck/get').success(function (data) // Need to get this to work parameterized
@@ -29,7 +48,7 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
         $http.get('/player/get').success(function (data) // Need to get this to work parameterized
         {
             $scope.Players = data;
-            if (!$scope.newGame)
+            if (!$scope.newGame) // do this, too.
             {
                 $http.get("/game/get?id=" + $routeParams.gameId)
                     .success(function (data) {
@@ -46,9 +65,11 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
                             $scope.inDecks.push($scope.convFromDB($scope.inGame.players[i]));
                         }
 
-                        $scope.Decks = $scope.calcDeckList();
+                        //$scope.Decks = $scope.calcDeckList();
                     });
             }
+
+            $scope.Decks = $scope.calcDeckList();
         });
     });
 
@@ -59,7 +80,7 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
             var i;
             for (i = 0; i < $scope.inDecks.length; i++)
             {
-                if (item._id == $scope.inDecks[i].deckName)
+                if (item._id == $scope.inDecks[i].deckName || !item.isActive)
                     return false;
             }
 
@@ -146,6 +167,14 @@ gameControllers.controller("GameController", ['$scope', '$routeParams', '$http',
             return "No Decks Selected";
         }
 
+    };
+
+    $scope.getDescriptionFromGame = function(inPlayer)
+    {
+        if (inPlayer.player.name)
+            return inPlayer.player.name + " playing " + inPlayer.deckName.name;
+        else
+            return $scope.getDescription(inPlayer);
     };
 
     $scope.convFromDB = function(inObject)
